@@ -1,0 +1,197 @@
+{UTF-8}
+Added resources=
+	Extera assigned resources
+	~	
+	~		|
+
+Arrival rate1D=
+	17
+	~	
+	~		|
+
+Extera assigned resources=
+	0
+	~	
+	~		|
+
+Finish rate1D=
+	MAX(IF THEN ELSE(Number of unique resources1D*Service time per case1D>Num in process cases1D\
+		, Num in process cases1D, Number of unique resources1D*Service time per case1D),0)
+	~	
+	~		|
+
+Maximum queue lenght=
+	IF THEN ELSE(Num in process cases1D>20,0,20-Num in process cases1D)
+	~	
+	~		|
+
+Num in process cases1D= INTEG (
+	MAX(Arrival rate1D-Finish rate1D,0),
+		0)
+	~	
+	~		|
+
+Number of rejected cases= INTEG (
+	Reject rate,
+		0)
+	~	
+	~		|
+
+Number of unique resources1D= INTEG (
+	Added resources-Removed resources,
+		6)
+	~	
+	~		|
+
+Process active time1D=
+	Num in process cases1D*Service time per case1D
+	~	
+	~		|
+
+Reject rate=
+	Rejected cases per time window
+	~	
+	~		|
+
+Rejected cases per time window=
+	IF THEN ELSE( Arrival rate1D>Finish rate1D+Maximum queue lenght,  Arrival rate1D-Finish rate1D\
+		+Maximum queue lenght,
+	0 )
+	~	
+	~		|
+
+Removed resources=
+	0
+	~	
+	~		|
+
+Service time per case1D=
+	2
+	~	
+	~		|
+
+Time in process per case1D=
+	Service time per case1D+Waiting time in process per case1D
+	~	
+	~		|
+
+Waiting time in process per case1D=
+	0.1
+	~	
+	~		|
+
+********************************************************
+	.Control
+********************************************************~
+		Simulation Control Parameters
+	|
+
+FINAL TIME  = 30
+	~	Day
+	~	The final time for the simulation.
+	|
+
+INITIAL TIME  = 0
+	~	Day
+	~	The initial time for the simulation.
+	|
+
+SAVEPER  = 
+        TIME STEP
+	~	Day [0,?]
+	~	The frequency with which output is stored.
+	|
+
+TIME STEP  = 1
+	~	Day [0,?]
+	~	The time step for the simulation.
+	|
+
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*View 1
+$192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,130,0
+10,1,Num in process cases1D,335,227,48,21,3,131,0,0,0,0,0,0,0,0,0,0,0,0
+12,2,48,147,220,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,3,5,1,4,0,0,22,0,0,0,-1--1--1,,1|(251,213)|
+1,4,5,2,100,0,0,22,0,0,0,-1--1--1,,1|(180,213)|
+11,5,48,210,213,6,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,6,Arrival rate1D,210,232,40,11,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
+12,7,48,549,224,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,8,10,7,4,0,0,22,0,0,0,-1--1--1,,1|(505,224)|
+1,9,10,1,100,0,0,22,0,0,0,-1--1--1,,1|(421,224)|
+11,10,48,465,224,6,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,11,Finish rate1D,465,243,37,11,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,12,Service time per case1D,470,170,52,19,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,13,Process active time1D,395,83,46,19,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,14,Waiting time in process per case1D,634,174,54,19,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+1,15,12,10,1,0,0,0,0,64,0,-1--1--1,,1|(466,210)|
+10,16,Time in process per case1D,576,83,50,19,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,17,Rejected cases per time window,117,153,61,19,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,18,Number of rejected cases,233,78,52,21,3,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,19,Number of unique resources1D,713,314,63,26,3,131,0,0,0,0,0,0,0,0,0,0,0,0
+12,20,48,541,308,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,21,23,19,4,0,0,22,0,0,0,-1--1--1,,1|(628,312)|
+1,22,23,20,100,0,0,22,0,0,0,-1--1--1,,1|(572,312)|
+11,23,48,600,312,6,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,24,Added resources,600,339,54,11,40,131,0,0,-1,0,0,0,0,0,0,0,0,0
+12,25,48,867,308,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,26,28,25,4,0,0,22,0,0,0,-1--1--1,,1|(841,310)|
+1,27,28,19,100,0,0,22,0,0,0,-1--1--1,,1|(795,310)|
+11,28,48,820,310,6,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,29,Removed resources,820,337,31,19,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,30,19,10,1,0,0,0,0,64,0,-1--1--1,,1|(584,201)|
+10,31,Extera assigned resources,485,299,50,19,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+1,32,31,23,1,0,0,0,0,64,0,-1--1--1,,1|(572,282)|
+1,33,1,10,1,0,0,0,0,64,0,-1--1--1,,1|(424,262)|
+10,34,Maximum queue lenght,302,151,53,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,35,1,34,0,0,0,0,0,64,0,-1--1--1,,1|(320,194)|
+1,36,1,13,1,0,0,0,0,64,0,-1--1--1,,1|(369,112)|
+1,37,12,13,1,0,0,0,0,64,0,-1--1--1,,1|(465,116)|
+1,38,14,16,1,0,0,0,0,64,0,-1--1--1,,1|(634,127)|
+1,39,12,16,1,0,0,0,0,64,0,-1--1--1,,1|(498,124)|
+1,40,5,17,1,0,0,0,0,64,0,-1--1--1,,1|(216,181)|
+1,41,34,17,1,0,0,0,0,64,0,-1--1--1,,1|(221,129)|
+1,42,10,17,1,0,0,0,0,64,0,-1--1--1,,1|(342,308)|
+12,43,48,92,69,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,44,46,18,4,0,0,22,0,0,0,-1--1--1,,1|(164,69)|
+1,45,46,43,100,0,0,22,0,0,0,-1--1--1,,1|(118,69)|
+11,46,48,141,69,6,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,47,Reject rate,141,88,35,11,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,48,17,46,1,0,0,0,0,64,0,-1--1--1,,1|(102,99)|
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*View 2
+$192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,120,0
+///---\\\
+:L<%^E!@
+1:Current.vdfx
+9:Current
+23:0
+15:0,0,0,0,0,0
+19:130,0
+27:0,
+34:0,
+4:Time
+5:Added resources
+35:Date
+36:YYYY-MM-DD
+37:2000
+38:1
+39:1
+40:4
+41:0
+42:0
+72:0
+73:0
+76:0
+77:0
+78:0
+79:0
+80:0
+81:0
+24:0
+25:30
+26:30
+75:
+43:
