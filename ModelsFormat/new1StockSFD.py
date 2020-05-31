@@ -15,14 +15,14 @@ _subscript_dict = {}
 _namespace = {
     'TIME': 'time',
     'Time': 'time',
-    'Arrivalrate1D': 'arrivalrate1d',
-    'Finishrate1D': 'finishrate1d',
-    'Numofuniqueresource1D': 'numofuniqueresource1d',
-    'Processactivetime1D': 'processactivetime1d',
-    'Servicetimepercase1D': 'servicetimepercase1d',
-    'Timeinprocesspercase1D': 'timeinprocesspercase1d',
-    'Waitingtimeinprocesspercase1D': 'waitingtimeinprocesspercase1d',
-    'Numinprocesscase1D': 'numinprocesscase1d',
+    'Arrivalrate1W': 'arrivalrate1w',
+    'Finishrate1W': 'finishrate1w',
+    'Numofuniqueresource1W': 'numofuniqueresource1w',
+    'Processactivetime1W': 'processactivetime1w',
+    'Servicetimepercase1W': 'servicetimepercase1w',
+    'Timeinprocesspercase1W': 'timeinprocesspercase1w',
+    'Waitingtimeinprocesspercase1W': 'waitingtimeinprocesspercase1w',
+    'Numinprocesscase1W': 'numinprocesscase1w',
     'FINAL TIME': 'final_time',
     'INITIAL TIME': 'initial_time',
     'SAVEPER': 'saveper',
@@ -44,10 +44,10 @@ def time():
 
 
 @cache('step')
-def arrivalrate1d():
+def arrivalrate1w():
     """
-    Real Name: b'Arrivalrate1D'
-    Original Eqn: b'A FUNCTION OF(Arrivalrate1D)'
+    Real Name: b'Arrivalrate1W'
+    Original Eqn: b'A FUNCTION OF(Arrivalrate1W)'
     Units: b''
     Limits: (None, None)
     Type: component
@@ -58,10 +58,10 @@ def arrivalrate1d():
 
 
 @cache('step')
-def finishrate1d():
+def finishrate1w():
     """
-    Real Name: b'Finishrate1D'
-    Original Eqn: b'A FUNCTION OF(Finishrate1D)'
+    Real Name: b'Finishrate1W'
+    Original Eqn: b'A FUNCTION OF(Finishrate1W)'
     Units: b''
     Limits: (None, None)
     Type: component
@@ -72,10 +72,10 @@ def finishrate1d():
 
 
 @cache('step')
-def numofuniqueresource1d():
+def numofuniqueresource1w():
     """
-    Real Name: b'Numofuniqueresource1D'
-    Original Eqn: b'A FUNCTION OF(Numofuniqueresource1D)'
+    Real Name: b'Numofuniqueresource1W'
+    Original Eqn: b'A FUNCTION OF(Numofuniqueresource1W)'
     Units: b''
     Limits: (None, None)
     Type: component
@@ -86,10 +86,10 @@ def numofuniqueresource1d():
 
 
 @cache('step')
-def processactivetime1d():
+def processactivetime1w():
     """
-    Real Name: b'Processactivetime1D'
-    Original Eqn: b'A FUNCTION OF(Processactivetime1D)'
+    Real Name: b'Processactivetime1W'
+    Original Eqn: b'A FUNCTION OF(Processactivetime1W)'
     Units: b''
     Limits: (None, None)
     Type: component
@@ -100,10 +100,10 @@ def processactivetime1d():
 
 
 @cache('step')
-def servicetimepercase1d():
+def servicetimepercase1w():
     """
-    Real Name: b'Servicetimepercase1D'
-    Original Eqn: b'A FUNCTION OF(Servicetimepercase1D)'
+    Real Name: b'Servicetimepercase1W'
+    Original Eqn: b'A FUNCTION OF(Timeinprocesspercase1W)'
     Units: b''
     Limits: (None, None)
     Type: component
@@ -114,10 +114,10 @@ def servicetimepercase1d():
 
 
 @cache('step')
-def timeinprocesspercase1d():
+def timeinprocesspercase1w():
     """
-    Real Name: b'Timeinprocesspercase1D'
-    Original Eqn: b'A FUNCTION OF(Numinprocesscase1D)'
+    Real Name: b'Timeinprocesspercase1W'
+    Original Eqn: b'A FUNCTION OF(Waitingtimeinprocesspercase1W)'
     Units: b''
     Limits: (None, None)
     Type: component
@@ -128,24 +128,24 @@ def timeinprocesspercase1d():
 
 
 @cache('step')
-def waitingtimeinprocesspercase1d():
+def waitingtimeinprocesspercase1w():
     """
-    Real Name: b'Waitingtimeinprocesspercase1D'
-    Original Eqn: b'A FUNCTION OF(Timeinprocesspercase1D,Waitingtimeinprocesspercase1D)'
+    Real Name: b'Waitingtimeinprocesspercase1W'
+    Original Eqn: b'A FUNCTION OF(Servicetimepercase1W,Numinprocesscase1W)'
     Units: b''
     Limits: (None, None)
     Type: component
 
     b''
     """
-    return functions.incomplete(waitingtimeinprocesspercase1d())
+    return functions.incomplete(numinprocesscase1w())
 
 
 @cache('step')
-def numinprocesscase1d():
+def numinprocesscase1w():
     """
-    Real Name: b'Numinprocesscase1D'
-    Original Eqn: b'A FUNCTION OF()'
+    Real Name: b'Numinprocesscase1W'
+    Original Eqn: b'A FUNCTION OF(Timeinprocesspercase1W)'
     Units: b''
     Limits: (None, None)
     Type: component

@@ -146,19 +146,19 @@ class creat_CFD:
     def write_sfd_stockbased(self, map_dict):
         cwd = os.getcwd()
         if "stock2" in map_dict.keys():
-            mainSFDfile = r"ModelsFormat\testDFD.mdl"
-            newSFDfile = r"ModelsFormat\newtestDFD"
+            mainSFDfile = os.path.join("ModelsFormat","testDFD.mdl")
+            newSFDfile = os.path.join("ModelsFormat","newtestDFD")
 
         else:
-            mainSFDfile = r"ModelsFormat\1StockSFD.mdl"
-            newSFDfile = r"ModelsFormat\new1StockSFD.mdl"
+            mainSFDfile =os.path.join("ModelsFormat","1StockSFD.mdl")
+            newSFDfile = os.path.join("ModelsFormat","new1StockSFD.mdl")
 
 
             tempvarnames = ['stock1', 'stock2', 'inflow1', 'outflow1', 'variable1', 'variable2', 'variable3',
                             'variable4', 'variable5', 'variable6']
 
             varlist = []
-            with open(r"ModelsFormat\relationinCFD.txt") as fp:
+            with open(os.path.join("ModelsFormat","relationinCFD.txt")) as fp:
                 line = fp.readlines()
                 for i in line:
                     if "=" in i:
@@ -186,7 +186,7 @@ class creat_CFD:
                 f.close()
 
 
-            with open(r"ModelsFormat\relationinCFD.txt") as infile, open(newSFDfile, 'r+') as outfile:
+            with open(os.path.join("ModelsFormat","relationinCFD.txt")) as infile, open(newSFDfile, 'r+') as outfile:
                 outfile.seek(0)
                 for li in infile:
                     outfile.write(li)
@@ -214,7 +214,7 @@ class creat_CFD:
                     if kkg == 'outflow1':
                         G.add_edge(list({kt: vt for kt, vt in map_dict.items() if kt == 'stock1'}.values())[0], "e1",
                                    color='blue', label=vvg, border=3)
-                with open(r"ModelsFormat\relationinCFD.txt") as f:
+                with open(os.path.join("ModelsFormat","relationinCFD.txt")) as f:
                     datafile = f.readlines()
                     for lin in datafile:
                         tempinvar = lin.split("=")[0]
@@ -261,7 +261,7 @@ class creat_CFD:
                                    color='blue', label=vvg, border=3)
 
 
-                with open(r"ModelsFormat\relationinCFD.txt") as f:
+                with open(os.path.join("ModelsFormat","relationinCFD.txt")) as f:
                     datafile = f.readlines()
                     for lin in datafile:
                         tempinvar = lin.split("=")[0]
@@ -281,4 +281,5 @@ class creat_CFD:
 
             #G.save_graph(str(cwd)+"\\templates\mygraph.html")
             path = os.path.join('templates', 'mygraph.html')
+            G.save_graph(path)
             return

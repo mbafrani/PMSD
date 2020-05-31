@@ -1,33 +1,33 @@
 {UTF-8}
-Arrivalrate1H=A FUNCTION OF()
+Arrivalrate1W=A FUNCTION OF(Arrivalrate1W)
 ~
 ~
 |
-Finishrate1H=A FUNCTION OF(Numofuniqueresource1H,Servicetimepercase1H)
+Finishrate1W=A FUNCTION OF(Finishrate1W)
 ~
 ~
 |
-Numofuniqueresource1H=A FUNCTION OF()
+Numofuniqueresource1W=A FUNCTION OF(Numofuniqueresource1W)
 ~
 ~
 |
-Processactivetime1H=A FUNCTION OF(Servicetimepercase1H,Numinprocesscase1H)
+Processactivetime1W=A FUNCTION OF(Processactivetime1W)
 ~
 ~
 |
-Servicetimepercase1H=A FUNCTION OF(Numinprocesscase1H)
+Servicetimepercase1W=A FUNCTION OF(Timeinprocesspercase1W)
 ~
 ~
 |
-Timeinprocesspercase1H=A FUNCTION OF()
+Timeinprocesspercase1W=A FUNCTION OF(Waitingtimeinprocesspercase1W)
 ~
 ~
 |
-Waitingtimeinprocesspercase1H=A FUNCTION OF(Servicetimepercase1H,Timeinprocesspercase1H)
+Waitingtimeinprocesspercase1W=A FUNCTION OF(Servicetimepercase1W,Numinprocesscase1W)
 ~
 ~
 |
-Numinprocesscase1H=A FUNCTION OF(Arrivalrate1H,Finishrate1H)
+Numinprocesscase1W=A FUNCTION OF(Timeinprocesspercase1W)
 ~
 ~
 |

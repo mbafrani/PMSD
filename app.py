@@ -44,23 +44,26 @@ def get_pre_event_log():
     if request.method == 'POST':
         if len(list(request.files.values())) ==1 and list(request.files.values())[0].filename != '':
             x = request.files["Event Log"]
-            x.save(r"Outputs\ready_event_log.csv")
-            event_log, event_log_cols = com_sd.get_input_file(r"Outputs\ready_event_log.csv")
+            outputpath=os.path.join("Outputs","ready_event_log.csv")
+            x.save(outputpath)
+            event_log, event_log_cols = com_sd.get_input_file(outputpath)
             el_info = el_info +"Number of Cases:"+str(event_log[event_log.columns[0]].nunique())+"\n Number of Events:"+ str(event_log.shape[0])
         elif list(request.form.keys())[1]=="CaseID" :
-            event_log, event_log_cols = com_sd.get_input_file(r"Outputs\ready_event_log.csv")
+            outputpath = os.path.join("Outputs", "ready_event_log.csv")
+            event_log, event_log_cols = com_sd.get_input_file(outputpath)
             event_log_cols_map.append(request.form.get("CaseID"))
             event_log_cols_map.append(request.form.get("Activity"))
             event_log_cols_map.append(request.form.get("Resource"))
             event_log_cols_map.append(request.form.get("StartTime"))
             event_log_cols_map.append(request.form.get("CompleteTime"))
             event_log_ready = com_sd.add_needed_column(event_log,event_log_cols_map)
-            event_log_ready.to_csv(r"Outputs\ready_event_log.csv",columns=event_log_ready.columns)
+            outputpath = os.path.join("Outputs", "ready_event_log.csv")
+            event_log_ready.to_csv(outputpath,columns=event_log_ready.columns)
             event_log=event_log_ready
             matrix= org_asp.create_matrix(event_log)
             org_asp.create_DFG(matrix)
             #download_file = send_file(r'Output\ready_event_log.csv',  mimetype='csv',attachment_filename='ready_event_log.csv', as_attachment=False)
-            download_file = r"Outputs\ready_event_log.csv"
+            download_file = outputpath
 
     return  download_file, render_template('InsideEventLog.html', el_cols=event_log_cols,el_info =el_info )
 

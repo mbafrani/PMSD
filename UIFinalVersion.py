@@ -1,5 +1,6 @@
 import csv
 import re
+import os
 import scipy
 import numpy as np
 import pandas as pd
@@ -294,5 +295,6 @@ class Complete_sd:
             value = ind[i] - ind[i - 1]
             diff.append(value)
         # plt.bar([x for x in range(0,len(diff))],diff)
-        Active_SD_Log.to_csv(r"Outputs\\"+(str(aspect) + "_sdlog.csv"),index=False)
+        outputpath=os.path.join("Outputs",(str(aspect) + "_sdlog.csv"))
+        Active_SD_Log.to_csv(outputpath,index=False)
         return (str(aspect) + "_sdlog.csv")

@@ -1,37 +1,36 @@
 {UTF-8}
-Arrivalrate1H=A FUNCTION OF()
+Arrivalrate1W=A FUNCTION OF(Arrivalrate1W)
 ~
 ~
 |
-Finishrate1H=A FUNCTION OF(Numofuniqueresource1H,Servicetimepercase1H)
+Finishrate1W=A FUNCTION OF(Finishrate1W)
 ~
 ~
 |
-Numofuniqueresource1H=A FUNCTION OF()
+Numofuniqueresource1W=A FUNCTION OF(Numofuniqueresource1W)
 ~
 ~
 |
-Processactivetime1H=A FUNCTION OF(Servicetimepercase1H,Numinprocesscase1H)
+Processactivetime1W=A FUNCTION OF(Processactivetime1W)
 ~
 ~
 |
-Servicetimepercase1H=A FUNCTION OF(Numinprocesscase1H)
+Servicetimepercase1W=A FUNCTION OF(Timeinprocesspercase1W)
 ~
 ~
 |
-Timeinprocesspercase1H=A FUNCTION OF()
+Timeinprocesspercase1W=A FUNCTION OF(Waitingtimeinprocesspercase1W)
 ~
 ~
 |
-Waitingtimeinprocesspercase1H=A FUNCTION OF(Servicetimepercase1H,Timeinprocesspercase1H)
+Waitingtimeinprocesspercase1W=A FUNCTION OF(Servicetimepercase1W,Numinprocesscase1W)
 ~
 ~
 |
-Numinprocesscase1H=A FUNCTION OF(Arrivalrate1H,Finishrate1H)
+Numinprocesscase1W=A FUNCTION OF(Timeinprocesspercase1W)
 ~
 ~
 |
-~	Month
 	~	The initial time for the simulation.
 	|
 
@@ -50,14 +49,14 @@ TIME STEP  = 1
 V300  Do not put anything below this section - it will be ignored
 *View 1
 $192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,100,0
-10,1,Arrivalrate1H,265,126,50,20,8,3,0,0,0,0,0,0
-10,2,Finishrate1H,666,164,50,20,8,3,0,0,0,0,0,0
-10,3,Numofuniqueresource1H,1058,146,50,20,8,3,0,0,0,0,0,0
-10,4,Processactivetime1H,271,299,50,20,8,3,0,0,0,0,0,0
-10,5,Servicetimepercase1H,695,296,50,20,8,3,0,0,0,0,0,0
-10,6,Timeinprocesspercase1H,1030,285,50,20,8,3,0,0,0,0,0,0
-10,7,Waitingtimeinprocesspercase1H,1331,124,50,20,8,3,0,0,0,0,0,0
-10,8,Numinprocesscase1H,1373,256,50,20,8,3,0,0,0,0,0,0
+10,1,Arrivalrate1W,265,126,50,20,8,3,0,0,0,0,0,0
+10,2,Finishrate1W,666,164,50,20,8,3,0,0,0,0,0,0
+10,3,Numofuniqueresource1W,1058,146,50,20,8,3,0,0,0,0,0,0
+10,4,Processactivetime1W,271,299,50,20,8,3,0,0,0,0,0,0
+10,5,Servicetimepercase1W,695,296,50,20,8,3,0,0,0,0,0,0
+10,6,Timeinprocesspercase1W,1030,285,50,20,8,3,0,0,0,0,0,0
+10,7,Waitingtimeinprocesspercase1W,1331,124,50,20,8,3,0,0,0,0,0,0
+10,8,Numinprocesscase1W,1373,256,50,20,8,3,0,0,0,0,0,0
 10,9,i,312,442,50,20,8,3,0,0,0,0,0,0
 10,10,j,695,439,50,20,8,3,0,0,0,0,0,0
 ///---\\\

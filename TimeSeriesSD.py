@@ -142,7 +142,7 @@ class TW_Analysis:
 
             # TODO Number of Resources and unique resources per
             temp_event_log_start_index = event_log.set_index('Start Timestamp')
-            temp_group_h = temp_event_log_start_index.groupby(pd.TimeGrouper(freq=str(tw_list)))
+            temp_group_h = temp_event_log_start_index.groupby(pd.Grouper(freq=str(tw_list)))
 
             num_unique_resource_h = (temp_group_h['Resource'].nunique()).values
 
@@ -341,5 +341,6 @@ class TW_Analysis:
             diff.append(value)
         # plt.bar([x for x in range(0,len(diff))],diff)
         plt.hist(diff)
-        Active_SD_Log.to_csv(r"Outputs\Active" + "_" + str(c) + "_sdlog.csv",index=False)
+        import os
+        Active_SD_Log.to_csv(os.path.join("Outputs","Active" + "_" + str(c) + "_sdlog.csv"),index=False)
         return Active_SD_Log
