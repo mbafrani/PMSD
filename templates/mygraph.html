@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <html>
 <head>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
@@ -106,4 +107,114 @@
 
 </script>
 </body>
+=======
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 800px;
+            height: 800px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"borderWidth": 0, "color": "white", "id": "Arrivalrate1H", "label": "Arrivalrate1H", "shape": "box"}, {"color": "white", "id": "Finishrate1H", "label": "Finishrate1H", "shape": "box"}, {"color": "white", "id": "Numofuniqueresource1H", "label": "Numofuniqueresource1H", "shape": "box"}, {"color": "white", "id": "Processactivetime1H", "label": "Processactivetime1H", "shape": "box"}, {"color": "white", "id": "Servicetimepercase1H", "label": "Servicetimepercase1H", "shape": "box"}, {"color": "white", "id": "Timeinprocesspercase1H", "label": "Timeinprocesspercase1H", "shape": "box"}, {"color": "white", "id": "Waitingtimeinprocesspercase1H", "label": "Waitingtimeinprocesspercase1H", "shape": "box"}, {"color": "white", "id": "Numinprocesscase1H", "label": "Numinprocesscase1H", "shape": "box"}]);
+        edges = new vis.DataSet([{"arrows": "to", "color": "blue", "from": "Numofuniqueresource1H", "label": "+", "title": "0.8987210899632074", "to": "Finishrate1H"}, {"arrows": "to", "color": "blue", "from": "Servicetimepercase1H", "label": "+", "title": "0.47653649366803014", "to": "Finishrate1H"}, {"arrows": "to", "color": "blue", "from": "Servicetimepercase1H", "label": "+", "title": "0.38372024095746105", "to": "Processactivetime1H"}, {"arrows": "to", "color": "blue", "from": "Numinprocesscase1H", "label": "+", "title": "0.9106176778714273", "to": "Processactivetime1H"}, {"arrows": "to", "color": "blue", "from": "Numinprocesscase1H", "label": "+", "title": "0.49694902797741897", "to": "Servicetimepercase1H"}, {"arrows": "to", "color": "blue", "from": "Servicetimepercase1H", "label": "+", "title": "0.468419321496351", "to": "Waitingtimeinprocesspercase1H"}, {"arrows": "to", "color": "blue", "from": "Timeinprocesspercase1H", "label": "+", "title": "0.8769142671916916", "to": "Waitingtimeinprocesspercase1H"}, {"arrows": "to", "color": "blue", "from": "Arrivalrate1H", "label": "+", "title": "0.9090640703080338", "to": "Numinprocesscase1H"}, {"arrows": "to", "color": "blue", "from": "Finishrate1H", "label": "+", "title": "0.8767566932597497", "to": "Numinprocesscase1H"}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        // default to using dot shape for nodes
+        options.nodes = {
+            shape: "dot"
+        }
+        
+
+        network = new vis.Network(container, data, options);
+
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+>>>>>>> ba9fe68d53340f50e0572b489d2912038af8c351
 </html>

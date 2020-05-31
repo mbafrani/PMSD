@@ -1,0 +1,33 @@
+{UTF-8}
+Arrivalrate1H=A FUNCTION OF()
+~
+~
+|
+Finishrate1H=A FUNCTION OF(Numofuniqueresource1H,Servicetimepercase1H)
+~
+~
+|
+Numofuniqueresource1H=A FUNCTION OF()
+~
+~
+|
+Processactivetime1H=A FUNCTION OF(Servicetimepercase1H,Numinprocesscase1H)
+~
+~
+|
+Servicetimepercase1H=A FUNCTION OF(Numinprocesscase1H)
+~
+~
+|
+Timeinprocesspercase1H=A FUNCTION OF()
+~
+~
+|
+Waitingtimeinprocesspercase1H=A FUNCTION OF(Servicetimepercase1H,Timeinprocesspercase1H)
+~
+~
+|
+Numinprocesscase1H=A FUNCTION OF(Arrivalrate1H,Finishrate1H)
+~
+~
+|

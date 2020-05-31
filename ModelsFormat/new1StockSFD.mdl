@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {UTF-8}
 Arrivalrate1D=A FUNCTION OF(Arrivalrate1D)
 ~
@@ -152,3 +153,159 @@ $192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,1
 26:0
 75:
 43:
+=======
+{UTF-8}
+Arrivalrate1D=A FUNCTION OF(Arrivalrate1D)
+~
+~
+|
+Finishrate1D=A FUNCTION OF(Finishrate1D)
+~
+~
+|
+Numofuniqueresource1D=A FUNCTION OF(Numofuniqueresource1D)
+~
+~
+|
+Processactivetime1D=A FUNCTION OF(Processactivetime1D)
+~
+~
+|
+Servicetimepercase1D=A FUNCTION OF(Servicetimepercase1D)
+~
+~
+|
+Timeinprocesspercase1D=A FUNCTION OF(Numinprocesscase1D)
+~
+~
+|
+Waitingtimeinprocesspercase1D=A FUNCTION OF(Timeinprocesspercase1D,Waitingtimeinprocesspercase1D)
+~
+~
+|
+Numinprocesscase1D=A FUNCTION OF()
+~
+~
+|
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+********************************************************
+	.Control
+********************************************************~
+		Simulation Control Parameters
+	|
+
+FINAL TIME  = 100
+	~	Month
+	~	The final time for the simulation.
+	|
+
+INITIAL TIME  = 0
+	~	Month
+	~	The initial time for the simulation.
+	|
+
+SAVEPER  = 
+        TIME STEP
+	~	Month [0,?]
+	~	The frequency with which output is stored.
+	|
+
+TIME STEP  = 1
+	~	Month [0,?]
+	~	The time step for the simulation.
+	|
+
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*View 1
+$192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,100,0
+10,1,Numinprocesscase1D,588,75,60,26,3,131,0,0,0,0,0,0,0,0,0,0,0,0
+12,2,48,330,78,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,3,5,1,4,0,0,22,0,0,0,-1--1--1,,1|(484,78)|
+1,4,5,2,100,0,0,22,0,0,0,-1--1--1,,1|(384,78)|
+11,5,48,434,78,6,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,6,Arrivalrate1D,434,112,127,26,40,131,0,0,-1,0,0,0,0,0,0,0,0,0
+12,7,48,818,72,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,8,10,7,4,0,0,22,0,0,0,-1--1--1,,1|(761,72)|
+1,9,10,1,100,0,0,22,0,0,0,-1--1--1,,1|(675,72)|
+11,10,48,708,72,6,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,11,Finishrate1D,708,102,74,22,40,131,0,0,-1,0,0,0,0,0,0,0,0,0
+10,12,Numofuniqueresource1D,574,-22,142,42,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,13,Processactivetime1D,764,-41,63,11,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,14,Servicetimepercase1D,965,24,109,34,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,15,Timeinprocesspercase1D,998,123,105,31,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,16,Waitingtimeinprocesspercase1D,335,21,126,29,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,17,variable6,443,409,153,39,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,18,variable7,948,378,128,29,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,19,variable7,988,287,123,31,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,20,variable8,410,238,209,55,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+///---\\\
+:L<%^E!@
+9:Current
+23:0
+15:0,0,0,0,0,0
+19:100,0
+27:0,
+34:0,
+5:Arrivalrate1D
+35:Date
+36:YYYY-MM-DD
+37:2000
+38:1
+39:1
+40:2
+41:0
+42:1
+72:0
+73:0
+76:0
+77:0
+78:0
+79:0
+80:0
+81:0
+24:0
+25:0
+26:0
+75:
+43:
+>>>>>>> ba9fe68d53340f50e0572b489d2912038af8c351

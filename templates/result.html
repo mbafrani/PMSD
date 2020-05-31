@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!doctype html>
 <title>PM_SD Project</title>
 <style>
@@ -58,4 +59,66 @@
 
 
    </body>
+=======
+<!doctype html>
+<title>PM_SD Project</title>
+<style>
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: row;
+    margin: 0;
+  }
+  .col-1 {
+    background:#1c2f3a ;
+
+  }
+  .col-2 {
+    display: flex ;
+    flex-direction: column;
+    flex: 5;
+  }
+  .content {
+    display: flex;
+    flex-direction: row;
+  }
+  .content > article {
+    flex: 4;
+    min-height: 60vh;
+  }
+  header, footer {
+    background:#227a8f ;
+    height: 20vh;
+  }
+  header, footer, article, nav {
+    padding: 1em;
+  }
+</style>
+<body>
+  <nav class="col-1">Nav</nav>
+  <div class="col-2">
+  	<header>PM_SD Project</header>
+    <main class="content">
+      <form action = "http://localhost:5000/result" method = "POST">
+    <div class="one">
+     <div><p>Event log: <input type = "file" value="fileupload" name = "Event Log" /></p></div>
+    </div>
+    <div class="two"><p>Time Window: <input type = "text" name ="time_window" /></p>
+         <p>General: <input type = "radio" name = "general" /></p></div>
+
+         <p><input  class="btn btn-primary mb-2" type = "submit" value = "submit" /></p>
+      </form>
+        <p> SD_Log {{sd_log}}</p>
+   <img src="static/images/general_resutls.png" alt="">
+    </main>
+  	<footer>Footer</footer>
+  </div>
+
+
+
+   </body>
+>>>>>>> ba9fe68d53340f50e0572b489d2912038af8c351
 </html>
