@@ -47,7 +47,7 @@ def get_pre_event_log():
             outputpath=os.path.join("Outputs","ready_event_log.csv")
             x.save(outputpath)
             event_log, event_log_cols = com_sd.get_input_file(outputpath)
-            el_info = el_info +"Number of Cases:"+str(event_log[event_log.columns[0]].nunique())+"\n Number of Events:"+ str(event_log.shape[0])
+            el_info = el_info +"Number of Cases:"+str(event_log["Case ID"].nunique())+"\n Number of Events:"+ str(event_log.shape[0])
         elif list(request.form.keys())[1]=="CaseID" :
             outputpath = os.path.join("Outputs", "ready_event_log.csv")
             event_log, event_log_cols = com_sd.get_input_file(outputpath)
@@ -65,7 +65,7 @@ def get_pre_event_log():
             #download_file = send_file(r'Output\ready_event_log.csv',  mimetype='csv',attachment_filename='ready_event_log.csv', as_attachment=False)
             download_file = outputpath
 
-    return  download_file, render_template('InsideEventLog.html', el_cols=event_log_cols,el_info =el_info )
+    return download_file, render_template('InsideEventLog.html', el_cols=event_log_cols,el_info =el_info)
 
 @app.route('/EventLog.html')
 def get_event_log():
@@ -233,7 +233,7 @@ def Stability_TW_Test():
     tw_result=""
     if request.method == 'POST':
         event_log_address= request.form["Event Log"]
-        event_log = com_sd.get_input_file(event_log_address)
+        event_log = com_sd.get_input_file(os.path.join("Outputs",event_log_address))
         time_window_list.append(request.form["Hourly"])
         time_window_list.append(request.form["Daily"])
         time_window_list.append(request.form["Weekly"])

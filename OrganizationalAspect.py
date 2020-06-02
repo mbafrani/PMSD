@@ -105,7 +105,7 @@ class organization_aspect:
     def create_DFG(self, matrix):
         cwd = os.getcwd()
         for col in matrix.columns:
-            matrix.loc[matrix[col] < 0.7, col] = 0
+            matrix.loc[matrix[col] < 0.5, col] = 0
 
         G = Network( height="800px",
                  width="800px",directed=True)
