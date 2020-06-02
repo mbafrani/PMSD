@@ -151,14 +151,15 @@ def get_SD_log():
         params_list = allcorr.columns
         if SD_log_address:
             temp = pd.read_csv(os.path.join('Outputs',SD_log_address.filename ))
-            temp.to_csv(os.path.join(str(cwd),"static","images","SDLog2ShowInside.csv"), index=False)
+            temp.to_csv(os.path.join(
+                str(cwd),"static","images","SDLog2ShowInside.csv"), index=False)
             request.files["SDLog"].save(os.path.join(app.config["FILE_UPLOADS"], SD_log_address.filename))
 
     return render_template('SDLog.html')
 
 @app.route('/SDLogResutl.html',methods = ['POST', 'GET'])
 def get_SD_Resutl():
-    corr_df = pd.read_csv(os.path.join(str(cwd),"static","images","SDLog2ShowInside.csv"))
+    corr_df = pd.read_csv(os.path.join("static","images","SDLog2ShowInside.csv"))
     corr_df.columns = corr_df.columns.str.replace(' ', '')
     corr_df = rel_sd.only_correlation(corr_df)
     params_list = corr_df.columns
@@ -179,7 +180,6 @@ def get_mapping():
     corr_df_sign = rel_det.only_correlation(data)
     corr_df_sign=corr_df_sign.fillna(0)
     corr_df_sign.fillna(0)
-    #corr_df = pd.DataFrame({'arr': [0, -2, 0], 'incas': [0.5, 0, -0.125]}, index=['arr', 'incas', 'fin'])
     params_list = corr_df.to_dict('dict')
     user_corr_df=pd.DataFrame(columns=corr_df.columns,index=corr_df.columns)
     if request.method =='POST':
@@ -261,7 +261,7 @@ def Stability_TW_Test():
             active_overall_dict = {}
             active_overall_dict["Arrival rate"]={}
             for sdlog_name in generated_SD_log:
-                sd_log =pd.read_csv(sdlog_name)
+                sd_log =pd.read_csv(os.path.join("Outputs",sdlog_name))
                 name_sd_tw = sdlog_name.split("_")[1]
                 overall_dict["Arrival rate"].get(name_sd_tw)
                 Active_SD_Log= (twa.Post_process_tw(sd_log, TW_Dete_dict))

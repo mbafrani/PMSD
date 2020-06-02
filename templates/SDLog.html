@@ -83,11 +83,11 @@
             <p>SD Log: <input type = "file" value="fileupload" name="SDLog" /></p>
                      <div class="form-check form-check-inline">
                          <label for="Linear" class="form-check-label pr-2">Correlation (Pearson, Linear): </label><input id="Linear" class="form-check-input" type = "checkbox" name = "Linear" /> </div>
-            <p>Threshold to filter the relashion:<input class="form-control-file" type = "number" min ="0.01" step="0.01" value="0.1" max="1" name = "ThreLinear" id ="ThreLinear" /></p>
+            <p>Threshold to filter the relashion:<input class="form-control-file" type = "number" min ="0.01" step="0.01" value="0.01" max="1" name = "ThreLinear" id ="ThreLinear" /></p>
              <div class="form-check form-check-inline">
                  <label for="Linear" class="form-check-label pr-2">Distance Correlation (Non-Linear):</label> <input class="form-check-input" type = "checkbox" name = "NLinear" /></div>
 
-            <p>Threshold to filter the relashion:<input class="form-control-file" type = "number" min ="0.01" step="0.01" value="0.1" max="3" name = "ThreNLinear" id="ThreNLinear" /></p>
+            <p>Threshold to filter the relashion:<input class="form-control-file" type = "number" min ="0.01" step="0.01" value="0.01" max="3" name = "ThreNLinear" id="ThreNLinear" /></p>
             <p>Time Window Shift:<input class="form-control-file" type = "number" min ="0" step="1" value="0" max="3" name = "TWshift" id="TWshift" /></p>
             <p><button  class="btn btn-primary mb-2" type = "submit" title="Calculate Correlation" value = "submit" id="CallCorr" onclick="CallCorr()" >Calculate Correlation</button></p>
         </form>

@@ -3,6 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import scipy
 import math
+import os
 import seaborn as sns
 from scipy.stats import pearsonr
 
@@ -79,7 +80,8 @@ class Relation_Detector():
             plt.xticks(rotation=90)
             #plt.setp(ax.get_xticklabels(), rotation=45,va="center", rotation_mode="anchor")
             ax.set_yticklabels(data.columns)
-            plt.savefig('static/images/corr.png',bbox_inches='tight',)
+            outpath= os.path.join("static","images","corr.png")
+            plt.savefig(outpath,bbox_inches='tight')
             #plt.show()
 
         if nonlinrel == 'on':
@@ -87,8 +89,10 @@ class Relation_Detector():
             #plt.resize(50, 50)
             fig1 = plt.figure()
             sns.heatmap(dis_corr_df)
-            plt.savefig('static/images/discorr.png',bbox_inches='tight')
-            #plt.show()
+            outpath = os.path.join("static", "images", "discorr.png")
+            plt.savefig(outpath, bbox_inches='tight')
+            #plt.savefig('static/images/discorr.png',bbox_inches='tight')
+
 
         for pr in data.columns:
             relevelt_features = allcorr.index
@@ -117,8 +121,8 @@ class Relation_Detector():
                     plt.ylabel(str(ppr), fontsize=7)
                     #plt.title(str(pr))
                     plt.tight_layout()
-
-            plt.savefig('static/images/'+str(pr.replace(" ",""))+'.png',bbox_inches='tight')
+            outputpath= os.path.join("static","images",str(pr.replace(" ",""))+'.png')
+            plt.savefig(outputpath,bbox_inches='tight')
             #plt.show()
 
         print(dis_corr_df_twshift)

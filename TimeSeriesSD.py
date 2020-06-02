@@ -6,7 +6,7 @@ from collections import defaultdict, Counter
 from statsmodels.tsa.arima_model import ARIMA
 import csv
 import re
-
+import os
 
 class TW_Analysis:
 
@@ -192,7 +192,8 @@ class TW_Analysis:
                                                "Waiting time in process per case"+str(tw_list):average_waiting ,
                                                "Num in process case"+str(tw_list): temp_list_inproc,
                                               }
-            with open(str(aspect)+"_"+str(tw_list)+"_sdlog.csv", 'w') as f:
+            outputpath= os.path.join("Outputs",str(aspect)+"_"+str(tw_list)+"_sdlog.csv")
+            with open(outputpath, 'w') as f:
                 writer = csv.writer(f)
                 writer.writerow(General_selected_variables_dict.keys())
                 x = zip(*General_selected_variables_dict.values())
@@ -243,7 +244,8 @@ class TW_Analysis:
             vid = vid + 1
 
         if activeness =='all':
-            plt.savefig('static/images/UserPattern.png', dpi=100)
+            outputpath=os.path.join("static","images","UserPattern.png")
+            plt.savefig(outputpath, dpi=100)
             #plt.bar([i for i in range(0, len(vtw))], vtw)
             # plt.show()
 
@@ -319,7 +321,8 @@ class TW_Analysis:
         plt.title("Error of Different Time Delta")
         plt.xlabel("Time Delta")
         plt.ylabel("PAME")
-        plt.savefig('static/images/UserTWError.png', dpi=100)
+        outputpath = os.path.join("static", "images", "UserTWError.png")
+        plt.savefig(outputpath, dpi=100)
         return
 
     def Post_process_tw(self,SD_Log, TW_Dete_dict):
@@ -341,6 +344,5 @@ class TW_Analysis:
             diff.append(value)
         # plt.bar([x for x in range(0,len(diff))],diff)
         plt.hist(diff)
-        import os
         Active_SD_Log.to_csv(os.path.join("Outputs","Active" + "_" + str(c) + "_sdlog.csv"),index=False)
         return Active_SD_Log
