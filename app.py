@@ -1,4 +1,3 @@
-
 import os
 from collections import defaultdict
 from flask import Flask, render_template, request, url_for,redirect
@@ -44,10 +43,14 @@ def get_pre_event_log():
     if request.method == 'POST':
         if len(list(request.files.values())) ==1 and list(request.files.values())[0].filename != '':
             x = request.files["Event Log"]
-            outputpath=os.path.join("Outputs","ready_event_log.csv")
-            x.save(outputpath)
-            event_log, event_log_cols = com_sd.get_input_file(outputpath)
-            el_info = el_info +"Number of Cases:"+str(event_log["Case ID"].nunique())+"\n Number of Events:"+ str(event_log.shape[0])
+            if 'csv' in x.filename:
+                outputpath=os.path.join("Outputs","ready_event_log.csv")
+                x.save(outputpath)
+                event_log, event_log_cols = com_sd.get_input_file(outputpath)
+            elif 'xes' in x.filename:
+                event_log, event_log_cols = com_sd.get_input_file(x.filename)
+                event_log.to_csv(os.path.join("Outputs","ready_event_log.csv"))
+            #el_info = el_info +"Number of Cases:"+str(event_log["Case ID"].nunique())+"\n Number of Events:"+ str(event_log.shape[0])
         elif list(request.form.keys())[1]=="CaseID" :
             outputpath = os.path.join("Outputs", "ready_event_log.csv")
             event_log, event_log_cols = com_sd.get_input_file(outputpath)
@@ -63,6 +66,8 @@ def get_pre_event_log():
             matrix= org_asp.create_matrix(event_log)
             org_asp.create_DFG(matrix)
             #download_file = send_file(r'Output\ready_event_log.csv',  mimetype='csv',attachment_filename='ready_event_log.csv', as_attachment=False)
+            el_info = el_info + "Number of Cases:" + str(event_log["Case ID"].nunique()) + "\n Number of Events:" + str(
+                event_log.shape[0])
             download_file = outputpath
 
     return download_file, render_template('InsideEventLog.html', el_cols=event_log_cols,el_info =el_info)
@@ -86,7 +91,7 @@ def result():
     inactive='off'
     if request.method == 'POST':
         event_log_address = request.form["Event Log"]
-        event_log = com_sd.get_input_file(event_log_address)
+        event_log = com_sd.get_input_file(os.path.join("Outputs",event_log_address))
         time_window.append(request.form["time_window"])
         aspect = request.form["general"]
         inactive = request.form.get("inactive")
@@ -159,7 +164,7 @@ def get_SD_log():
 
 @app.route('/SDLogResutl.html',methods = ['POST', 'GET'])
 def get_SD_Resutl():
-    corr_df = pd.read_csv(os.path.join("static","images","SDLog2ShowInside.csv"))
+    corr_df = pd.read_csv(os.path.join(str(cwd),"static","images","SDLog2ShowInside.csv"))
     corr_df.columns = corr_df.columns.str.replace(' ', '')
     corr_df = rel_sd.only_correlation(corr_df)
     params_list = corr_df.columns
