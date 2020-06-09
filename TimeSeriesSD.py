@@ -298,19 +298,30 @@ class TW_Analysis:
             diff = [abs(x) + 1 for x in diff]
             if len(diff) > 5 :
                 if 0<best_lag and best_lag <len(diff)//5 and best_lag<5:
-                    arima_model = ARIMA(diff, order=(best_lag, 0, 1))
-                    model_fit = arima_model.fit(transparams=False)
-                    t = model_fit.predict()
-                    error = abs(np.mean(abs(diff - t) / diff))
-                    error_delta_dict[str(k)] = error
+                    try:
+                        arima_model = ARIMA(diff, order=(best_lag, 1, 1))
+                        model_fit = arima_model.fit(transparams=False)
+                        t = model_fit.predict()
+                        error = abs(np.mean(abs(diff[:-1] - t) / diff[:-1]))
+                        error_delta_dict[str(k)] = error
+                    except:
+                        arima_model = ARIMA(diff, order=(best_lag, 1, 0))
+                        model_fit = arima_model.fit(transparams=False)
+                        t = model_fit.predict()
+                        error = abs(np.mean(abs(diff[:-1] - t) / diff[:-1]))
+                        error_delta_dict[str(k)] = error
+
 
                 else:
 
                     arima_model = ARIMA(diff, order=(1, 0, 1))
-                    model_fit = arima_model.fit(start_ar_lags=2)
-                    t = model_fit.predict()
-                    error = abs(np.mean(abs(diff - t) / diff))
-                    error_delta_dict[str(k)] = error
+                    try:
+                        model_fit = arima_model.fit(start_ar_lags=2)
+                        t = model_fit.predict()
+                        error = abs(np.mean(abs(diff - t) / diff))
+                        error_delta_dict[str(k)] = error
+                    except:
+                        error_delta_dict[str(k)] = -0.1
             else:
                 error_delta_dict[str(k)] = -0.1
 
