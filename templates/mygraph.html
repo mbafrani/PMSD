@@ -47,8 +47,8 @@
         
 
         // parsing and collecting nodes and edges from the python
-        nodes = new vis.DataSet([{"id": "NextCall", "label": "NextCall", "shape": "box"}, {"id": "AcceptDriverReq", "label": "AcceptDriverReq", "shape": "box"}, {"id": "ProcessNextdriverReq", "label": "ProcessNextdriverReq", "shape": "box"}, {"id": "DoneDriverReq", "label": "DoneDriverReq", "shape": "box"}, {"id": "RejectCall", "label": "RejectCall", "shape": "box"}, {"id": "AcceptCarReq", "label": "AcceptCarReq", "shape": "box"}, {"id": "ProcessNextCarReq", "label": "ProcessNextCarReq", "shape": "box"}, {"id": "DoneCarReq", "label": "DoneCarReq", "shape": "box"}, {"color": "green", "id": "start", "label": "start", "shape": "box"}, {"color": "red", "id": "end", "label": "end", "shape": "box"}]);
-        edges = new vis.DataSet([{"arrows": "to", "from": "NextCall", "to": "AcceptDriverReq"}, {"arrows": "to", "from": "NextCall", "to": "ProcessNextdriverReq"}, {"arrows": "to", "from": "ProcessNextdriverReq", "to": "DoneDriverReq"}, {"arrows": "to", "from": "NextCall", "to": "RejectCall"}, {"arrows": "to", "from": "NextCall", "to": "AcceptCarReq"}, {"arrows": "to", "from": "NextCall", "to": "ProcessNextCarReq"}, {"arrows": "to", "from": "ProcessNextCarReq", "to": "DoneCarReq"}, {"arrows": "to", "from": "start", "to": "NextCall"}, {"arrows": "to", "from": "AcceptDriverReq", "to": "end"}, {"arrows": "to", "from": "DoneDriverReq", "to": "end"}, {"arrows": "to", "from": "RejectCall", "to": "end"}, {"arrows": "to", "from": "AcceptCarReq", "to": "end"}, {"arrows": "to", "from": "DoneCarReq", "to": "end"}]);
+        nodes = new vis.DataSet([{"id": "registerrequest", "label": "registerrequest", "shape": "box"}, {"id": "examinecasually", "label": "examinecasually", "shape": "box"}, {"id": "checkticket", "label": "checkticket", "shape": "box"}, {"id": "decide", "label": "decide", "shape": "box"}, {"id": "reinitiaterequest", "label": "reinitiaterequest", "shape": "box"}, {"id": "examinethoroughly", "label": "examinethoroughly", "shape": "box"}, {"id": "paycompensation", "label": "paycompensation", "shape": "box"}, {"id": "rejectrequest", "label": "rejectrequest", "shape": "box"}, {"color": "green", "id": "start", "label": "start", "shape": "box"}, {"color": "red", "id": "end", "label": "end", "shape": "box"}]);
+        edges = new vis.DataSet([{"arrows": "to", "from": "registerrequest", "to": "registerrequest"}, {"arrows": "to", "from": "examinecasually", "to": "registerrequest"}, {"arrows": "to", "from": "checkticket", "to": "registerrequest"}, {"arrows": "to", "from": "decide", "to": "registerrequest"}, {"arrows": "to", "from": "reinitiaterequest", "to": "registerrequest"}, {"arrows": "to", "from": "examinethoroughly", "to": "registerrequest"}, {"arrows": "to", "from": "paycompensation", "to": "registerrequest"}, {"arrows": "to", "from": "rejectrequest", "to": "registerrequest"}, {"arrows": "to", "from": "registerrequest", "to": "examinecasually"}, {"arrows": "to", "from": "checkticket", "to": "decide"}, {"arrows": "to", "from": "decide", "to": "reinitiaterequest"}, {"arrows": "to", "from": "decide", "to": "paycompensation"}, {"arrows": "to", "from": "decide", "to": "rejectrequest"}, {"arrows": "to", "from": "start", "to": "checkticket"}, {"arrows": "to", "from": "start", "to": "examinethoroughly"}, {"arrows": "to", "from": "rejectrequest", "to": "end"}]);
 
         // adding nodes and edges to the graph
         data = {nodes: nodes, edges: edges};
@@ -72,7 +72,7 @@
         "hideNodesOnDrag": false
     },
     "physics": {
-        "enabled": true,
+        "enabled": false,
         "stabilization": {
             "enabled": true,
             "fit": true,
