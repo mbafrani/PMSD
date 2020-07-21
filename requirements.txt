@@ -90,7 +90,7 @@ pexpect==4.7.0
 pg8000==1.13.2
 pgi==0.0.11.2
 pickle5==0.0.8
-psutil==5.6.3
+psutil==5.6.6
 psyco==1.6
 psycopg2==2.8.3
 pudb==2019.1
