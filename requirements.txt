@@ -1,5 +1,5 @@
 Flask==1.0.2
-cryptography==2.2.2
+cryptography==2.3
 cffi==1.11.5
 kiwisolver==1.0.1
 jupyter_client==5.2.3
