@@ -76,6 +76,11 @@ class organization_aspect:
         filtered_event_log = filtered_event_log.dropna()
         return filtered_event_log
 
+    def filter_log_res(self, event_log, res):
+        filtered_event_log = event_log.where(event_log['Resource'].isin(res))
+        filtered_event_log = filtered_event_log.dropna()
+        return filtered_event_log
+
     def create_matrix(self, event_log):
         event_log['Complete Timestamp'] = pd.to_datetime(event_log['Complete Timestamp'])
         event_log['Start Timestamp'] = pd.to_datetime(event_log['Start Timestamp'])
@@ -109,6 +114,7 @@ class organization_aspect:
 
         G = Network( height="800px",
                  width="800px",directed=True)
+        G.toggle_physics(False)
         matrixt = matrix.T
         for act in matrix.columns:
             G.add_node(act, shape='box', label=str(act))
@@ -126,6 +132,12 @@ class organization_aspect:
             if sum_temp_in_values == 0:
                 G.add_edge("start", acts)
 
+        start = [True for ed in G.edges if "start" in ed.values()]
+        end = [True for ed in G.edges if "end" in ed.values()]
+        if len(start) == 0:
+            G.add_edge("start", matrix.columns[0])
+        if len(end) ==0:
+            G.add_edge(matrix.columns[-1],'end')
         for acte in matrixt.columns:
             temp_in = matrixt[acte]
             sum_temp_in_values = np.sum(temp_in.values)
