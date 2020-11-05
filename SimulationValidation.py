@@ -12,26 +12,36 @@ from scipy.stats import variation, ks_2samp, shapiro
 class SimVal:
 
     def read_model(self, sd_model,sd_log_file):
+        direct_var = []
+        stock_var =[]
         model = pysd.read_vensim(sd_model)
+        with open(os.path.join(sd_model), 'r') as f:
+            body = f.readlines()
+            for b in body:
+                if 'A FUNCTION' in b:
+                    varname=b.split('=')[0].replace("  ","")
+                    direct_var.append(varname)
         x = dir(model.components)
-        stock_var = []
 
         for i in x:
-            if i[:5] == 'integ':
-                stock_var.append(i[6:])
+            if 'integ' in i:
+                stock_var.append(i[7:])
 
         variable_involeved_val = model.run()
         variable_involeved = variable_involeved_val.columns.str.replace(' ', '_')
         df_real_val = pd.read_csv(sd_log_file)
 
         var_dict_params = {}
+        df_real_val.columns = df_real_val.columns.str.replace(' ', '')
         for name in variable_involeved:
-            if name in df_real_val.columns and name.lower() not in stock_var:
+            #if name in df_real_val.columns and name.lower() not in stock_var:
+
+            if name in df_real_val.columns and name in direct_var:
                 v = df_real_val[name]
                 # v = v[:12]
                 vname = name.lower()
 
-                var_dict_params.update({vname: v})
+                var_dict_params[vname]= v
 
         stocks = model.run(params=var_dict_params)
         sim_values = stocks
@@ -61,7 +71,7 @@ class SimVal:
                     real_sim_dict[rname].append(real_list[:sim_size])
                     real_sim_dict[rname].append(sim_values[rname])
                 else:
-                    sim_list = real_values_sd_log[rname]
+                    sim_list = sim_values[rname]
                     real_sim_dict[rname].append(real_values_sd_log[rname])
                     real_sim_dict[rname].append(sim_list[:real_siz])
 
@@ -80,7 +90,8 @@ class SimVal:
                 real_list = vvalue[0]
 
                 if len(simulation_list) != len(real_list):
-                    real_list = real_list[:(len(simulation_list)-len(real_list))].values
+                   #real_list = real_list[:(len(simulation_list)-len(real_list))].values
+                    simulation_list=simulation_list[:-1]
                 # data description
                 plt.subplot(3, 3, 1)
                 plt.tight_layout()
