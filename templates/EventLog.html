@@ -74,9 +74,12 @@
         <form  name="extract" action="/EventLogResult.html" method = "POST">
             <p>Event log: <input type = "file" value="fileupload" name = "Event Log" /></p>
             <input class="form-control" type = "text" name ="time_window" placeholder="Time Window"/>
+           <br>
             <p>General: <input  type = "radio" name = "general" value="General" /></p>
             <p>Organizational: <input type = "radio" name = "general" value="Organizational" /></p>
              <p>Activity Flow: <input type = "radio" name = "general" value="Activity Flow" /></p>
+            <p>Resources: <input type = "radio" name = "general" value="Resources" /></p>
+           <p>Activity/Resource List: <input type = "text" name = "AcReList" placeholder="act1,act2,... or res1,res2,..." /></p>
             <p>Remove In-active Time: <input type="checkbox" name="inactive"></p>
             <p><input class="btn btn-primary mb-2" type = "submit" value = "submit" id ='submitresEL' /></p>
         </form>
