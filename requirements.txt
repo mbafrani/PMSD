@@ -23,7 +23,7 @@ colorama==0.4.3
 conda==4.9.1
 conda-package-handling==1.6.0
 cookiecutter==1.7.2
-cryptography==2.7
+cryptography==3.2
 cvxopt==1.2.2
 cx-Oracle==7.1.0
 cycler==0.10.0
