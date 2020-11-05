@@ -92,8 +92,12 @@ def result():
     if request.method == 'POST':
         event_log_address = request.form["Event Log"]
         event_log = com_sd.get_input_file(os.path.join("Outputs",event_log_address))
+        #event_log = com_sd.get_input_file((event_log_address))
         time_window.append(request.form["time_window"])
-        aspect = request.form["general"]
+        if "general" in request.form.keys():
+            aspect = request.form["general"]
+        else:
+            aspect=""
         inactive = request.form.get("inactive")
         if inactive!="on":
             if aspect =="General":
@@ -113,7 +117,30 @@ def result():
                     filtered_log = org_asp.filter_log_act(event_log[0], act_list_filter)
                     if len(filtered_log['Case ID']) > 1:
                         generated_SD_log.append(com_sd.TW_discovery_process_calculation_twlist(time_window, filtered_log, act))
-
+            if aspect =='Resources':
+                act_list = event_log[0]['Resource'].unique().tolist()
+                for act in act_list:
+                    act_list_filter = []
+                    act_list_filter.append(act)
+                    filtered_log = org_asp.filter_log_res(event_log[0], act_list_filter)
+                    if len(filtered_log['Case ID']) > 1:
+                        generated_SD_log.append(com_sd.TW_discovery_process_calculation_twlist(time_window, filtered_log, act))
+            elif request.form["AcReList"] !='':
+                acreslist=request.form["AcReList"].split(",")
+                res_list = event_log[0]['Resource'].unique().tolist()
+                act_list = event_log[0]['Activity'].unique().tolist()
+                if acreslist[0] in res_list:
+                    act_list_filter = acreslist
+                    filtered_log = org_asp.filter_log_res(event_log[0], act_list_filter)
+                    if len(filtered_log['Case ID']) > 1:
+                        generated_SD_log.append(
+                            com_sd.TW_discovery_process_calculation_twlist(time_window, filtered_log, request.form["AcReList"]))
+                if acreslist[0] in act_list:
+                    act_list_filter = acreslist
+                    filtered_log = org_asp.filter_log_act(event_log[0], act_list_filter)
+                    if len(filtered_log['Case ID']) > 1:
+                        generated_SD_log.append(
+                                com_sd.TW_discovery_process_calculation_twlist(time_window, filtered_log, request.form["AcReList"]))
         else:
             if aspect =="General":
                 tempsdlog=com_sd.TW_discovery_process_calculation_twlist(time_window, event_log[0],aspect)
@@ -137,7 +164,15 @@ def result():
                         tempsdlog=com_sd.TW_discovery_process_calculation_twlist(time_window, filtered_log, act)
                         generated_SD_log.append(com_sd.Post_process_tw(tempsdlog,act))
 
-
+            if aspect == 'Resources':
+                act_list = event_log[0]['Resource'].unique().tolist()
+                for act in act_list:
+                    act_list_filter = []
+                    act_list_filter.append(act)
+                    filtered_log = org_asp.filter_log_res(event_log[0], act_list_filter)
+                    if len(filtered_log['Case ID']) > 1:
+                        tempsdlog = com_sd.TW_discovery_process_calculation_twlist(time_window, filtered_log, act)
+                        generated_SD_log.append(com_sd.Post_process_tw(tempsdlog, act))
 
     return render_template("EventLogResult.html",sd_log = generated_SD_log,aspect= aspect,act_list = act_list)
 

@@ -7,9 +7,9 @@ import pandas as pd
 import matplotlib.pylab as plt
 from collections import Counter
 from scipy.stats import variation,ks_2samp,shapiro
-from pm4py.objects.conversion.log import factory as log_converter
-from pm4py.objects.log.exporter.csv import factory as csv_exporter
-from pm4py.objects.log.importer.xes import factory as xes_importer
+from pm4py.objects.conversion.log import converter as log_converter
+#from pm4py.objects.log.exporter.csv import factory as csv_exporter
+from pm4py.objects.log.importer.xes import importer as xes_importer
 
 
 
@@ -24,8 +24,9 @@ class Complete_sd:
 
         elif str(log_format) == 'xes':
             xes_log = xes_importer.import_log(event_log_address)
-            event_log = log_converter.apply(xes_log)
-            csv_exporter.export_log(event_log, "event_log_repaired.csv")
+            event_log = log_converter.apply(xes_log, variant=log_converter.Variants.TO_DATA_FRAME)
+            event_log.to_csv("event_log_repaired.csv")
+            #csv_exporter.export_log(event_log, "event_log_repaired.csv")
             event_log = pd.read_csv("event_log_repaired.csv")
 
         event_log_attributes = event_log.columns
@@ -147,10 +148,8 @@ class Complete_sd:
             case_real_duration_dict = {}
             for dcase, dgroup in case_dur_temp_log:
                 case_real_duration_list_waiting.append(np.sum(dgroup['Activity Duration']))
-                case_duration_list_waiting.append(
-                    np.max(dgroup['Complete Timestamp']) - np.min(dgroup['Start Timestamp']))
-                case_duration_dict[np.min(dgroup['Start Timestamp'])] = pd.to_timedelta(
-                    np.max(dgroup['Complete Timestamp']) - np.min(dgroup['Start Timestamp'])).total_seconds() / 3600
+                case_duration_list_waiting.append(np.max(dgroup['Complete Timestamp']) - np.min(dgroup['Start Timestamp']))
+                case_duration_dict[np.min(dgroup['Start Timestamp'])] = pd.to_timedelta(np.max(dgroup['Complete Timestamp']) - np.min(dgroup['Start Timestamp'])).total_seconds() / 3600
                 case_real_duration_dict[np.min(dgroup['Start Timestamp'])] = pd.to_timedelta(
                     np.sum(dgroup['Activity Duration'])).total_seconds() / 3600
 
@@ -184,7 +183,7 @@ class Complete_sd:
             temp_event_log_start_index = event_log.set_index('Start Timestamp')
             temp_group_h = temp_event_log_start_index.groupby(pd.Grouper(freq=str(tw_list)))
             num_unique_resource_h = (temp_group_h['Resource'].nunique()).values
-
+            num_unique_act_h = (temp_group_h['Activity'].nunique()).values
 
             # TODO Number of Resources and unique resources per case
             uniqe_resource_list_per_case = []
@@ -200,17 +199,15 @@ class Complete_sd:
             average_waiting = [0 if x < 0 else x for x in average_waiting]
             # TODO Create Overall Dict
             Name_General_selected_variables=(str(aspect) + "_sdlog.csv")
-            General_selected_variables_dict = {"Arrival rate" + str(tw_list): Hourly['hourly'].values.tolist(),
-                                               "Finish rate" + str(tw_list): (eHourly['ehourly'].values).tolist(),
-                                               "Num of unique resource" + str(tw_list): num_unique_resource_h.tolist(),
-                                               "Process active time" + str(tw_list): case_duration_H_df[
-                                                   'Case Duration'].tolist(),
-                                               "Service time per case" + str(tw_list): case_real_duration_H_df[
-                                                   'Avg Case Duration'].tolist(),
-                                               "Time in process per case" + str(tw_list): case_duration_H_df[
-                                                   'Avg Case Duration'].tolist(),
-                                               "Waiting time in process per case" + str(tw_list): average_waiting,
-                                               "Num in process case" + str(tw_list): temp_list_inproc,
+            General_selected_variables_dict = {str(aspect)+"_Arrival rate" + str(tw_list): Hourly['hourly'].values.tolist(),
+                                               str(aspect)+"_Finish rate" + str(tw_list): (eHourly['ehourly'].values).tolist(),
+                                               str(aspect) + "_Num of unique resource" + str(tw_list): num_unique_resource_h.tolist(),
+                                               str(aspect) + "_Process active time" + str(tw_list): case_duration_H_df["Case Duration"].tolist(),
+                                               str(aspect) + "_Service time per case" + str(tw_list): case_real_duration_H_df[ 'Avg Case Duration'].tolist(),
+                                               str(aspect) +  "_Time in process per case" + str(tw_list): case_duration_H_df['Avg Case Duration'].tolist(),
+                                               str(aspect) +  "_Waiting time in process per case" + str(tw_list): average_waiting,
+                                               str(aspect) +   "_Num in process case" + str(tw_list): temp_list_inproc,
+                                               str(aspect) + "_Num of unique activitis"+str(tw_list): num_unique_act_h.tolist()
                                                }
             for k,v in General_selected_variables_dict.items():
                 General_selected_variables_dict[k]=pd.Series(General_selected_variables_dict[k], dtype=object).fillna(0).tolist()
