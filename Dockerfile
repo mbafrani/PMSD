@@ -7,4 +7,4 @@ RUN apt-get -y upgrade
 RUN apt -y install graphviz xdg-utils
 RUN pip install -U -r /requirements.txt
 
-ENTRYPOINT ["python3", "app.py"]
+ENTRYPOINT ["python", "app.py"]

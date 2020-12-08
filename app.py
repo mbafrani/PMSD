@@ -101,30 +101,41 @@ def result():
         inactive = request.form.get("inactive")
         if inactive!="on":
             if aspect =="General":
-                generated_SD_log.append(com_sd.TW_discovery_process_calculation_twlist(time_window, event_log[0],aspect))
+                generated_SD_log.append((com_sd.TW_discovery_process_calculation_twlist(time_window, event_log[0],aspect))[0])
             if aspect =='Organizational':
                 resource_freq_df = org_asp.find_resource(event_log[0])
                 _,org_list = org_asp.find_roles(resource_freq_df)
                 for org in list(org_list.keys()):
                     filtered_log = org_asp.filter_log_org(event_log[0],org)
                     if len(filtered_log['Case ID']) >1:
-                        generated_SD_log.append(com_sd.TW_discovery_process_calculation_twlist(time_window,filtered_log,org))
+                        generated_SD_log.append((com_sd.TW_discovery_process_calculation_twlist(time_window,filtered_log,org))[0])
+
             if aspect =='Activity Flow':
                 act_list = event_log[0]['Activity'].unique().tolist()
+                for act in act_list:
+                    features_list = com_sd.create_features_name ("Activities",act)
+                    generated_SD_log.append((com_sd.select_features(features_list, event_log, time_window,"Activities"))[0])
+                """
                 for act in act_list:
                     act_list_filter = []
                     act_list_filter.append(act)
                     filtered_log = org_asp.filter_log_act(event_log[0], act_list_filter)
                     if len(filtered_log['Case ID']) > 1:
                         generated_SD_log.append(com_sd.TW_discovery_process_calculation_twlist(time_window, filtered_log, act))
+                """
             if aspect =='Resources':
                 act_list = event_log[0]['Resource'].unique().tolist()
+                for act in act_list:
+                    features_list = com_sd.create_features_name ("Resources",act)
+                    generated_SD_log.append((com_sd.select_features(features_list, event_log, time_window,"Resources"))[0])
+                """
                 for act in act_list:
                     act_list_filter = []
                     act_list_filter.append(act)
                     filtered_log = org_asp.filter_log_res(event_log[0], act_list_filter)
                     if len(filtered_log['Case ID']) > 1:
-                        generated_SD_log.append(com_sd.TW_discovery_process_calculation_twlist(time_window, filtered_log, act))
+                        generated_SD_log.append((com_sd.TW_discovery_process_calculation_twlist(time_window, filtered_log, act))[0])
+                """
             elif request.form["AcReList"] !='':
                 acreslist=request.form["AcReList"].split(",")
                 res_list = event_log[0]['Resource'].unique().tolist()
@@ -134,16 +145,16 @@ def result():
                     filtered_log = org_asp.filter_log_res(event_log[0], act_list_filter)
                     if len(filtered_log['Case ID']) > 1:
                         generated_SD_log.append(
-                            com_sd.TW_discovery_process_calculation_twlist(time_window, filtered_log, request.form["AcReList"]))
+                            (com_sd.TW_discovery_process_calculation_twlist(time_window, filtered_log, request.form["AcReList"])))[0]
                 if acreslist[0] in act_list:
                     act_list_filter = acreslist
                     filtered_log = org_asp.filter_log_act(event_log[0], act_list_filter)
                     if len(filtered_log['Case ID']) > 1:
                         generated_SD_log.append(
-                                com_sd.TW_discovery_process_calculation_twlist(time_window, filtered_log, request.form["AcReList"]))
+                            (com_sd.TW_discovery_process_calculation_twlist(time_window, filtered_log, request.form["AcReList"])))[0]
         else:
             if aspect =="General":
-                tempsdlog=com_sd.TW_discovery_process_calculation_twlist(time_window, event_log[0],aspect)
+                tempsdlog=(com_sd.TW_discovery_process_calculation_twlist(time_window, event_log[0],aspect))[1]
                 generated_SD_log.append(com_sd.Post_process_tw(tempsdlog,aspect))
 
             if aspect =='Organizational':
@@ -152,17 +163,14 @@ def result():
                 for org in list(org_list.keys()):
                     filtered_log = org_asp.filter_log_org(event_log[0],org)
                     if len(filtered_log['Case ID']) >1:
-                        tempsdlog=com_sd.TW_discovery_process_calculation_twlist(time_window, filtered_log, org)
+                        tempsdlog=(com_sd.TW_discovery_process_calculation_twlist(time_window, filtered_log, org))[1]
                         generated_SD_log.append(com_sd.Post_process_tw(tempsdlog,org))
+
             if aspect =='Activity Flow':
                 act_list = event_log[0]['Activity'].unique().tolist()
                 for act in act_list:
-                    act_list_filter = []
-                    act_list_filter.append(act)
-                    filtered_log = org_asp.filter_log_act(event_log[0], act_list_filter)
-                    if len(filtered_log['Case ID'])>1:
-                        tempsdlog=com_sd.TW_discovery_process_calculation_twlist(time_window, filtered_log, act)
-                        generated_SD_log.append(com_sd.Post_process_tw(tempsdlog,act))
+                    features_list = com_sd.create_features_name ("Activities",act)
+                    generated_SD_log.append(com_sd.select_features(features_list, event_log, time_window,"Activities"))
 
             if aspect == 'Resources':
                 act_list = event_log[0]['Resource'].unique().tolist()
@@ -171,7 +179,7 @@ def result():
                     act_list_filter.append(act)
                     filtered_log = org_asp.filter_log_res(event_log[0], act_list_filter)
                     if len(filtered_log['Case ID']) > 1:
-                        tempsdlog = com_sd.TW_discovery_process_calculation_twlist(time_window, filtered_log, act)
+                        tempsdlog = (com_sd.TW_discovery_process_calculation_twlist(time_window, filtered_log, act))[1]
                         generated_SD_log.append(com_sd.Post_process_tw(tempsdlog, act))
 
     return render_template("EventLogResult.html",sd_log = generated_SD_log,aspect= aspect,act_list = act_list)
@@ -317,4 +325,4 @@ def Stability_TW_Test():
 
 
 if __name__ == '__main__':
-   app.run(debug = True)
+   app.run(debug = True,host = "0.0.0.0")
