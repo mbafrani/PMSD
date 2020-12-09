@@ -125,7 +125,8 @@
               <div style=" font-style: italic;">The Preprocessed Event Log is generated on "Outputs/ready_event_log.csv"</div>
               <div>
                    <button class="btn btn-primary mb-2", type = "submit" id="ShowDFG" onclick="ShowDFG()" value = "submit">Discover DFG </button>
-                    <a class="label label-primary" href="Outputs/ready_event_log.csv" style="margin-right: 5px;" download=""> Right click to get the event log </a>
+                   <a class="label label-primary" href="{{url_for('ready_event_log')}}" style="margin-right: 5px;"> Right click to get the event log </a>
+
               </div>
 
           </div>

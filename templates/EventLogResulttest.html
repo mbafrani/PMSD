@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -81,13 +82,21 @@
             <p>Remove In-active Time: <input type="checkbox" name="inactive"></p>
             <p><input type = "submit" class="btn btn-primary mb-2" value = "submit" id ='submitEL' /></p>
         </form>
-            <div id ='ELResult' >
 
-              <p><select class="form-control" id="selectOrg">The SD Log generated: {% for it in sd_log %} <option name={{it}} value={{it}}/> {{it}}</option>{% endfor %}</select> </p>
-                <p><button title="Show El Result" name = "submit" class="btn btn-primary mb-2" id ='showELResult' onclick="LoadELResultimg()">ShowELResult</button></p>
-                <a class="label label-primary" href="{{url_for('ready_sd_log')}}" style="margin-right: 5px;"> Right click to get the SDLog </a>
+              <div id ='ELResult' style= >
+                  <form  name="selectsdname" method = "GET">
+              <p>
+                  <select name="selectOrg" class="form-control" id="selectOrg">The SD Log generated: {% for it in sd_log %} <option name={{it}} value={{it}}/> {{it}}</option>{% endfor %}</select>
+              </p>
+                       <p> <!--a class="label label-primary" href="{{url_for('ready_sd_log')}}" style="margin-right: 5px;"> Right click to get the SDLog </a></p-->
+
+                      <input type="submit" title="Show El Result" name = "submit" class="btn btn-primary mb-2" id ='showELResult'  onclick="LoadELResultimg()" value="Show SD Result">
+
+
+
                  <!--a id="downloadlink" class="label label-primary"  download onclick="DownloadResult()"> Right click to get the SDLog </a-->
 
+                  </form>
             </div>
 
 
@@ -122,7 +131,6 @@ var e = document.getElementById("selectOrg");
   document.getElementById("downloadlink").href = value;
 
   }
-
 
 
 function LoadELResultimg() {
