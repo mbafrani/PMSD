@@ -212,6 +212,8 @@ class Complete_sd:
                                                }
             for k,v in General_selected_variables_dict.items():
                 General_selected_variables_dict[k]=pd.Series(General_selected_variables_dict[k], dtype=object).fillna(0).tolist()
+            if len(aspect) >10:
+                aspect=aspect[:10]
             with open(r"Outputs/"+str(aspect) + "_sdlog.csv", 'w') as f:
                 writer = csv.writer(f)
                 writer.writerow(General_selected_variables_dict.keys())

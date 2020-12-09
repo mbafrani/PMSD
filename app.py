@@ -1,6 +1,6 @@
 import os
 from collections import defaultdict
-from flask import Flask, render_template, request, url_for,redirect
+from flask import Flask, render_template, request, url_for,redirect,send_file
 import pandas as pd
 from flask import send_file,make_response
 from UIFinalVersion import Complete_sd
@@ -9,6 +9,8 @@ from OrganizationalAspect import organization_aspect
 from writetomdlfile import creat_CFD
 from TimeSeriesSD import TW_Analysis
 from SimulationValidation import SimVal
+import shutil
+
 
 cwd = os.getcwd()
 app = Flask(__name__)
@@ -31,6 +33,7 @@ def add_header(response):
 @app.route('/')
 def get_first_page():
    return render_template('bootstrapTemplate.html')
+
 
 @app.route('/InsideEventLog.html', methods=['POST','GET'])
 def get_pre_event_log():
@@ -61,6 +64,7 @@ def get_pre_event_log():
             event_log_cols_map.append(request.form.get("CompleteTime"))
             event_log_ready = com_sd.add_needed_column(event_log,event_log_cols_map)
             outputpath = os.path.join("Outputs", "ready_event_log.csv")
+            #copy_to('/local/foo.txt', 'my-container:/tmp/foo.txt')
             event_log_ready.to_csv(outputpath,columns=event_log_ready.columns)
             event_log=event_log_ready
             matrix= org_asp.create_matrix(event_log)
@@ -69,8 +73,12 @@ def get_pre_event_log():
             el_info = el_info + "Number of Cases:" + str(event_log["Case ID"].nunique()) + "\n Number of Events:" + str(
                 event_log.shape[0])
             download_file = outputpath
-
     return download_file, render_template('InsideEventLog.html', el_cols=event_log_cols,el_info =el_info)
+
+@app.route('/downloadlog')
+def ready_event_log():
+    event_log_path= os.path.join("Outputs","ready_event_log.csv")
+    return send_file(event_log_path,as_attachment=True)
 
 @app.route('/EventLog.html')
 def get_event_log():
@@ -91,8 +99,8 @@ def result():
     inactive='off'
     if request.method == 'POST':
         event_log_address = request.form["Event Log"]
-        event_log = com_sd.get_input_file(os.path.join("Outputs",event_log_address))
-        #event_log = com_sd.get_input_file((event_log_address))
+        #event_log = com_sd.get_input_file(os.path.join("Outputs",event_log_address))
+        event_log = com_sd.get_input_file((event_log_address))
         time_window.append(request.form["time_window"])
         if "general" in request.form.keys():
             aspect = request.form["general"]
@@ -184,6 +192,13 @@ def result():
 
     return render_template("EventLogResult.html",sd_log = generated_SD_log,aspect= aspect,act_list = act_list)
 
+@app.route('/downloadSDlog', methods=['GET', 'POST'])
+def ready_sd_log():
+    shutil.make_archive("Outputs", 'zip', "Outputs")
+    SD_log_path = os.path.join("Outputs.zip")
+    return send_file(SD_log_path,as_attachment=True)
+
+
 @app.route('/SDLog.html',methods = ['POST', 'GET'])
 def get_SD_log():
     rel_sd = Relation_Detector()
@@ -254,6 +269,16 @@ def map_param_ele():
 
     return  render_template('DesignedSFD.html',param_list=params_list)
 
+@app.route('/downloadCLDModel', methods=['GET', 'POST'])
+def downloadCLDModel():
+    CLD_Model_path = os.path.join("ModelsFormat","newtestDFD.mdl")
+    return send_file(CLD_Model_path,as_attachment=True)
+
+@app.route('/downloadSFDModel', methods=['GET', 'POST'])
+def downloadSFDModel():
+    SFD_Model_path = os.path.join("ModelsFormat","new1StockSFD.mdl")
+    return send_file(SFD_Model_path,as_attachment=True)
+
 @app.route('/Validation.html', methods = ['GET','POST'])
 def validation_sd_sim():
     val_image_names = []
@@ -271,7 +296,6 @@ def validation_sd_sim():
         val_image_names=simval.validate_results(res_sim_dict)
     return render_template('Validation.html', val_image_names=val_image_names)
 
-
 @app.route('/TimeTest.html', methods = ['GET','POST'])
 def Stability_TW_Test():
     twa = TW_Analysis()
@@ -281,7 +305,8 @@ def Stability_TW_Test():
     tw_result=""
     if request.method == 'POST':
         event_log_address= request.form["Event Log"]
-        event_log = com_sd.get_input_file(os.path.join("Outputs",event_log_address))
+        #event_log = com_sd.get_input_file(os.path.join("Outputs",event_log_address))
+        event_log = com_sd.get_input_file(os.path.join(event_log_address))
         time_window_list.append(request.form["Hourly"])
         time_window_list.append(request.form["Daily"])
         time_window_list.append(request.form["Weekly"])
