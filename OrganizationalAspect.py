@@ -144,9 +144,9 @@ class organization_aspect:
             if sum_temp_in_values == 0:
                 G.add_edge(acte, "end")
         #G.save_graph("DFG.html")
-        path=os.path.join('templates', 'mygraph.html')
-        #G.save_graph(str(cwd)+"\\templates\mygraph.html")
-        G.save_graph(path)
+        #path=os.path.join('templates', 'mygraph.html')
+        G.save_graph(os.path.join('templates', 'mygraph.html'))
+        #G.save_graph(path)
 
         return
 

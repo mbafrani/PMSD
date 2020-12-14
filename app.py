@@ -23,6 +23,7 @@ createcfd = creat_CFD()
 rel_sd = Relation_Detector()
 org_asp = organization_aspect()
 com_sd = Complete_sd()
+global ready_EL
 
 @app.after_request
 def add_header(response):
@@ -43,6 +44,7 @@ def get_pre_event_log():
     el_info= ""
     download_file=''
     response=''
+
     if request.method == 'POST':
         if len(list(request.files.values())) ==1 and list(request.files.values())[0].filename != '':
             x = request.files["Event Log"]
@@ -73,11 +75,13 @@ def get_pre_event_log():
             el_info = el_info + "Number of Cases:" + str(event_log["Case ID"].nunique()) + "\n Number of Events:" + str(
                 event_log.shape[0])
             download_file = outputpath
+            ready_EL=event_log
     return download_file, render_template('InsideEventLog.html', el_cols=event_log_cols,el_info =el_info)
 
 @app.route('/downloadlog')
 def ready_event_log():
-    event_log_path= os.path.join("Outputs","ready_event_log.csv")
+    cwd = os.getcwd()
+    event_log_path= os.path.join(cwd,"Outputs","ready_event_log.csv")
     return send_file(event_log_path,as_attachment=True)
 
 @app.route('/EventLog.html')
@@ -98,10 +102,15 @@ def result():
     time_window=[]
     inactive='off'
     if request.method == 'POST':
-        event_log_address = request.form["Event Log"]
-        #event_log = com_sd.get_input_file(os.path.join("Outputs",event_log_address))
-        event_log = com_sd.get_input_file((event_log_address))
+        try:
+            event_log_address = request.form["Event Log"]
+            event_log = com_sd.get_input_file(os.path.join("Outputs",event_log_address))
+
+        except:
+            event_log = com_sd.get_input_file((event_log_address))
+
         time_window.append(request.form["time_window"])
+
         if "general" in request.form.keys():
             aspect = request.form["general"]
         else:
@@ -222,7 +231,10 @@ def get_SD_log():
 
 @app.route('/SDLogResutl.html',methods = ['POST', 'GET'])
 def get_SD_Resutl():
-    corr_df = pd.read_csv(os.path.join(str(cwd),"static","images","SDLog2ShowInside.csv"))
+    try:
+        corr_df = pd.read_csv(os.path.join(str(cwd),"static","images","SDLog2ShowInside.csv"))
+    except:
+        pass
     corr_df.columns = corr_df.columns.str.replace(' ', '')
     corr_df = rel_sd.only_correlation(corr_df)
     params_list = corr_df.columns
@@ -305,8 +317,10 @@ def Stability_TW_Test():
     tw_result=""
     if request.method == 'POST':
         event_log_address= request.form["Event Log"]
-        #event_log = com_sd.get_input_file(os.path.join("Outputs",event_log_address))
-        event_log = com_sd.get_input_file(os.path.join(event_log_address))
+        try:
+            event_log = com_sd.get_input_file(os.path.join(event_log_address))
+        except:
+            event_log = com_sd.get_input_file(os.path.join("Outputs", event_log_address))
         time_window_list.append(request.form["Hourly"])
         time_window_list.append(request.form["Daily"])
         time_window_list.append(request.form["Weekly"])
