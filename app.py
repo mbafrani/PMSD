@@ -76,7 +76,7 @@ def get_pre_event_log():
                 event_log.shape[0])
             download_file = outputpath
             ready_EL=event_log
-    return download_file, render_template('InsideEventLog.html', el_cols=event_log_cols,el_info =el_info)
+    return download_file, render_template('/InsideEventLog.html', el_cols=event_log_cols,el_info =el_info)
 
 @app.route('/downloadlog')
 def ready_event_log():
