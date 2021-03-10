@@ -67,17 +67,17 @@ class organization_aspect:
         return res_res_similarity, org_act_res_dict
 
     def filter_log_org(self, event_log, Org):
-        filtered_event_log = event_log.where(event_log['Resource'].isin(Org))
+        filtered_event_log=event_log.loc[event_log['Resource'].isin(Org)]
         filtered_event_log = filtered_event_log.dropna()
         return filtered_event_log
 
     def filter_log_act(self, event_log, act):
-        filtered_event_log = event_log.where(event_log['Activity'].isin(act))
+        filtered_event_log = event_log.loc[event_log['Activity'].isin(act)]
         filtered_event_log = filtered_event_log.dropna()
         return filtered_event_log
 
     def filter_log_res(self, event_log, res):
-        filtered_event_log = event_log.where(event_log['Resource'].isin(res))
+        filtered_event_log = event_log.loc[event_log['Resource'].isin(res)]
         filtered_event_log = filtered_event_log.dropna()
         return filtered_event_log
 
@@ -87,7 +87,7 @@ class organization_aspect:
         event_duration = abs(event_log['Complete Timestamp'] - event_log['Start Timestamp'])
         event_log['Event Duration'] = event_duration
 
-        temp_act_log = event_log.groupby(['Activity'])
+        temp_act_log = event_log.groupby('Activity')
 
         # create adjancy matrix of activities
         matrix = pd.DataFrame(np.zeros(shape=(event_log['Activity'].nunique(), event_log['Activity'].nunique())),

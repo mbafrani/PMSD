@@ -56,7 +56,7 @@ def get_pre_event_log():
                 event_log, event_log_cols = com_sd.get_input_file(x.filename)
                 event_log.to_csv(os.path.join("Outputs","ready_event_log.csv"))
             #el_info = el_info +"Number of Cases:"+str(event_log["Case ID"].nunique())+"\n Number of Events:"+ str(event_log.shape[0])
-        elif list(request.form.keys())[1]=="CaseID" :
+        elif list(request.form.keys())[0]=="CaseID" :
             outputpath = os.path.join("Outputs", "ready_event_log.csv")
             event_log, event_log_cols = com_sd.get_input_file(outputpath)
             event_log_cols_map.append(request.form.get("CaseID"))
@@ -131,7 +131,7 @@ def result():
                 act_list = event_log[0]['Activity'].unique().tolist()
                 for act in act_list:
                     features_list = com_sd.create_features_name ("Activities",act)
-                    generated_SD_log.append((com_sd.select_features(features_list, event_log, time_window,"Activities"))[0])
+                    generated_SD_log.append(str(com_sd.select_features(features_list, event_log[0], time_window,"Activities")))
                 """
                 for act in act_list:
                     act_list_filter = []
@@ -144,7 +144,7 @@ def result():
                 act_list = event_log[0]['Resource'].unique().tolist()
                 for act in act_list:
                     features_list = com_sd.create_features_name ("Resources",act)
-                    generated_SD_log.append((com_sd.select_features(features_list, event_log, time_window,"Resources"))[0])
+                    generated_SD_log.append((com_sd.select_features(features_list, event_log[0], time_window,"Resources")))
                 """
                 for act in act_list:
                     act_list_filter = []
@@ -161,14 +161,13 @@ def result():
                     act_list_filter = acreslist
                     filtered_log = org_asp.filter_log_res(event_log[0], act_list_filter)
                     if len(filtered_log['Case ID']) > 1:
-                        generated_SD_log.append(
-                            (com_sd.TW_discovery_process_calculation_twlist(time_window, filtered_log, request.form["AcReList"])))[0]
+                        generated_SD_log.append((com_sd.TW_discovery_process_calculation_twlist(time_window, filtered_log, request.form["AcReList"]))[0])
                 if acreslist[0] in act_list:
                     act_list_filter = acreslist
                     filtered_log = org_asp.filter_log_act(event_log[0], act_list_filter)
                     if len(filtered_log['Case ID']) > 1:
                         generated_SD_log.append(
-                            (com_sd.TW_discovery_process_calculation_twlist(time_window, filtered_log, request.form["AcReList"])))[0]
+                            (com_sd.TW_discovery_process_calculation_twlist(time_window, filtered_log, request.form["AcReList"]))[0])
         else:
             if aspect =="General":
                 tempsdlog=(com_sd.TW_discovery_process_calculation_twlist(time_window, event_log[0],aspect))[1]
@@ -364,5 +363,5 @@ def Stability_TW_Test():
 
 
 if __name__ == '__main__':
-   port = int(os.environ.get('PORT', 5000))
-   app.run(debug = True,host = "0.0.0.0",port=port)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(debug = True,host = "0.0.0.0",port=port)

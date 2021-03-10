@@ -24,7 +24,7 @@ class Complete_sd:
             event_log = pd.read_csv(event_log_address)
 
         elif str(log_format) == 'xes':
-            xes_log = xes_importer.import_log(event_log_address)
+            xes_log = xes_importer.apply(event_log_address)
             event_log = log_converter.apply(xes_log, variant=log_converter.Variants.TO_DATA_FRAME)
             event_log.to_csv("event_log_repaired.csv")
             #csv_exporter.export_log(event_log, "event_log_repaired.csv")
@@ -55,7 +55,11 @@ class Complete_sd:
         event_log['Start Timestamp'] = pd.to_datetime(event_log['Start Timestamp'],errors = 'coerce')
         event_duration = abs(event_log['Complete Timestamp'] - event_log['Start Timestamp'])
         event_log['Event Duration'] = event_duration
+
         event_log['Activity'] = event_log['Activity'].str.replace(" ", "")
+        event_log['Activity'] = event_log['Activity'].str.replace("_", "")
+        event_log['Resource'] = event_log['Resource'].str.replace(" ", "")
+        event_log['Resource'] = event_log['Resource'].str.replace("_", "")
 
 
         return event_log
@@ -137,6 +141,7 @@ class Complete_sd:
             temp_active_time['Start Timestamp'] = pd.to_datetime(temp_active_time['Start Timestamp'])
             sort_start_duration = temp_active_time.sort_values('Start Timestamp')
             sort_start_duration.set_index('Start Timestamp', inplace=True)
+
             process_H_active_time_df = sort_start_duration.resample(str(tw_list)).sum()
             process_H_active_time = process_H_active_time_df['Activity Duration'].values
             process_H_active_time = pd.to_timedelta(process_H_active_time).total_seconds() / 3600
@@ -301,28 +306,36 @@ class Complete_sd:
 
     #TODO: Per Resrouce Calculation Specifically for Waiting time with differeten time duraiton
     def break_log_for_res(self, time_unit, event_log):
-
         start_unit_log = min(event_log['Start Timestamp'])
         start_unit_log = pd.to_datetime(start_unit_log)
         start_unit_log = pd.to_datetime(start_unit_log.replace(hour=00, minute=00))
         end_log = max(event_log['Complete Timestamp'])
-        y = int((re.findall(r'\d+', time_unit))[0])
+        y = int((re.findall(r'\d+', str(time_unit)))[0])
         z = time_unit[-1]
-        if "H" in time_unit:
+        if "H" in str(time_unit)[-3]:
             time_unit = "60"
-        elif "D" in time_unit:
+        elif "D" in str(time_unit)[-3]:
             time_unit = "1440"
-        elif "W":
+        elif "W" in str(time_unit)[-3]:
             time_unit = "10080"
+        elif "M" in str(time_unit)[-3]:
+            time_unit = '40320'
 
         minutes = y * int(str(time_unit))
         time_unit = pd.DateOffset(minutes=minutes)
+        end_log = pd.to_datetime(end_log)
         end_unit_log = start_unit_log + time_unit
         count = 0
         unit_time_act_num_dur_dict = defaultdict(dict)
 
         while end_unit_log <= (end_log - time_unit):
+            event_log['Start Timestamp'] = pd.to_datetime(event_log['Start Timestamp'])
             event_log_unit = event_log[event_log['Start Timestamp'].between(start_unit_log, end_unit_log)]
+            event_log_unit['Start Timestamp'] = pd.to_datetime(event_log_unit['Start Timestamp'])
+            event_log_unit['Complete Timestamp'] = pd.to_datetime(event_log_unit['Complete Timestamp'])
+            if 'Event Duration' not in event_log_unit.columns:
+                event_log_unit['Event Duration'] = event_log_unit['Complete Timestamp'] - event_log_unit[
+                    'Start Timestamp']
             temp_event_log = event_log_unit.sort_values(['Start Timestamp'], ascending=True).groupby(['Resource'])
             case_temp_event_log = event_log_unit.groupby(['Case ID'])
             act_num_speed_dict = defaultdict(list)
@@ -331,7 +344,7 @@ class Complete_sd:
 
             for casename, casegroup in case_temp_event_log:
                 casegroup = casegroup.sort_values(['Start Timestamp'])
-                casegroup_act_list = casegroup['Resource'].values
+                casegroup_act_list = casegroup['Resource'].unique()
                 casegroup_start_list = casegroup['Start Timestamp'].values
                 casegroup_comp_list = casegroup['Complete Timestamp'].values
 
@@ -343,8 +356,9 @@ class Complete_sd:
                     #   casegroup_arrival_act_dict[casegroup_act_list[ix1]].append(1)
 
                     if ix1 < len(casegroup_act_list):
-                        case_act_diff = pd.to_timedelta(
-                            casegroup_comp_list[ix0] - casegroup_start_list[ix1]).seconds / 3600
+                        if ix0 == 0:
+                            casegroup_act_dict[casegroup_act_list[ix0]].append(0)
+                        case_act_diff = pd.to_timedelta(casegroup_comp_list[ix1] - casegroup_start_list[ix0]).seconds / 3600
                         casegroup_arrival_act_dict[casegroup_act_list[ix1]].append(1)
 
                         if (casegroup_comp_list[ix0]) <= (casegroup_start_list[ix1]):
@@ -379,6 +393,7 @@ class Complete_sd:
                 act_num_event_list = temp_act_num_event_list.values
                 temp_act_dur_event_list = actgroup['Event Duration']
                 act_dur_event_list = temp_act_dur_event_list.values
+                act_dur_event_list = pd.to_timedelta(act_dur_event_list).values
                 act_finish_event = sum(i < end_unit_log for i in actgroup['Complete Timestamp'])
                 act_start_not_finished_event = sum(j >= end_unit_log for j in actgroup['Complete Timestamp'])
 
@@ -439,26 +454,34 @@ class Complete_sd:
         start_unit_log = pd.to_datetime(start_unit_log)
         start_unit_log = pd.to_datetime(start_unit_log.replace(hour=00, minute=00))
         end_log = max(event_log['Complete Timestamp'])
-        y = int((re.findall(r'\d+', time_unit))[0])
+        y = int((re.findall(r'\d+', str(time_unit)))[0])
         z = time_unit[-1]
-        if "H" in time_unit:
+        if "H" in str(time_unit)[-3]:
             time_unit= "60"
-        elif "D" in time_unit:
+        elif "D" in str(time_unit)[-3]:
             time_unit ="1440"
-        elif "W":
+        elif "W" in str(time_unit)[-3]:
             time_unit="10080"
+        elif "M" in str(time_unit)[-3]:
+            time_unit='40320'
 
         minutes = y*int(str(time_unit))
         time_unit = pd.DateOffset(minutes=minutes)
         #  event_log['Start Timestamp'] = pd.to_datetime(event_log['Start Timestamp'])
         #  grouped_log_date = event_log.groupby(by=event_log['Start Timestamp'].dt.date)
-
+        end_log = pd.to_datetime(end_log)
         count = 0
         unit_time_act_num_dur_dict = defaultdict(dict)
         end_unit_log = start_unit_log + time_unit
 
         while end_unit_log <= (end_log - time_unit):
+            event_log['Start Timestamp'] = pd.to_datetime(event_log['Start Timestamp'])
             event_log_unit = event_log[event_log['Start Timestamp'].between(start_unit_log, end_unit_log)]
+            event_log_unit['Start Timestamp']=pd.to_datetime(event_log_unit['Start Timestamp'])
+            event_log_unit['Complete Timestamp'] = pd.to_datetime(event_log_unit['Complete Timestamp'])
+            if 'Event Duration' not in event_log_unit.columns:
+                event_log_unit['Event Duration'] = event_log_unit['Complete Timestamp'] - event_log_unit['Start Timestamp']
+
             temp_event_log = event_log_unit.sort_values(['Start Timestamp'], ascending=True).groupby(['Activity'])
             case_temp_event_log = event_log_unit.groupby(['Case ID'])
             act_num_speed_dict = defaultdict(list)
@@ -479,8 +502,10 @@ class Complete_sd:
                     #   casegroup_arrival_act_dict[casegroup_act_list[ix1]].append(1)
 
                     if ix1 < len(casegroup_act_list):
+                        if ix0==0:
+                            casegroup_act_dict[casegroup_act_list[ix0]].append(0)
                         case_act_diff = pd.to_timedelta(
-                            casegroup_start_list[ix1] - casegroup_comp_list[ix0]).seconds / 3600
+                        casegroup_start_list[ix1] - casegroup_comp_list[ix0]).seconds / 3600
                         casegroup_arrival_act_dict[casegroup_act_list[ix1]].append(1)
 
                         if (casegroup_comp_list[ix0]) <= (casegroup_start_list[ix1]):
@@ -512,9 +537,11 @@ class Complete_sd:
                 act_dur_event_list = []
                 act_num_event_list = []
                 temp_act_num_event_list = actgroup['Start Timestamp']
+
                 act_num_event_list = temp_act_num_event_list.values
                 temp_act_dur_event_list = actgroup['Event Duration']
                 act_dur_event_list = temp_act_dur_event_list.values
+                act_dur_event_list= pd.to_timedelta(act_dur_event_list)
                 act_finish_event = sum(i < end_unit_log for i in actgroup['Complete Timestamp'])
                 act_start_not_finished_event = sum(j >= end_unit_log for j in actgroup['Complete Timestamp'])
 
@@ -528,10 +555,10 @@ class Complete_sd:
                 # act_num_speed_dict[actname].append(len(act_num_event_list))
 
                 # 1 avg duration
-                act_num_speed_dict[actname].append(pd.to_timedelta(np.mean(act_dur_event_list)))
+                act_num_speed_dict[actname].append(pd.to_timedelta(np.mean(act_dur_event_list.values)))
 
                 # 2 whole duration
-                act_num_speed_dict[actname].append(pd.to_timedelta(np.sum(act_dur_event_list)))
+                act_num_speed_dict[actname].append(pd.to_timedelta(np.sum(act_dur_event_list.values)))
 
                 # 3 avg waiting time
                 if actname not in casegroup_act_dict and len(act_num_speed_dict[actname]) < 4:
@@ -580,11 +607,12 @@ class Complete_sd:
 
 
         features_list = []
-        features_name_list = list(unique_act_res)
+        features_name_list=[]
+        features_name_list.append(unique_act_res)
         if str(view_list) == 'Activities':
 
             for ac in features_name_list:
-                if features_name_list.get(ac) is True:
+                if ac in features_name_list:
                     features_list.append( 'act' + '_' + str(ac) + '_avg_arrival')
                     features_list.append( 'act' + '_' +str(ac) + '_avg_duration')
                     features_list.append( 'act' + '_' +str(ac) + '_whole_duration')
@@ -614,7 +642,12 @@ class Complete_sd:
 
     def select_features(self, features_list, event_log, time_unit,unique_act_res):
         fvalues_dict = {}
-
+        unit_time_act_num_dur_dict = {}
+        unit_time_res_num_dur_dict =  {}
+        if unique_act_res =='Activities':
+            unit_time_act_num_dur_dict = self.break_log_for_act(time_unit, event_log)
+        elif unique_act_res == 'Resources':
+            unit_time_res_num_dur_dict = self.break_log_for_res(time_unit, event_log)
         for f in features_list:
             fview = f.split('_')[0]
             fname_list = f.split('_')[1:-2]
@@ -635,7 +668,6 @@ class Complete_sd:
             fvalues = []
 
             if fview == 'res':
-                unit_time_res_num_dur_dict = self.break_log_for_res(time_unit, event_log)
                 for t, values in unit_time_res_num_dur_dict.items():
                     if len(values) != 0 and fname in unit_time_res_num_dur_dict.get(t):
                         if str(ftype) == 'avgarrival':
@@ -661,7 +693,6 @@ class Complete_sd:
                 fvalues_dict.update({f: fvalues})
 
             if fview == 'act':
-                unit_time_act_num_dur_dict = self.break_log_for_act(time_unit, event_log)
                 for t, values in unit_time_act_num_dur_dict.items():
                     if len(values) != 0 and fname in unit_time_act_num_dur_dict.get(t):
                         if str(ftype) == 'avgarrival':
@@ -682,7 +713,7 @@ class Complete_sd:
                             fvalues.append(values.get(fname)[7])
                         elif ftype == 'inprocessevents':
                             fvalues.append(values.get(fname)[8])
-                        elif ftype == '_unique_resources':
+                        elif ftype == 'uniqueresources':
                             fvalues.append(values.get(fname)[9])
                         elif ftype == 'engagedresources':
                             fvalues.append(values.get(fname)[10])
@@ -696,8 +727,8 @@ class Complete_sd:
         for k, v in fvalues_dict.items():
             fvalues_dict[k] = pd.Series(fvalues_dict[k], dtype=object).fillna(
                 0).tolist()
-        Name_General_selected_variables = (str(unique_act_res) + "_sdlog.csv")
-        with open(r"Outputs/" + str(unique_act_res) + "_sdlog.csv", 'w') as f:
+        Name_General_selected_variables = (str(fname) + "_sdlog.csv")
+        with open(r"Outputs/" + str(fname) + "_sdlog.csv", 'w') as f:
             writer = csv.writer(f)
             writer.writerow(fvalues_dict.keys())
             x = zip(*fvalues_dict.values())
@@ -720,45 +751,48 @@ class Complete_sd:
                     mean_data = 0
                     var_data = 0
                     std_data = 0
-                    min_data = min(dv)
-                    max_data = max(dv)
+                    #min_data = min(dv)
+                    min_data = 0
+                    #max_data = max(dv)
+                    max_data = 0
                 cont_dist_names = ['uniform', 'expon', 'norm', 'pareto', 'gamma']
                 dis_dist_names = ['poisson']
                 params = {}
                 dist_results = []
-
-                D, p = scipy.stats.kstest(dv, 'poisson', args=(mean_data,))
-                dist_results.append(('poisson', p))
-                for dist_name in cont_dist_names:
-                    dist = getattr(scipy.stats, dist_name)
-                    param = dist.fit(dv)
-                    params[dist_name] = param
-                    # Kolmogorov-Smirnov test for goodness of fit. D shows the distance between two samples the lower the more similarity.
-                    D, p = scipy.stats.kstest(dv, dist_name, args=param)
-                    dist_results.append((dist_name, p))
-
-                best_dist, best_p = (max(dist_results, key=lambda item: item[1]))
+                try:
+                    D, p = scipy.stats.kstest(dv, 'poisson', args=(mean_data,))
+                    dist_results.append(('poisson', p))
+                    for dist_name in cont_dist_names:
+                        dist = getattr(scipy.stats, dist_name)
+                        param = dist.fit(dv)
+                        params[dist_name] = param
+                        # Kolmogorov-Smirnov test for goodness of fit. D shows the distance between two samples the lower the more similarity.
+                        D, p = scipy.stats.kstest(dv, dist_name, args=param)
+                        dist_results.append((dist_name, p))
+                    best_dist, best_p = (max(dist_results, key=lambda item: item[1]))
                 # sns.distplot(dv)
-                plt.rcParams["figure.figsize"] = [10, 10]
-                plt.subplot(3, 3, vid)
-                plt.tight_layout()
-                plt.gca().set_title(str(dk), size=8)
-                plt.axis('off')
-                # sns.distplot(dv)
-                plt.text(0.1, 0.2, str(best_dist) + '\n' + 'best P:' + str(round(best_p, 2)) + '\n' + 'Mean:' + str(
-                    round(mean_data, 2)) +
-                         '\n' + 'STD:' + str(round(std_data, 2)) +
-                         '\n' + 'Min:' + str(min_data) + '\n' + 'Max:' + str(
-                    max_data) + '\n' + 'Coefficient of Variance:' + str(np.round(variation(dv), 2)), size=8)
-                vid += 1
+                    plt.rcParams["figure.figsize"] = [10, 10]
+                    plt.subplot(3, 4, vid)
+                    plt.tight_layout()
+                    plt.gca().set_title(str(dk), size=8)
+                    plt.axis('off')
+                    # sns.distplot(dv)
+                    plt.text(0.1, 0.2, str(best_dist) + '\n' + 'best P:' + str(round(best_p, 2)) + '\n' + 'Mean:' + str(
+                        round(mean_data, 2)) +
+                             '\n' + 'STD:' + str(round(std_data, 2)) +
+                             '\n' + 'Min:' + str(min_data) + '\n' + 'Max:' + str(
+                        max_data) + '\n' + 'Coefficient of Variance:' + str(np.round(variation(dv), 2)), size=8)
+                    vid += 1
 
-            mng = plt.get_current_fig_manager()
-            # mng.resize(*mng.window.maxsize())
-            plt.rcParams["figure.figsize"] = [20, 20]
-            plt.resize(100, 100)
-            plt.savefig('static/images/' + str(unique_act_res) + '_sdlog.csv.png', dpi=100)
+                    mng = plt.get_current_fig_manager()
+                    # mng.resize(*mng.window.maxsize())
+                    plt.rcParams["figure.figsize"] = [20, 20]
+                    plt.resize(100, 100)
+                    plt.savefig('static/images/' + str(fname) + '_sdlog.csv.png', dpi=100)
+                except:
+                    plt.savefig('static/images/' + str(fname) + '_sdlog.csv.png', dpi=100)
         # plt.show()
         return Name_General_selected_variables
 
-    #Todo:
+
 
