@@ -1,7 +1,7 @@
 # PMSD: Data-Driven Simulation of Business Processes Using Process Mining and System Dynamics 
 Forward-looking approach in process mining (using system dynamics and process mining to simulate business processes at an aggregated level).
 Process mining field has been enriched with multiple techniques and tools for different purposes. However, these techniques are mostly 'backward-looking'. 
-'PMSD' is a web application tool that supports forward-looking simulation techniques. It transforms the event data and process mining results into a simulation model/
+'PMSD' is a web application tool that supports forward-looking simulation techniques. It transforms the event data and process mining results into a simulation model.
 ## Running the application 
 - Run app.py and use the "127.0.0.1:5000" as the homepage URL in the browser. 
 - The screen-cast of the tool is available under the name **PMSDDemo.mp4**.
@@ -38,4 +38,22 @@ Process mining field has been enriched with multiple techniques and tools for di
 ## Simulation and validation 
 - Using the sd log and corresponding SFD model which are generated through the previous steps, the simulation and validation are performed for each variable.
     - The option to see the simulation results are provided by selecting the variable's name. 
+## Information for Citation 
+- Pourbafrani, M., van der Aalst, W.M.P.: PMSD: data-driven simulation using system dynamics and process mining. In: Proceedings of the Best Dissertation Award, Doctoral Consortium, and Demonstration & Resources Track, pp. 77–81 (2020). http://ceur-ws.org/Vol-2673/paperDR03.pdf
+- Bibtex Citation:
+    -   @inproceedings{PMSDTool2020,
+  author    = {Mahsa Pourbafrani and
+               Wil M. P. van der Aalst},
+  title     = {{PMSD:} Data-Driven Simulation Using System Dynamics and Process Mining},
+  booktitle = {Proceedings of the Best Dissertation Award, Doctoral Consortium, and
+               Demonstration {\&} Resources Track at {BPM} 2020 co-located with
+               the 18th International Conference on Business Process Management {(BPM}
+               2020), Sevilla, Spain, September 13-18, 2020},
+  pages     = {77--81},
+  year      = {2020},
+  url       = {http://ceur-ws.org/Vol-2673/paperDR03.pdf},
+  timestamp = {Wed, 23 Sep 2020 17:50:25 +0200},
+  biburl    = {https://dblp.org/rec/conf/bpm/PourbafraniA20.bib},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
+}
 
