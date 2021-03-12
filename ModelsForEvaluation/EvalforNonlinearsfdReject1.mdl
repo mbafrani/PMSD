@@ -1,0 +1,469 @@
+{UTF-8}
+Number of unique resources Org B= INTEG (
+	MAX(Assigned resources Org B-Resigned resources Org B,0),
+		6)
+	~	
+	~		|
+
+Arrival rate Org A=
+	RANDOM NORMAL(1, 20, 15 , 2 ,0 )
+	~	
+	~		|
+
+Assigned resources=
+	IF THEN ELSE(Extra assigned resources for cases>0,Extra assigned resources+Extra assigned resources for cases\
+		  , Extra assigned resources )
+	~	
+	~		|
+
+Assigned resources Org A  = A FUNCTION OF( Resource Exchange Org A to Org B) ~~|
+Assigned resources Org A=
+	IF THEN ELSE(Extra assigned resources for cases 0>0,Extera assigned resources 0+Extra assigned resources for cases 0\
+		  ,
+ Extera assigned resources 0 )
+	~	
+	~		|
+
+Assigned resources Org B=A FUNCTION OF(Assigned resources Org B,Resource Exchange Org A to Org B\
+		) ~~|
+Assigned resources Org B=
+	~	
+	~		|
+
+Desired finished cases=
+	14
+	~	
+	~		|
+
+Num in process cases OrgA= INTEG (
+	MAX(Arrival rate Org A-Finish rate Org A,0),
+		0)
+	~	
+	~		|
+
+Extra assigned resources for cases=
+	Missing cases/Service time per case
+	~	
+	~		|
+
+Resigned resources=
+	MAX(IF THEN ELSE(Extra assigned resources for cases<0,-Extra assigned resources for cases\
+		+Extra assigned resources,Extra assigned resources ),0)
+	~	
+	~		|
+
+Finish rate Org A=
+	MAX(IF THEN ELSE(Number of unique resources Org A*Service time per case Org A>Num in process cases OrgA\
+		, Num in process cases OrgA, Number of unique resources Org A*Service time per case Org A\
+		),0)
+	~	
+	~		|
+
+Finish rate Org B  = A FUNCTION OF( Num in process cases OrgB,Number of unique resources Org B\
+		,Service time per case Org B)
+	~	
+	~		|
+
+Resource Exchange Org A to Org B=A FUNCTION OF(Resource Exchange Org A to Org B) ~~|
+Resource Exchange Org A to Org B=
+	~	
+	~		|
+
+Resource Exchange Org B to Org A
+	~	
+	~		|
+
+Maximum queue length Org A=
+	IF THEN ELSE(Num in process cases OrgA>20,0,20-Num in process cases OrgA)
+	~	
+	~		|
+
+Maximum queue length Org B=A FUNCTION OF(Maximum queue length Org B,Num in process cases OrgB\
+		) ~~|
+Maximum queue length Org B=
+	IF THEN ELSE(Num in process cases OrgA>20,0,20-Num in process cases OrgA)
+	~	
+	~		|
+
+Missing cases=
+	Desired finished cases-Process productivity
+	~	
+	~		|
+
+Process productivity=
+	Finished cases/(Time+1)
+	~	
+	~		|
+
+Time in process per case Org A=
+	1
+	~	
+	~		|
+
+Num in process cases OrgB  = A FUNCTION OF( Finish rate Org A,-Finish rate Org B) ~~|
+Num in process cases OrgB= INTEG (
+	Finish rate Org A,
+		0)
+	~	
+	~		|
+
+Process active time Org A=
+	Num in process cases OrgA*Service time per case Org A
+	~	
+	~		|
+
+Waiting time in process per case Org A=
+	Time in process per case Org A-Service time per case Org A
+	~	
+	~		|
+
+Number of unique resources Org A= INTEG (
+	MAX(Assigned resources Org A-Resigned resources Org A,0),
+		6)
+	~	
+	~		|
+
+Resigned resources Org B=A FUNCTION OF(Resigned resources Org B,Resource Exchange Org B to Org A\
+		) ~~|
+Resigned resources Org B=
+	MAX(IF THEN ELSE(Extra assigned resources for cases 0 0<0,-Extra assigned resources for cases 0 0\
+		+Extra assigned resources Org B
+	,Extra assigned resources Org B ),0)
+	~	
+	~		|
+
+Waiting time in process per case Org B=
+	Time in process per case Org B-Service time per case Org B
+	~	
+	~		|
+
+Time in process per case Org B=
+	1
+	~	
+	~		|
+
+Process active time Org B=A FUNCTION OF(Process active time Org B,Service time per case Org B\
+		) ~~|
+Process active time Org B=
+	Num in process cases OrgA*Service time per case Org B
+	~	
+	~		|
+
+Process efficiency=
+	Process productivity/(Process active time+1)
+	~	
+	~		|
+
+Service time per case Org B=A FUNCTION OF(Service time per case Org B,Num in process cases OrgB\
+		) ~~|
+Service time per case Org B=
+	RANDOM NORMAL(1, 6,  2, 1 , 0  )+Num in process cases OrgA-Num in process cases OrgA
+	~	
+	~		|
+
+Service time per case=
+	RANDOM NORMAL(1, 6,  2, 1 , 0  )+Num in process cases-Num in process cases
+	~	
+	~		|
+
+Resigned resources Org A=
+	Resource Exchange Org B to Org A
+	~	
+	~		|
+
+Service time per case Org A=
+	RANDOM NORMAL(1, 6,  2, 1 , 0  )+Num in process cases OrgA-Num in process cases OrgA
+	~	
+	~		|
+
+Finished cases= INTEG (
+	Finish rate,
+		0)
+	~	
+	~		|
+
+Extra assigned resources=
+	IF THEN ELSE(Arrival rate>15, 2 , 0 )
+	~	
+	~		|
+
+Time in process per case=
+	1
+	~	
+	~		|
+
+Waiting time in process per case=
+	Time in process per case-Service time per case
+	~	
+	~		|
+
+Arrival rate=
+	RANDOM NORMAL(1, 20, 15 , 2 ,0 )
+	~	
+	~		|
+
+Reject rate=
+	Rejected cases
+	~	
+	~		|
+
+Rejected cases=
+	IF THEN ELSE( Arrival rate>Finish rate+Maximum queue lenght,  Arrival rate-Finish rate\
+		+Maximum queue lenght,
+	0 )
+	~	
+	~		|
+
+Maximum queue lenght=
+	IF THEN ELSE(Num in process cases>20,0,20-Num in process cases)
+	~	
+	~		|
+
+Num in process cases= INTEG (
+	MAX(Arrival rate-Finish rate,0),
+		0)
+	~	
+	~		|
+
+Number of rejected cases= INTEG (
+	Reject rate,
+		0)
+	~	
+	~		|
+
+Process active time=
+	Num in process cases*Service time per case
+	~	
+	~		|
+
+Finish rate=
+	MAX(IF THEN ELSE(Number of unique resources*Service time per case>Num in process cases\
+		, Num in process cases, Number of unique resources*Service time per case),0)
+	~	
+	~		|
+
+Number of unique resources= INTEG (
+	MAX(Assigned resources-Resigned resources,0),
+		6)
+	~	
+	~		|
+
+********************************************************
+	.Control
+********************************************************~
+		Simulation Control Parameters
+	|
+
+FINAL TIME  = 100
+	~	Day
+	~	The final time for the simulation.
+	|
+
+INITIAL TIME  = 0
+	~	Day
+	~	The initial time for the simulation.
+	|
+
+SAVEPER  = 
+        TIME STEP
+	~	Day [0,?]
+	~	The frequency with which output is stored.
+	|
+
+TIME STEP  = 1
+	~	Day [0,?]
+	~	The time step for the simulation.
+	|
+
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*View 1
+$192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,110,0
+10,1,Num in process cases OrgA,340,272,53,24,3,131,0,0,0,0,0,0,0,0,0,0,0,0
+12,2,48,147,264,12,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,3,5,1,4,0,0,22,0,0,0,-1--1--1,,1|(251,255)|
+1,4,5,2,100,0,0,22,0,0,0,-1--1--1,,1|(180,255)|
+11,5,48,212,255,8,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,6,Arrival rate Org A,212,284,49,19,40,131,0,0,-1,0,0,0,0,0,0,0,0,0
+1,7,8,1,100,0,0,22,0,0,0,-1--1--1,,1|(431,265)|
+11,8,288,475,265,8,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,9,Finish rate Org A,475,295,48,24,40,131,0,0,-1,0,0,0,0,0,0,0,0,0
+10,10,Service time per case Org A,296,173,52,19,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,11,Process active time Org A,181,121,48,19,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,12,Waiting time in process per case Org A,483,163,60,24,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+1,13,10,8,1,0,0,0,0,64,0,-1--1--1,,1|(423,192)|
+10,14,Time in process per case Org A,348,87,52,19,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,15,Number of unique resources Org A,315,400,63,28,3,131,0,0,0,0,0,0,0,0,0,0,0,0
+12,16,48,139,392,12,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,17,19,15,4,0,0,22,0,0,0,-1--1--1,,1|(228,396)|
+1,18,19,16,100,0,0,22,0,0,0,-1--1--1,,1|(172,396)|
+11,19,48,200,396,8,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,20,Assigned resources Org A,200,433,57,29,40,131,0,0,-1,0,0,0,0,0,0,0,0,0
+12,21,48,500,399,12,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,22,24,21,4,0,0,22,0,0,0,-1--1--1,,1|(465,404)|
+1,23,24,15,100,0,0,22,0,0,0,-1--1--1,,1|(404,404)|
+11,24,48,437,404,8,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,25,Resigned resources Org A,437,433,55,21,40,131,0,0,-1,0,0,0,0,0,0,0,0,0
+1,26,15,8,1,0,0,0,0,64,0,-1--1--1,,1|(403,332)|
+1,27,1,8,1,0,0,0,0,64,0,-1--1--1,,1|(412,288)|
+10,28,Maximum queue length Org A,127,209,53,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,29,1,28,0,0,0,0,0,64,0,-1--1--1,,1|(240,244)|
+1,30,1,11,1,0,0,0,0,64,0,-1--1--1,,1|(229,208)|
+1,31,10,11,1,0,0,0,0,64,0,-1--1--1,,1|(267,120)|
+10,32,Num in process cases OrgB,628,273,53,24,3,131,0,0,0,0,0,0,0,0,0,0,0,0
+1,33,8,32,4,0,0,22,0,0,0,-1--1--1,,1|(527,265)|
+1,34,10,12,1,0,0,0,0,64,0,-1--1--1,,1|(356,143)|
+1,35,14,12,0,0,0,0,0,64,0,-1--1--1,,1|(404,119)|
+10,36,Time,517,540,28,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,37,1,10,1,0,0,0,0,64,0,-1--1--1,,1|(379,204)|
+12,38,48,837,272,12,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,39,41,38,4,0,0,22,0,0,0,-1--1--1,,1|(785,273)|
+1,40,41,32,100,0,0,22,0,0,0,-1--1--1,,1|(705,273)|
+11,41,48,740,273,8,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,42,Finish rate Org B,740,316,45,33,40,131,0,0,-1,0,0,0,0,0,0,0,0,0
+10,43,Number of unique resources Org B,812,408,63,28,3,131,0,0,0,0,0,0,0,0,0,0,0,0
+12,44,48,612,408,12,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,45,47,43,4,0,0,22,0,0,0,-1--1--1,,1|(727,408)|
+1,46,47,44,100,0,0,22,0,0,0,-1--1--1,,1|(657,408)|
+11,47,48,699,408,8,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,48,Assigned resources Org B,699,440,60,24,40,131,0,0,-1,0,0,0,0,0,0,0,0,0
+12,49,48,1007,412,12,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,50,52,49,4,0,0,22,0,0,0,-1--1--1,,1|(972,413)|
+1,51,52,43,100,0,0,22,0,0,0,-1--1--1,,1|(905,413)|
+11,52,48,941,413,8,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,53,Resigned resources Org B,941,445,72,24,40,131,0,0,-1,0,0,0,0,0,0,0,0,0
+10,54,Resource Exchange Org A to Org B,537,481,63,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,55,54,19,1,0,0,0,0,64,0,-1--1--1,,1|(344,473)|
+1,56,54,47,1,0,0,0,0,64,0,-1--1--1,,1|(569,408)|
+10,57,Resource Exchange Org B to Org A,583,348,63,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,58,57,52,1,0,0,0,0,64,0,-1--1--1,,1|(744,340)|
+1,59,57,24,1,0,0,0,0,64,0,-1--1--1,,1|(463,353)|
+1,60,43,41,1,0,0,0,0,64,0,-1--1--1,,1|(805,336)|
+10,61,Service time per case Org B,787,187,52,19,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,62,Process active time Org B,784,124,61,19,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,63,Waiting time in process per case Org B,991,220,76,19,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,64,Time in process per case Org B,928,116,63,19,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,65,Maximum queue length Org B,640,140,53,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,66,61,62,1,0,0,0,0,64,0,-1--1--1,,1|(795,161)|
+1,67,61,63,1,0,0,0,0,64,0,-1--1--1,,1|(869,228)|
+1,68,64,63,1,0,0,0,0,64,0,-1--1--1,,1|(968,156)|
+1,69,32,65,0,0,0,0,0,64,0,-1--1--1,,1|(631,212)|
+1,70,61,41,1,0,0,0,0,64,0,-1--1--1,,1|(791,240)|
+1,71,32,61,1,0,0,0,0,64,0,-1--1--1,,1|(697,211)|
+1,72,32,41,1,0,0,0,0,64,0,-1--1--1,,1|(672,304)|
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*View 2
+$192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,130,0
+10,1,Num in process cases,335,252,48,21,3,131,0,4,0,0,0,0,-1--1--1,192-255-255,|12||0-0-0,0,0,0,0,0,0
+12,2,48,147,245,12,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,3,5,1,4,0,0,22,0,0,0,-1--1--1,,1|(251,240)|
+1,4,5,2,100,0,0,22,0,0,0,-1--1--1,,1|(180,240)|
+11,5,48,212,240,8,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,6,Arrival rate,212,257,45,11,40,3,0,5,-1,0,0,0,192-255-255,192-255-255,|12||255-255-255,0,1,0,0,0,0
+1,7,8,1,100,0,0,22,0,0,0,-1--1--1,,1|(421,249)|
+11,8,1058,465,249,8,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,9,Finish rate,465,268,44,11,40,3,0,4,-1,0,0,0,-1--1--1,192-255-255,|12||0-0-0,0,0,0,0,0,0
+10,10,Service time per case,472,195,52,19,8,131,0,4,0,0,0,0,-1--1--1,192-255-255,|12||0-0-0,0,0,0,0,0,0
+10,11,Process active time,395,108,48,19,8,131,0,4,0,0,0,0,-1--1--1,192-255-255,|12||0-0-0,0,0,0,0,0,0
+10,12,Waiting time in process per case,636,199,60,19,8,131,0,4,0,0,0,0,-1--1--1,192-255-255,|12||0-0-0,0,0,0,0,0,0
+1,13,10,8,1,0,0,0,0,64,0,-1--1--1,,1|(468,235)|
+10,14,Time in process per case,573,109,47,20,8,131,0,4,0,0,0,0,-1--1--1,192-255-255,|12||0-0-0,0,0,0,0,0,0
+10,15,Rejected cases,117,180,63,21,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,16,Number of rejected cases,233,103,52,21,3,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,17,Number of unique resources,465,372,63,28,3,131,0,4,0,0,0,0,-1--1--1,192-255-255,|12||0-0-0,0,0,0,0,0,0
+12,18,48,293,364,12,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,19,21,17,4,0,0,22,0,0,0,-1--1--1,,1|(380,368)|
+1,20,21,18,100,0,0,22,0,0,0,-1--1--1,,1|(324,368)|
+11,21,48,352,368,8,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,22,Assigned resources,352,395,39,19,40,131,0,0,-1,0,0,0,0,0,0,0,0,0
+12,23,48,619,364,12,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,24,26,23,4,0,0,22,0,0,0,-1--1--1,,1|(596,372)|
+1,25,26,17,100,0,0,22,0,0,0,-1--1--1,,1|(548,372)|
+11,26,48,576,372,8,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,27,Resigned resources,576,399,31,19,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,28,17,8,1,0,0,0,0,64,0,-1--1--1,,1|(508,312)|
+10,29,Extra assigned resources,235,345,64,24,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+1,30,29,21,1,0,0,0,0,64,0,-1--1--1,,1|(325,335)|
+1,31,1,8,1,0,0,0,0,64,0,-1--1--1,,1|(408,268)|
+10,32,Maximum queue lenght,304,176,53,19,8,3,0,0,0,0,0,0,0,1,0,0,0,0
+1,33,1,32,0,0,0,0,0,64,0,-1--1--1,,1|(320,219)|
+1,34,1,11,1,0,0,0,0,64,0,-1--1--1,,1|(369,137)|
+1,35,10,11,1,0,0,0,0,64,0,-1--1--1,,1|(465,141)|
+1,36,5,15,1,0,0,0,0,64,0,-1--1--1,,1|(216,208)|
+1,37,32,15,1,0,0,0,0,64,0,-1--1--1,,1|(221,156)|
+1,38,8,15,1,0,0,0,0,64,0,-1--1--1,,1|(300,287)|
+12,39,48,92,96,12,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,40,42,16,4,0,0,22,0,0,0,-1--1--1,,1|(164,96)|
+1,41,42,39,100,0,0,22,0,0,0,-1--1--1,,1|(120,96)|
+11,42,48,141,96,8,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,43,Reject rate,141,113,35,11,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,44,15,42,1,0,0,0,0,64,0,-1--1--1,,1|(104,124)|
+10,45,Finished cases,613,252,40,20,3,3,0,4,0,0,0,0,-1--1--1,192-255-255,|12||0-0-0,0,0,0,0,0,0
+1,46,8,45,4,0,0,22,0,0,0,-1--1--1,,1|(524,249)|
+1,47,10,12,0,0,0,0,0,64,0,-1--1--1,,1|(541,196)|
+1,48,14,12,0,0,0,0,0,64,0,-1--1--1,,1|(599,148)|
+1,49,5,29,1,0,0,0,0,64,0,-1--1--1,,1|(224,320)|
+10,50,Desired finished cases,832,267,51,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+10,51,Missing cases,835,344,44,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,52,50,51,1,0,0,0,0,64,0,-1--1--1,,1|(901,281)|
+10,53,Extra assigned resources for cases,659,312,61,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,54,10,53,0,0,0,0,0,64,0,-1--1--1,,1|(560,249)|
+1,55,51,53,1,0,0,0,0,64,0,-1--1--1,,1|(755,376)|
+1,56,53,21,1,0,0,0,0,64,0,-1--1--1,,1|(489,297)|
+10,57,TIME STEP,409,489,52,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+10,58,Time,799,136,28,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+1,59,1,10,1,0,0,0,0,64,0,-1--1--1,,1|(388,196)|
+10,60,Process productivity,756,205,40,19,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,61,45,60,1,0,0,0,0,64,0,-1--1--1,,1|(695,281)|
+10,62,Process efficiency,501,59,56,11,8,3,0,0,0,0,0,0,0,0,0,0,0,0
+1,63,11,62,1,0,0,0,0,64,0,-1--1--1,,1|(420,60)|
+1,64,60,62,1,0,0,0,0,64,0,-1--1--1,,1|(688,104)|
+1,65,58,60,0,0,0,0,0,64,0,-1--1--1,,1|(783,160)|
+1,66,60,51,1,0,0,0,0,64,0,-1--1--1,,1|(768,299)|
+1,67,53,26,1,0,0,0,0,64,0,-1--1--1,,1|(585,321)|
+1,68,29,27,1,0,0,0,0,64,0,-1--1--1,,1|(284,404)|
+10,69,TIME STEP,409,489,52,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128,0,0,0,0,0,0
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*View 3
+$192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,90,0
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*View 4
+$192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,120,0
+///---\\\
+:L<%^E!@
+4:Time
+5:Num in process cases
+9:Current
+19:130,1
+24:0
+25:100
+26:100
+23:0
+15:0,0,0,0,0,0
+27:0,
+34:0,
+42:0
+72:0
+73:0
+35:Date
+36:YYYY-MM-DD
+37:2000
+38:1
+39:1
+40:4
+41:0
+95:0
+96:0
+77:0
+78:0
+93:0
+94:0
+92:0
+91:0
+90:0
+87:0
+75:
+43:
