@@ -415,6 +415,7 @@ class Complete_sd:
                 # 3 avg waiting time
                 if actname not in casegroup_act_dict and len(act_num_speed_dict[actname]) < 4:
                     act_num_speed_dict[actname].append((0))
+                    act_num_speed_dict[actname].append((0))
                 else:
                     for caseidact, caseidacgr in casegroup_act_dict.items():
                         if actname == caseidact:
@@ -563,6 +564,7 @@ class Complete_sd:
                 # 3 avg waiting time
                 if actname not in casegroup_act_dict and len(act_num_speed_dict[actname]) < 4:
                     act_num_speed_dict[actname].append((0))
+                    act_num_speed_dict[actname].append((0))
                 else:
                     for caseidact, caseidacgr in casegroup_act_dict.items():
                         if actname == caseidact:
@@ -636,7 +638,7 @@ class Complete_sd:
                     features_list.append('res' + '_' + str(rs) + '_waiting_events')
                     features_list.append('res' + '_' + str(rs) + '_finished_events')
                     features_list.append('res' + '_' + str(rs) + '_idle_time')
-                    features_list.append('act' + '_' + str(rs) + '_inprocess_events')
+                    features_list.append('res' + '_' + str(rs) + '_inprocess_events')
 
         return features_list
 
@@ -676,7 +678,7 @@ class Complete_sd:
                             fvalues.append(values.get(fname)[1])
                         elif ftype == 'wholeduration':
                             fvalues.append(values.get(fname)[2])
-                        elif ftype == 'waitingtime':
+                        elif ftype == 'avgwaitingtime':
                             fvalues.append(values.get(fname)[3])
                         elif ftype == 'wholewaitingtime':
                             fvalues.append(values.get(fname)[4])
