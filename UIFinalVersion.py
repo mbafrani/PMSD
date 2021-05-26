@@ -56,6 +56,8 @@ class Complete_sd:
         event_duration = abs(event_log['Complete Timestamp'] - event_log['Start Timestamp'])
         event_log['Event Duration'] = event_duration
 
+        event_log['Activity']=event_log['Activity'].astype(str)
+        event_log['Resource']=event_log['Resource'].astype(str)
         event_log['Activity'] = event_log['Activity'].str.replace(" ", "")
         event_log['Activity'] = event_log['Activity'].str.replace("_", "")
         event_log['Resource'] = event_log['Resource'].str.replace(" ", "")

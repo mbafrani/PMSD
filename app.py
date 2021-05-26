@@ -155,6 +155,7 @@ def result():
                 """
             elif request.form["AcReList"] !='':
                 acreslist=request.form["AcReList"].split(",")
+                acreslist=[(i.replace("_","")).replace(" ","") for i in acreslist]
                 res_list = event_log[0]['Resource'].unique().tolist()
                 act_list = event_log[0]['Activity'].unique().tolist()
                 if acreslist[0] in res_list:
