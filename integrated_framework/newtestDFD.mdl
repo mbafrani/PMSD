@@ -1,0 +1,64 @@
+{UTF-8}
+cold weather=A FUNCTION OF(number of people wearing masks,number of infected people)
+~
+~
+|
+number of vaccinated people=A FUNCTION OF(decrease rate)
+~
+~
+|
+vaccination rate=A FUNCTION OF(increase rate,number of people wearing masks,number of infected people,number of Covid deaths)
+~
+~
+|
+increase rate=A FUNCTION OF(vaccination rate,number of people wearing masks)
+~
+~
+|
+number of people wearing masks=A FUNCTION OF(number of infected people)
+~
+~
+|
+decrease rate=A FUNCTION OF(number of vaccinated people,number of people wearing masks,number of infected people)
+~
+~
+|
+number of infected people=A FUNCTION OF(number of people wearing masks)
+~
+~
+|
+number of people in ICUs=A FUNCTION OF(number of infected people,death rate)
+~
+~
+|
+death rate=A FUNCTION OF(number of people wearing masks,number of infected people,number of people in ICUs)
+~
+~
+|
+number of Covid deaths=A FUNCTION OF()
+~
+~
+|
+,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,100,0
+10,1,cold weather,265,126,50,20,8,3,0,0,0,0,0,0
+10,2,number of vaccinated people,666,164,50,20,8,3,0,0,0,0,0,0
+10,3,vaccination rate,1058,146,50,20,8,3,0,0,0,0,0,0
+10,4,increase rate,271,299,50,20,8,3,0,0,0,0,0,0
+10,5,number of people wearing masks,695,296,50,20,8,3,0,0,0,0,0,0
+10,6,decrease rate,1030,285,50,20,8,3,0,0,0,0,0,0
+10,7,number of infected people,1331,124,50,20,8,3,0,0,0,0,0,0
+10,8,number of people in ICUs,1373,256,50,20,8,3,0,0,0,0,0,0
+10,9,death rate,312,442,50,20,8,3,0,0,0,0,0,0
+10,10,number of Covid deaths,695,439,50,20,8,3,0,0,0,0,0,0
+///---\\\
+:L<%^E!@
+9:Current
+23:0
+15:0,0,0,0,0,0
+19:100,0
+27:0,
+34:0,
+5:FINAL TIME
+24:0
+25:0
+26:0

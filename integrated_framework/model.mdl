@@ -1,0 +1,81 @@
+{UTF-8}
+finish_rate8h=0.5180757402007797 * 21.17982456140351 + -1.122227742423431 * 25.75657894736842 + -0.02254356228253507 * 275.4337752959692 + 0.07131680857538954 * num_in_process_case8h + 22.461295291949927
+~
+~
+|
+
+num_of_unique_resource8h=0.4581613958648815 * 21.17982456140351 + -0.08515221017517405 * finish_rate8h + 0.012228241637189174 * time_in_process_per_case8h + 0.010335139442016068 * num_in_process_case8h + 11.204948442231531
+~
+~
+|
+
+process_active_time8h=191.73796695556476 * arrival_rate8h + -5.282837495250178 * finish_rate8h + 70.99598230746354 * num_of_unique_resource8h + 0.009189714880675751 * 1913.5826829972723 + 5.06485954599035 * time_in_process_per_case8h + -1.9169431280272986 * num_in_process_case8h + -876.2069273617217
+~
+~
+|
+
+service_time_per_case8h=-36.255348706855585 * arrival_rate8h + 13.15096607735153 * finish_rate8h + 57.769799711359035 * num_of_unique_resource8h + 0.008526734613095195 * process_active_time8h + 7.532416087067163 * time_in_process_per_case8h + -0.5680445457464266 * num_in_process_case8h + -992.8423904371032
+~
+~
+|
+
+time_in_process_per_case8h=-7.6588655932573335 * 21.17982456140351 + -0.5442915147885695 * finish_rate8h + 3.901769615235846 * 25.75657894736842 + 0.019670614564495394 * 5728.581176900585 + 0.03149377593791478 * 1913.5826829972723 + -0.0639957397342656 * num_in_process_case8h + 195.26641190689844
+~
+~
+|
+
+num_in_process_case8h= INTEG(1 * arrival_rate8h + -1 * finish_rate8h ,  1.0)
+~
+~
+|
+
+arrival_rate8h= 0
+~
+~
+|
+
+********************************************************
+	.Control
+********************************************************~
+		Simulation Control Parameters
+	|
+
+FINAL TIME  = 456
+	~
+	~	The final time for the simulation.
+	|
+
+INITIAL TIME  = 1
+	~
+	~	The initial time for the simulation.
+	|
+
+SAVEPER  =
+        TIME STEP
+	~
+	~	The frequency with which output is stored.
+	|
+
+TIME STEP  = 1
+	~
+	~	The time step for the simulation.
+	|
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*View 1
+$192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|191,191,100,0
+10,1,num_in_process_case8h,700,500,100,50,3,3,0,0,0,0,0,0
+12,2,48,300,500,100,50,0,3,0,0,-1,0,0,0
+1,3,5,1,4,0,0,22,0,0,0,-1--1--1,,1|(500,500)|
+1,4,5,2,100,0,0,22,0,0,0,-1--1--1,,1|(450,500)|
+11,5,48,500,500,6,8,34,3,0,0,1,0,0,0
+10,6,arrival_rate8h,500,520,80,40,40,3,0,0,-1,0,0,0
+12,7,48,1100,500,100,50,0,3,0,0,-1,0,0,0
+1,8,10,1,100,0,0,22,0,0,0,-1--1--1,,1|(900,500)|
+1,9,10,7,4,0,0,22,0,0,0,-1--1--1,,1|(820,500)|
+11,10,48,890,500,6,8,34,3,0,0,1,0,0,0
+10,11,finish_rate8h,890,520,80,40,40,3,0,0,-1,0,0,0
+10,12,num_of_unique_resource8h,874,874,78,39,8,3,0,0,0,0,0,0
+10,13,process_active_time8h,874,874,78,39,8,3,0,0,0,0,0,0
+10,14,service_time_per_case8h,874,874,78,39,8,3,0,0,0,0,0,0
+10,15,time_in_process_per_case8h,874,874,78,39,8,3,0,0,0,0,0,0

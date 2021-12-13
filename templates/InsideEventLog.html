@@ -37,7 +37,8 @@
         <a href="EventLog.html" class="list-group-item list-group-item-action bg-light">Event Log to SD Log</a>
         <a href="SDLog.html" class="list-group-item list-group-item-action bg-light">Relation Detection</a>
         <a href="SDLogResutl.html" class="list-group-item list-group-item-action bg-light">Relation Detection Detailed</a>
-        <a href="DesignedCDF.html" class="list-group-item list-group-item-action bg-light">Generate CLD Graph</a>
+         <a href="AutoDesignedCDF.html" class="list-group-item list-group-item-action bg-light">Auto CLD Graph Generation</a>
+        <a href="DesignedCDF.html" class="list-group-item list-group-item-action bg-light">Interactive CLD Graph Generation</a>
         <a href="DesignedSFD.html" class="list-group-item list-group-item-action bg-light">Generate SFD Graph</a>
         <a href="Validation.html" class="list-group-item list-group-item-action bg-light">Simulation and Validation</a>
       </div>
@@ -122,9 +123,9 @@
         </form>
 
 
-              <div style=" font-style: italic;">The Preprocessed Event Log is generated on "Outputs/ready_event_log.csv"</div>
+
               <div>
-                   <button class="btn btn-primary mb-2", type = "submit" id="ShowDFG" onclick="ShowDFG()" value = "submit">Discover DFG </button>
+                   <button class="btn btn-primary mb-2" type = "submit" id="ShowDFG" onclick="ShowDFG()" value = "submit">Discover DFG </button>
                    <a class="label label-primary" href="{{url_for('ready_event_log')}}" style="margin-right: 5px;"> Right click to get the event log </a>
 
               </div>
@@ -134,6 +135,7 @@
            {{el_info}}
           </div>
              <div id="divShowDFG"  class="col-sm-6 col-md-4 col-lg-6" style="display:none;">
+                  <div style="font-style: italic;">The Preprocessed Event Log is generated on "Outputs/ready_event_log.csv"</div>
                 <iframe  scrolling="no" src="mygraph.html" width="100%" style="height: 50em" alt=""></iframe>
 
             </div>
@@ -143,6 +145,10 @@
       </div>
     </div>
     <!-- /#page-content-wrapper -->
+
+
+
+
 
   </div>
   <!-- /#wrapper -->

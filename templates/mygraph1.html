@@ -1,0 +1,108 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1>None</h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 800px;
+            height: 800px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"borderWidth": 0, "color": "white", "id": "cold weather", "label": "cold weather", "shape": "box"}, {"color": "white", "id": "number of vaccinated people", "label": "number of vaccinated people", "shape": "box"}, {"color": "white", "id": "vaccination rate", "label": "vaccination rate", "shape": "box"}, {"color": "white", "id": "increase rate", "label": "increase rate", "shape": "box"}, {"color": "white", "id": "number of people wearing masks", "label": "number of people wearing masks", "shape": "box"}, {"color": "white", "id": "decrease rate", "label": "decrease rate", "shape": "box"}, {"color": "white", "id": "number of infected people", "label": "number of infected people", "shape": "box"}, {"color": "white", "id": "number of people in ICUs", "label": "number of people in ICUs", "shape": "box"}, {"color": "white", "id": "death rate", "label": "death rate", "shape": "box"}, {"color": "white", "id": "number of Covid deaths", "label": "number of Covid deaths", "shape": "box"}]);
+        edges = new vis.DataSet([{"arrows": "to", "color": "blue", "from": "number of people wearing masks", "label": "+", "title": "1", "to": "cold weather"}, {"arrows": "to", "color": "blue", "from": "number of infected people", "label": "-", "title": "-1", "to": "cold weather"}, {"arrows": "to", "color": "blue", "from": "decrease rate", "label": "+", "title": "1", "to": "number of vaccinated people"}, {"arrows": "to", "color": "blue", "from": "increase rate", "label": "+", "title": "1", "to": "vaccination rate"}, {"arrows": "to", "color": "blue", "from": "number of people wearing masks", "label": "+", "title": "1", "to": "vaccination rate"}, {"arrows": "to", "color": "blue", "from": "number of infected people", "label": "-", "title": "-1", "to": "vaccination rate"}, {"arrows": "to", "color": "blue", "from": "number of Covid deaths", "label": "+", "title": "1", "to": "vaccination rate"}, {"arrows": "to", "color": "blue", "from": "vaccination rate", "label": "+", "title": "1", "to": "increase rate"}, {"arrows": "to", "color": "blue", "from": "number of people wearing masks", "label": "-", "title": "-1", "to": "increase rate"}, {"arrows": "to", "color": "blue", "from": "number of infected people", "label": "+", "title": "1", "to": "number of people wearing masks"}, {"arrows": "to", "color": "blue", "from": "number of vaccinated people", "label": "+", "title": "1", "to": "decrease rate"}, {"arrows": "to", "color": "blue", "from": "number of people wearing masks", "label": "-", "title": "-1", "to": "decrease rate"}, {"arrows": "to", "color": "blue", "from": "number of infected people", "label": "+", "title": "1", "to": "decrease rate"}, {"arrows": "to", "color": "blue", "from": "number of people wearing masks", "label": "+", "title": "1", "to": "number of infected people"}, {"arrows": "to", "color": "blue", "from": "number of infected people", "label": "-", "title": "-1", "to": "number of people in ICUs"}, {"arrows": "to", "color": "blue", "from": "death rate", "label": "+", "title": "1", "to": "number of people in ICUs"}, {"arrows": "to", "color": "blue", "from": "number of people wearing masks", "label": "-", "title": "-1", "to": "death rate"}, {"arrows": "to", "color": "blue", "from": "number of infected people", "label": "+", "title": "1", "to": "death rate"}, {"arrows": "to", "color": "blue", "from": "number of people in ICUs", "label": "+", "title": "1", "to": "death rate"}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": false,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+
+        network = new vis.Network(container, data, options);
+
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

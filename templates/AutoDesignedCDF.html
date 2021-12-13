@@ -70,23 +70,10 @@
         <h1 class="mt-4" style="color:#00529F;">Stability Test of Time Window</h1>
           <br>
         <div class="row">
-          <div class="col-sm-3 col-md-6 col-lg-4">
+          <div class="col-sm-2 col-md-5 col-lg-3">
         <form  action="" method = "POST">
-            <p>Event Log: <input type = "file" value="fileupload" name = "Event Log" /></p>
-            <br><div class="form-check form-check-inline"><p>Patterns Inside the Process:</p>
-                <br><p><input class="form-control" type = "text" name ="Hourly" placeholder="Hourly, ex: H,2H,..."/></p><br>
-                <p><input class="form-control" type = "text" name ="Daily" placeholder="Daily, ex: D,2D,..."/></p>
-                <p><input class="form-control" type = "text" name ="Weekly" placeholder="Weekly, ex: W,2W,..."/></p>
-                <p><input class="form-control" type = "text" name ="Monthly" placeholder="Monthly, ex: M,2M,..."/></p>
-            </div>
-            <!--div>
-                <br><label for="Hourly" class="form-check-label pr-2">Hourly: </label><input id="Hourly" class="form-check-input" type = "checkbox" name = "Hourly" /><br>
-                 <label for="Daily" class="form-check-label pr-2"> Daily: </label><input id="Daily" class="form-check-input" type = "checkbox" name = "Daily" /><br>
-                 <label for="Weekly" class="form-check-label pr-2"> Weekly: </label><input id="Weekly" class="form-check-input" type = "checkbox" name = "Weekly" /><br>
-                 <label for="Monthly" class="form-check-label pr-2"> Monthly: </label><input id="Monthly" class="form-check-input" type = "checkbox" name = "Monthly" /><br>
-                 <label for="Yearly" class="form-check-label pr-2">Yearly: </label><input id="Yearly" class="form-check-input" type = "checkbox" name = "Yearly" />
+            <p>SD-Log: <input type = "file" value="fileupload" name = "SDLog" /></p>
 
-             </div-->
             <div>
                   <br><p>General: <input type = "radio" name = "general" value="General" /></p>
             <!--p>Organizational: <input type = "radio" name = "general" value="Organizational" /></p>
@@ -98,17 +85,24 @@
 
         </form>
 
-              <p><button  class="btn btn-primary mb-2" id="Validate" onclick="Validate()">Time Window Check</button></p>
+              <p><button  class="btn btn-primary mb-2" id="Validate" onclick="Validate()">Discover Auto CLD</button></p>
                <div><p id="PatternRes" style="">{{tw_result}}</p></div>
 
           </div>
 
-            <div id="ELResultimg" style="display:none;" class="col-sm-9 col-md-6 col-lg-8">
+            <div id="ELResultimg" style="display:none;" class="col-sm-5 col-md-2 col-lg-4">
 
-                <div><img class="img-responsive" src="static/images/UserPattern.png" alt=""></div>
-                 <div><img class="img-responsive" src="static/images/UserTWError.png" alt=""></div>
+                <div><iframe  scrolling="no" src="mygraph1.html" width="100%" style="height: 50em;width:50em;" alt=""></iframe></div>
+                <div><img class="img-responsive" src="static/images/cld_after.png" alt=""></div>
+<!--
+                <div><img class="img-responsive" src="static/images/cld_before.png" alt=""></div>
+-->
 
           </div>
+            <div  id="GraphCLD" style="display:none;" class="col-sm-5 col-md-5 col-lg-5">
+                <div><iframe src="mygraph.html" frameborder="0"></iframe>></div>
+
+            </div>
         </div>
       </div>
     </div>
@@ -126,9 +120,11 @@
    function Validate() {
   document.getElementById('ELResultimg').style.display = "block";
   ocument.getElementById('PatternRes').style.display = "block";
+  document.getElementById('GraphCLD').style.display = "block";
 }
 function LoadELResultimg() {
   document.getElementById('ELResultimg').style.display = "block";
+  document.getElementById('GraphCLD').style.display = "block";
 }
   </script>
 

@@ -1,0 +1,26 @@
+********************************************************
+	.Control
+********************************************************~
+		Simulation Control Parameters
+	|
+
+FINAL TIME  = 0
+	~
+	~	The final time for the simulation.
+	|
+
+INITIAL TIME  = 1
+	~
+	~	The initial time for the simulation.
+	|
+
+SAVEPER  =
+        TIME STEP
+	~
+	~	The frequency with which output is stored.
+	|
+
+TIME STEP  = 1
+	~
+	~	The time step for the simulation.
+	|

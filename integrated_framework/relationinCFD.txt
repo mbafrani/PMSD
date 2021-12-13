@@ -1,0 +1,41 @@
+{UTF-8}
+cold weather=A FUNCTION OF(number of people wearing masks,number of infected people)
+~
+~
+|
+number of vaccinated people=A FUNCTION OF(decrease rate)
+~
+~
+|
+vaccination rate=A FUNCTION OF(increase rate,number of people wearing masks,number of infected people,number of Covid deaths)
+~
+~
+|
+increase rate=A FUNCTION OF(vaccination rate,number of people wearing masks)
+~
+~
+|
+number of people wearing masks=A FUNCTION OF(number of infected people)
+~
+~
+|
+decrease rate=A FUNCTION OF(number of vaccinated people,number of people wearing masks,number of infected people)
+~
+~
+|
+number of infected people=A FUNCTION OF(number of people wearing masks)
+~
+~
+|
+number of people in ICUs=A FUNCTION OF(number of infected people,death rate)
+~
+~
+|
+death rate=A FUNCTION OF(number of people wearing masks,number of infected people,number of people in ICUs)
+~
+~
+|
+number of Covid deaths=A FUNCTION OF()
+~
+~
+|

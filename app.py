@@ -11,6 +11,8 @@ from TimeSeriesSD import TW_Analysis
 from SimulationValidation import SimVal
 import shutil
 
+from integrated_framework.Interframwork import run
+
 
 cwd = os.getcwd()
 app = Flask(__name__)
@@ -92,6 +94,9 @@ def get_event_log():
 @app.route('/mygraph.html')
 def get_CFD():
    return render_template('mygraph.html')
+@app.route('/mygraph1.html')
+def get_auto_CFD():
+   return render_template('mygraph1.html')
 
 @app.route('/EventLogResult.html', methods = ['POST', 'GET'])
 def result():
@@ -250,6 +255,7 @@ def get_mapping():
     createcfd = creat_CFD()
     rel_det = Relation_Detector()
     data = pd.read_csv(os.path.join(str(cwd),"static","images","SDLog2ShowInside.csv"))
+    #run(os.path.join(str(cwd),"static","images","SDLog2ShowInside.csv"),cyclefree)
     data.columns = data.columns.str.replace(' ', '')
     corr_df =rel_det.only_correlation(data)
     corr_df_sign = rel_det.only_correlation(data)
@@ -280,6 +286,26 @@ def map_param_ele():
         createcfd.write_sfd_stockbased(request.values)
 
     return  render_template('DesignedSFD.html',param_list=params_list)
+
+
+@app.route('/AutoDesignedCDF.html',methods= ['GET','POST'])
+def Auto_DesignedCLD():
+
+    if request.method =='POST':
+        sd_log = request.form["SDLog"]
+        cyclefree = 0
+        try:
+            cyclefree=request.form["general"]
+            cyclefree =1
+        except:
+            pass
+        try:
+            run(sd_log,cyclefree)
+        except:
+            run(os.path.join(str(cwd),'Outputs',sd_log),cyclefree)
+        #run(os.path.join(str(cwd),"static","images","SDLog2ShowInside.csv"))
+
+    return  render_template('AutoDesignedCDF.html')
 
 @app.route('/downloadCLDModel', methods=['GET', 'POST'])
 def downloadCLDModel():
