@@ -1,3 +1,4 @@
+import dcor
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -22,7 +23,8 @@ class Relation_Detector():
 
         for pr in data.columns:
             for dpr in data.columns:
-                dis_corr_df[pr][dpr] = scipy.spatial.distance.correlation(data[pr], data[dpr])
+                dis_corr_df[pr][dpr] = dcor.distance_correlation(data[pr], data[dpr])
+                #dis_corr_df[pr][dpr] = scipy.spatial.distance.correlation(data[pr], data[dpr])
         dis_corr_df.fillna(data.mean(),inplace=True)
         allcorr = data.corr()
         allcorr = allcorr.filter(items=allcorr[allcorr > float(ThreLin)])
