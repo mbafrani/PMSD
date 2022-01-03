@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Forward-Looking Process Mining</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="static/css/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="static/css/simple-sidebar.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <div class="d-flex" id="wrapper">
+
+    <!-- Sidebar -->
+    <div class="bg-light border-right" id="sidebar-wrapper">
+
+      <div class="list-group list-group-flush">
+           <a href="/">
+		  <a href="http://127.0.0.1:5000/">
+		   <div class="sidebar-heading"><img style='height: 100%; width:100%;object-fit: contain ' src="static/images/PADSLOGO.png"/> </div>
+		   </a>
+		   </a>
+        <a href="bootstrapTemplate.html" class="list-group-item list-group-item-action bg-light"><b>Coarse-grained Process Simulation</b></a>
+        <a href="DiagnosticHomePage.html" class="list-group-item list-group-item-action bg-light"><b>Coarse-grained Diagnostics of Processes</b></a>
+		<a href="DESHomePage.html" class="list-group-item list-group-item-action bg-light"><b>Fine-grained Process Simulation</b></a>
+      </div>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+
+      <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+            <li class="nav-item active">
+              <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="http://www.pads.rwth-aachen.de/cms/~pnbx/PADS/?lidx=1">About US</a>
+            </li>
+             <li class="nav-item">
+              <a class="nav-link" href="https://www.researchgate.net/profile/Mahsa_Bafrani">Project Link</a>
+            </li>
+
+          </ul>
+        </div>
+      </nav>
+
+      <div class="container-fluid">
+        <h1 class="mt-4" style="color:#00529F;">Discrete Event Simulation in Process Mining</h1>
+          <br>
+          <ul>
+          <li style="color:#00549f;font-size:20px;"> Click on <b  style="color:#00b0b8;"><a href='https://cpn-model-process-discovery-1.herokuapp.com/generate-cpn-model/'>GenCPN</a></b>  to generate automatically CPN models reaty to be simulated using CPN Tools </li>
+          <br>
+		   <li style="color:#00549f;font-size:20px;"> Click on <b  style="color:#00b0b8;"><a href='http://137.226.117.71:5000/upload.html'>Interactive Comparison Tool</a></b>  to compare and validate original and simulated event logs</li>
+          <br>
+
+          </ul>
+      </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+
+  </div>
+  <!-- /#wrapper -->
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Menu Toggle Script -->
+  <script>
+    $("#menu-toggle").click(function(e) {
+      e.preventDefault();
+      $("#wrapper").toggleClass("toggled");
+    });
+  </script>
+
+</body>
+
+</html>

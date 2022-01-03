@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<!--    <meta Http-Equiv="Cache-Control" Content="no-cache">-->
+<!--    <meta Http-Equiv="Pragma" Content="no-cache">-->
+<!--    <meta Http-Equiv="Expires" Content="0">-->
+<!--    <meta Http-Equiv="Pragma-directive: no-cache">-->
+<!--    <meta Http-Equiv="Cache-directive: no-cache">-->
+    <meta charset="utf-8">
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">-->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+    <title>Forward-Looking Process Mining</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../static/css/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../static/css/simple-sidebar.css" rel="stylesheet">
+
+    <!-- zoom css -->
+    <link href="../static/css/image-zoom.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="d-flex" id="wrapper">
+
+    <!-- Sidebar -->
+    <div class="bg-light border-right" id="sidebar-wrapper">
+
+        <div class="list-group list-group-flush">
+             <a href="http://127.0.0.1:5000/">
+		   <div class="sidebar-heading"><img style='height: 100%; width:100%;object-fit: contain ' src="static/images/PADSLOGO.png"/> </div>
+		   </a>
+
+        <a href="bootstrapTemplate.html" class="list-group-item list-group-item-action bg-light"><b>Coarse-grained Process Simulation</b></a>
+        <a href="DiagnosticHomePage.html" class="list-group-item list-group-item-action bg-light"><b>Coarse-grained Diagnostics</b></a>
+        <a href="ProcessDiscovery.html" class="list-group-item list-group-item-action bg-light">Diagnostic Insights</a>
+        <a href="BehaviorDiscovery.html" class="list-group-item list-group-item-action bg-light">Single Perspective Analysis</a>
+        <a href="MultipleDiscovery.html" class="list-group-item list-group-item-action bg-light">Multiple Perspective Analysis</a>
+        <a href="DESHomePage.html" class="list-group-item list-group-item-action bg-light"><b>Fine-grained Process Simulation</b></a>
+        </div>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://www.pads.rwth-aachen.de/cms/~pnbx/PADS/?lidx=1">About PADS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://www.researchgate.net/profile/Mahsa_Bafrani">Project Link</a>
+                    </li>
+
+                </ul>
+            </div>
+        </nav>
+
+        <div class="container-fluid">
+            <h1 class="mt-4" style="color:#00529F;">Gaining insights through process models <br> and social networks</h1>
+            <br>
+            <div class="row">
+
+                <div class="container mt-5">
+                    <div class="row">
+                        <div class="col-lg-8 col-md-8">
+                            <div>
+                                <!--BPMN model-->
+<!--                                <img src="{{  img_path  }}" width="550" height="auto" alt="BPMN Model">-->
+<!--                                <img src='../static/images/dfg.png' class="zoom" alt='Graphics' width='450' height='450'/>-->
+
+                                <div class="zoom-wrapper">
+                                    <div class="zoom_outer">
+                                        <div>
+                                            <img src="../static/images/dfg.png" id="zoom" alt="zoom">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="margin-top: 100px">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <form class="row g-3" name="extract" action="ProcessDiscovery.html"
+                                                  method="POST" enctype="multipart/form-data">
+                                                <div class="col-md-12">
+                                                    <label class="form-label" for="table">Table</label>
+                                                    <select class="form-select" id="table" name="table">
+                                                        <option> Activities</option>
+                                                        <option>Transitions</option>
+                                                        <option>Resources</option>
+                                                        <option>Roles</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label for="threshold">Threshold <div style="font-style: italic"> in minutes</div></label>
+                                                    <input  style="width: 80px" type="number" id="threshold"
+                                                           placeholder="minutes" name="threshold" value="{{ request.form['threshold'] }}">
+                                                    <button type="submit" class="btn btn-primary btn-sm"
+                                                            name="set_threshold">Submit
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="col-md-12">
+                                        <form class="row g-3" name="extract" action="saveTable.html" method="POST"
+                                              enctype="multipart/form-data">
+                                            <div class="offset-md-10 col-md-6">
+                                                <button type="submit" class="btn btn-secondary btn-sm"
+                                                        name="export_json">Export as JSON
+                                                </button>
+                                            </div>
+                                        </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    {% if table == 'Transitions' or table == 'Activities' %}
+                                    <!--table activity/ transitions recommendations-->
+                                    <table class="table table-striped">
+                                        {% if table == 'Activities' %}
+                                        <caption>Recommendation for activities</caption>
+                                        {% endif %}
+                                        {% if table == 'Transitions' %}
+                                        <caption>Recommendation for transitions</caption>
+                                        {% endif %}
+                                        <thead>
+                                        <tr>
+                                            {% if table == 'Activities' %}
+                                            <th scope="col">Activity</th>
+                                            {% endif %}
+                                            {% if table == 'Transitions' %}
+                                            <th scope="col">Transition</th>
+                                            {% endif %}
+                                            <th scope="col">Mean_duration</th>
+                                            <th scope="col">Total_duration</th>
+                                            <th scope="col">Resource role</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% if table == 'Activities'%}
+                                        {% for act, values in act_recomm.items() if values['total_duration'] >= threshold%}
+                                        <tr>
+                                            <th scope="row">{{ act }}</th>
+                                            <td>{{ values['mean_duration'] }}</td>
+                                            <td>{{ values['total_duration'] }}</td>
+                                            <td>{{ values['Resource Role'] }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                        {% endif%}
+                                        {% if table == 'Transitions'%}
+                                        {% for trans, values in trans_recomm.items() if values['total_duration'] >= threshold %}
+                                        <tr>
+                                            <th scope="row">{{ trans }}</th>
+                                            <td>{{ values['mean_duration'] }}</td>
+                                            <td>{{ values['total_duration'] }}</td>
+                                            <td>{{ values['resource handover'] }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                        {% endif%}
+                                        </tbody>
+                                    </table>
+                                    {% endif %}
+
+                                    <!--Table for roles-->
+                                    {% if table == 'Roles' %}
+                                    <table class="table table-striped">
+                                        <caption>Overview of roles</caption>
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Roles activities</th>
+                                            <th scope="col">Roles resources</th>
+                                            <th scope="col">Mean duration</th>
+                                            <th scope="col">Total duration</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for role in roles['organizational mining']['role'] %}
+                                        <tr>
+                                            <th scope="row">{{ role[0] }}</th>
+                                            <td>{{ role[1] }}</td>
+                                            <td>{{ role[2] }}</td>
+                                            <td>{{ role[3] }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    {% endif %}
+                                    <!--end Table for roles-->
+
+                                    <!--Table for resource durations-->
+                                    {% if table == 'Resources' %}
+                                    <table class="table table-striped">
+                                        <caption>Bottleneck in resources</caption>
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Resource</th>
+                                            <th scope="col">Mean Duration</th>
+                                            <th scope="col">Total Duration</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for res, values in res_dur.items() %}
+                                        <tr>
+                                            <th scope="row">{{ res }}</th>
+                                            <td>{{ values['mean'] }}</td>
+                                            <td>{{ values['total duration'] }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    {% endif %}
+                                    <!--end Table for resource durations-->
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4">
+                            <!-- Side widget-->
+                            <div class="card mb-4" style="border: 1px solid">
+                                <div class="card-header" style="font-weight: bold">Infobox
+                                    <div style="font-style: italic">{{ session['filename']}}</div>
+                                </div>
+                                <div class="card-body">
+                                    <div> Number of cases: {{ info[0] }} </br>
+                                        Number of events: {{ info[1] }} </br>
+                                        Number of activities: {{ info[2] }} </br>
+                                        Number of resources: {{ info[3] }} </br>
+                                        Start timestamp: {{ info[4] }} </br>
+                                        Lifecycle: {{ info[5] }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card mb-4" style="border: 1px solid">
+                                <div class="card-header" style="font-weight: bold">Potential bottlencks:
+                                    <div style="font-style: italic">activities</div>
+                                </div>
+                                <div class="card-body">
+                                    <div> Mean: {{ info_bp_a['mean'] }} </br>
+                                        Median: {{ info_bp_a['median'] }} </br>
+                                        Q1: {{ info_bp_a['Q1'] }} </br>
+                                        Q3: {{ info_bp_a['Q3'] }} </br>
+                                        Upper whisker: {{ info_bp_a['up_whisker'] }} </br>
+                                        Max: {{ info_bp_a['max_value'] }} </br>
+                                        <br>
+                                        Consider following activities: <br>
+
+                                        {% for act, values in act_recomm.items() if values['total_duration'] > info_bp_a['up_whisker'] %}
+                                        {{ act }} <br>
+                                        {% endfor %}
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card mb-4" style="border: 1px solid">
+                                <div class="card-header" style="font-weight: bold">Potential bottlenecks:
+                                    <div style="font-style: italic">transitions</div>
+                                </div>
+                                <div class="card-body">
+                                    <div> Mean: {{ info_bp_t['mean'] }} </br>
+                                        Median of events: {{ info_bp_t['median'] }} </br>
+                                        Q1: {{ info_bp_t['Q1'] }} </br>
+                                        Q3: {{ info_bp_t['Q3'] }} </br>
+                                        Upper whisker: {{ info_bp_t['up_whisker'] }} </br>
+                                        Max: {{ info_bp_t['max_value'] }} </br>
+                                        <br>
+                                        Consider following transitions: <br>
+                                        {% for trans, values in trans_recomm.items() if values['total_duration'] > info_bp_t['up_whisker']%}
+                                        {{ trans }} <br>
+                                        {% endfor %}
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card mb-4" style="border: 1px solid">
+                                <div class="card-header" style="font-weight: bold">Potential bottlenecks:
+                                    <div style="font-style: italic">resources</div>
+                                </div>
+                                <div class="card-body">
+                                    <div> Mean: {{ info_bp_r['mean'] }} </br>
+                                        Median of events: {{ info_bp_r['median'] }} </br>
+                                        Q1: {{ info_bp_r['Q1'] }} </br>
+                                        Q3: {{ info_bp_r['Q3'] }} </br>
+                                        Upper whisker: {{ info_bp_r['up_whisker'] }} </br>
+                                        Max: {{ info_bp_r['max_value'] }} </br>
+                                        <br>
+                                        Consider following resources: <br>
+                                        {% for res, values in res_dur.items() if values['total duration'] > info_bp_r['up_whisker']%}
+                                        {{ res }} <br>
+                                        {% endfor %}
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+
+</div>
+<!-- /#wrapper -->
+
+<!-- Bootstrap core JavaScript -->
+<script src="../static/css/vendor/jquery/jquery.min.js"></script>
+<script src="../static/css/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../static/css/vendor/wheelzoom/wheelzoom.js"></script>
+<script src="../static/css/vendor/zoom/zoom.js"></script>
+
+
+<!-- Menu Toggle Script -->
+<script>
+    function LoadELResult() {
+        document.getElementById('ELResult').style.display = "block";
+    }
+
+    function LoadELResultimg() {
+        document.getElementById('ELResultimg').style.display = "block";
+    }
+
+
+    wheelzoom(document.querySelector('img.zoom'));
+
+    // console.log("wheelzoom"), wheelzoom(document.querySelector('img.zoom'));
+</script>
+
+</body>
+
+</html>

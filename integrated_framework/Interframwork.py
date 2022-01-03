@@ -8,18 +8,20 @@ import matplotlib.pyplot as plt
 from pyvis.network import Network
 from sklearn.model_selection import train_test_split
 
-from training_models import *
-from result_visualization import *
-from data_preprocessing import *
-from equation_processing import *
-from user_interactions import GetInteraction
-from system_dynamics import SDM
-from equation2df import Equs2df
-from equation2cld.GenCLD import CausalLoopDiagram
-from equation2mdl.CreateMDL import MoDeL
-from dataframes_corrs import CheckCorrelation
-from dataframes_corrs import CreateDataframe
-
+from .training_models import *
+from .result_visualization import *
+from .data_preprocessing import *
+from .equation_processing import *
+from .user_interactions import GetInteraction
+from .system_dynamics import SDM
+from .equation2df import Equs2df
+from .equation2cld.GenCLD import CausalLoopDiagram
+from .equation2mdl.CreateMDL import MoDeL
+from .dataframes_corrs import CheckCorrelation
+from .dataframes_corrs import CreateDataframe
+import matplotlib
+matplotlib.use('Agg')
+from matplotlib import pyplot
 warnings.filterwarnings('ignore')
 
 cwd = os.getcwd()
@@ -489,7 +491,7 @@ def run(path, model_path=None, cyclefree=int):
     # print(all_best_equations_without_tiny_coef)
 
     # create data frames for discovered equations
-    from dataframes_corrs import CreateDataframe
+    from .dataframes_corrs import CreateDataframe
     raw_df, raw_causal_effect_df, all_lines = CreateDataframe.create_dataframes_from_equations(
         all_best_equations_without_tiny_coef, obj.namespace)
     # simplify the created data frame, just keep essential information

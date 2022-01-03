@@ -1,41 +1,33 @@
 {UTF-8}
-cold weather=A FUNCTION OF(number of people wearing masks,number of infected people)
+Arrival rate1D=A FUNCTION OF(Finish rate1D)
 ~
 ~
 |
-number of vaccinated people=A FUNCTION OF(decrease rate)
+Finish rate1D=A FUNCTION OF()
 ~
 ~
 |
-vaccination rate=A FUNCTION OF(increase rate,number of people wearing masks,number of infected people,number of Covid deaths)
+Num of unique resource1D=A FUNCTION OF()
 ~
 ~
 |
-increase rate=A FUNCTION OF(vaccination rate,number of people wearing masks)
+Process active time1D=A FUNCTION OF(Arrival rate1D,Finish rate1D)
 ~
 ~
 |
-number of people wearing masks=A FUNCTION OF(number of infected people)
+Service time per case1D=A FUNCTION OF(Time in process per case1D,Waiting time in process per case1D)
 ~
 ~
 |
-decrease rate=A FUNCTION OF(number of vaccinated people,number of people wearing masks,number of infected people)
+Time in process per case1D=A FUNCTION OF()
 ~
 ~
 |
-number of infected people=A FUNCTION OF(number of people wearing masks)
+Waiting time in process per case1D=A FUNCTION OF(Time in process per case1D)
 ~
 ~
 |
-number of people in ICUs=A FUNCTION OF(number of infected people,death rate)
-~
-~
-|
-death rate=A FUNCTION OF(number of people wearing masks,number of infected people,number of people in ICUs)
-~
-~
-|
-number of Covid deaths=A FUNCTION OF()
+Num in process case1D=A FUNCTION OF()
 ~
 ~
 |

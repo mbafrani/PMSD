@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+
+{% block title %} Single Perspective Analysis <br> <i> Discover single process and state-based aspects</i> {% endblock %}
+
+{% block content %}
+
+
+<div class="col-sm-3 col-md-6 col-lg-4">
+    <form class="" name="extract" action="BehaviorDiscoveryResult.html"
+          method="POST" enctype="multipart/form-data">
+        <div class="col-md-12">
+            {% if sd_log %}
+            <select class="col-md-12" id="sd_log_for_bd">The SD Log generated: {% for it in sd_log %}
+                <option name={{it}} value={{it}}/> {{it}}</option>
+                {% endfor %}</select>
+            {% endif %}
+        </div>
+        <div class="">
+            <p><b>Choose SD Log:</b> <input type="file" value="fileupload" name="SDLog" required/></p>
+
+                            <input type="text" class="form-control" id="datepicker" aria-describedby="datepicker"
+                                   placeholder="YYYY-MM-DD hh:mm" name="datepicker">
+                            <small id="emailHelp" class="form-text text-muted">If you have not upload an event log in this session,
+                                please provide the first timestamp of the SD Log.</small>
+            <hr class="mt-2 mb-3"/>
+            <div>
+                <label for="check_season" class="">Seasonality check: </label>
+                <input id="check_season" class="" type="checkbox" name="check_season"/>
+            </div>
+        </div>
+        <hr class="mt-2 mb-3"/>
+        <p>Granger linear: <input type="radio" name="check_granger" value="granger_linear" /></p>
+        <p>Granger non-linear: <input type="radio" name="check_granger" value="granger_non_linear"/></p>
+        <hr class="mt-2 mb-3"/>
+        <div>
+            <p>Pearson correlation: <input type="radio" name="check_corr" value="pearson_corr" /></p>
+            <p>Distance correlation: <input type="radio" name="check_corr" value="distance_corr"/></p>
+        </div>
+<!--        <div>-->
+<!--                <label for="check_granger" class="">Granger linear: </label>-->
+<!--                <input id="check_granger" class="" type="checkbox" name="check_granger"/>-->
+<!--            </div>-->
+<!--        <div>-->
+<!--                <label for="check_granger_nonlin" class="">Granger non-linear: </label>-->
+<!--                <input id="check_granger_nonlin" class="" type="checkbox" name="check_granger_nonlin"/>-->
+<!--            </div>-->
+        <hr class="mt-2 mb-3"/>
+        <div>
+            <label for="cp_pelt" class="">Changepoints (PELT search):</label>
+            <input type="checkbox" id="cp_pelt" name="cp_pelt"/>
+        </div>
+        <div>
+            <label for="cp_bs" class="">Changepoints (Binary Segmentation):</label>
+            <input type="checkbox" id="cp_bs" name="cp_bs"/>
+        </div>
+        <div>
+
+            <label for="cp_ks" class="">Changepoints (Kolmogorow-Smirnow-Test):</label>
+            <input class="" type="checkbox" id="cp_ks" name="cp_ks"/>
+
+
+            <p>Sliding window size:<input class="" type="number" min="10"
+                                          step="1" placeholder="only for ks i.e. 100" name="ThreWin"
+                                          id="ThreWin"/></p>
+            <p>Static window size:<input class="" type="number" min="5" step="1"
+                                         placeholder="only for ks i.e. 40"
+                                         name="ThreStat" id="ThreStat"/></p>
+        </div>
+<!--        <div>-->
+<!--            <label for="tp" class="">Turningpoints (global and local extremas):</label>-->
+<!--            <input type="checkbox" id="tp" name="tp"/>-->
+<!--        </div>-->
+        <div>
+            <label for="sub_clustering" class="">Cluster sequences by changepoints:</label>
+            <input type="checkbox" id="sub_clustering" name="sub_clustering"/>
+        </div>
+        <hr class="mt-2 mb-3"/>
+        <div>
+            <label for="uni_forecasting" class="">Forecasting:</label>
+            <input type="checkbox" id="uni_forecasting" name="uni_forecasting"/>
+            <p>Number of periods:<input class="" type="number" min="0"
+                                          step="1" placeholder="" name="forecast_n_period"
+                                          id="forecast_n_period"/></p>
+        </div>
+        <hr class="mt-2 mb-3"/>
+        <div class="col-md-12">
+            <button title="Show Behavior Discovery" name="submit start behavior" class="btn btn-primary mb-2"
+                    id='showBdResult'>Start Behavior Discovery
+            </button>
+        </div>
+    </form>
+
+
+    <!-- Menu Toggle Script -->
+    <script>
+        function LoadELResult() {
+            document.getElementById('ELResult').style.display = "block";
+        }
+
+        function DownloadResult() {
+            var e = document.getElementById("selectOrg");
+            var value = e.options[e.selectedIndex].text;
+            document.getElementById("downloadlink").href = value;
+
+        }
+
+
+        function LoadELResultimg() {
+            var e = document.getElementById("selectOrg");
+            var value = e.options[e.selectedIndex].text;
+            var newsrc = "static/images/" + value + ".png";
+            document.getElementById("resultImg").src = newsrc;
+            document.getElementById('ELResultimg').style.display = "block";
+
+            /*
+            document.getElementById('ELResultimg').style.display = "block";
+            var sdname = document.getElementsByName('SDLog')
+            for(i = 0; i < sdname.length; i++) {
+                            if(sdname[i].checked){
+                            alert(sdname[i].value)
+                                  document.getElementById("resultImg").src= "static/images/"+sdname[i].value+".png";
+                                  }
+                        }
+            */
+        }
+    </script>
+
+    {% endblock %}

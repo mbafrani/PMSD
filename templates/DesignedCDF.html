@@ -1,73 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
-
-   <title>Scenario-based Analysis of Processes</title>
-
-  <!-- Bootstrap core CSS -->
-  <link href="static/css/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-  <!-- Custom styles for this template -->
-  <link href="static/css/simple-sidebar.css" rel="stylesheet">
-    <link href="static/css/Mystyle.css" rel="stylesheet">
+{% extends "baseforSim.html" %}
 
 
-</head>
+{% block title %} Interactive CLD Generator: Map Parameters {% endblock %}
 
-<body>
-
-  <div class="d-flex" id="wrapper">
-
-    <!-- Sidebar -->
-      <div class="bg-light border-right" id="sidebar-wrapper">
-
-      <div class="list-group list-group-flush">
-           <div class="sidebar-heading"><img style='height: 100%; width:100%;object-fit: contain ' src="static/images/PADSLOGO.png"/> </div>
-        <a href="InsideEventLog.html" class="list-group-item list-group-item-action bg-light">Inside Event Log</a>
-        <a href="TimeTest.html" class="list-group-item list-group-item-action bg-light">TimeWindow Test</a>
-        <a href="EventLog.html" class="list-group-item list-group-item-action bg-light">Event Log to SD Log</a>
-        <a href="SDLog.html" class="list-group-item list-group-item-action bg-light">Relation Detection</a>
-           <a href="AutoDesignedCDF.html" class="list-group-item list-group-item-action bg-light">Auto CLD Graph Generation</a>
-        <a href="SDLogResutl.html" class="list-group-item list-group-item-action bg-light">Relation Detection Detailed</a>
-        <a href="DesignedCDF.html" class="list-group-item list-group-item-action bg-light">Interactive CLD Graph Generation</a>
-        <a href="DesignedSFD.html" class="list-group-item list-group-item-action bg-light">Generate SFD Graph</a>
-        <a href="Validation.html" class="list-group-item list-group-item-action bg-light">Simulation and Validation</a>
-      </div>
-    </div>
-    <!-- /#sidebar-wrapper -->
-
-    <!-- Page Content -->
-    <div id="page-content-wrapper">
-
-    <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-            <li class="nav-item active">
-              <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="http://www.pads.rwth-aachen.de/cms/~pnbx/PADS/?lidx=1">About US</a>
-            </li>
-             <li class="nav-item">
-              <a class="nav-link" href="https://www.researchgate.net/profile/Mahsa_Bafrani">Project Link</a>
-            </li>
-
-          </ul>
-        </div>
-      </nav>
-
-      <div class="container-fluid">
-        <h1 class="mt-4" style="color:#00529F;">Map Parameters</h1><br>
-
-          <div class="row">
-
+{% block content %}
           <div class="col-sm-12 col-md-12 col-lg-12">
             <form action = "http://localhost:5000/DesignedCDF.html" method = "POST"  name="formmap">
 
@@ -165,6 +101,4 @@
      document.getElementById('downloadlink').style.display = "block";   }
 </script>
 
-</body>
-
-</html>
+{% endblock %}

@@ -50,8 +50,8 @@
         
 
         // parsing and collecting nodes and edges from the python
-        nodes = new vis.DataSet([{"id": "LodgeClaim", "label": "LodgeClaim", "shape": "box"}, {"id": "ReviewClaim", "label": "ReviewClaim", "shape": "box"}, {"id": "RequestAssessment", "label": "RequestAssessment", "shape": "box"}, {"id": "AssessCustomer", "label": "AssessCustomer", "shape": "box"}, {"id": "AssessCar", "label": "AssessCar", "shape": "box"}, {"id": "DecideClaim", "label": "DecideClaim", "shape": "box"}, {"id": "Approve", "label": "Approve", "shape": "box"}, {"id": "AppointAssessor", "label": "AppointAssessor", "shape": "box"}, {"id": "Reject", "label": "Reject", "shape": "box"}, {"color": "green", "id": "start", "label": "start", "shape": "box"}, {"color": "red", "id": "end", "label": "end", "shape": "box"}]);
-        edges = new vis.DataSet([{"arrows": "to", "from": "LodgeClaim", "to": "LodgeClaim"}, {"arrows": "to", "from": "ReviewClaim", "to": "LodgeClaim"}, {"arrows": "to", "from": "RequestAssessment", "to": "LodgeClaim"}, {"arrows": "to", "from": "AssessCustomer", "to": "LodgeClaim"}, {"arrows": "to", "from": "AssessCar", "to": "LodgeClaim"}, {"arrows": "to", "from": "DecideClaim", "to": "LodgeClaim"}, {"arrows": "to", "from": "Approve", "to": "LodgeClaim"}, {"arrows": "to", "from": "AppointAssessor", "to": "LodgeClaim"}, {"arrows": "to", "from": "Reject", "to": "LodgeClaim"}, {"arrows": "to", "from": "LodgeClaim", "to": "ReviewClaim"}, {"arrows": "to", "from": "ReviewClaim", "to": "RequestAssessment"}, {"arrows": "to", "from": "RequestAssessment", "to": "AssessCustomer"}, {"arrows": "to", "from": "AssessCustomer", "to": "AssessCar"}, {"arrows": "to", "from": "AssessCar", "to": "DecideClaim"}, {"arrows": "to", "from": "DecideClaim", "to": "Approve"}, {"arrows": "to", "from": "ReviewClaim", "to": "AppointAssessor"}, {"arrows": "to", "from": "DecideClaim", "to": "Reject"}, {"arrows": "to", "from": "start", "to": "LodgeClaim"}, {"arrows": "to", "from": "Reject", "to": "end"}]);
+        nodes = new vis.DataSet([{"borderWidth": 0, "color": "white", "id": "Numofuniqueresource1D", "label": "Numofuniqueresource1D", "shape": "box"}, {"borderWidth": 0, "color": "white", "id": "Processactivetime1D", "label": "Processactivetime1D", "shape": "box"}, {"borderWidth": 0, "color": "white", "id": "Servicetimepercase1D", "label": "Servicetimepercase1D", "shape": "box"}, {"borderWidth": 0, "color": "white", "id": "Timeinprocesspercase1D", "label": "Timeinprocesspercase1D", "shape": "box"}, {"borderWidth": 0, "color": "white", "id": "Waitingtimeinprocesspercase1D", "label": "Waitingtimeinprocesspercase1D", "shape": "box"}, {"borderWidth": 3, "bordercolor": "black", "id": "Numinprocesscase1D", "label": "Numinprocesscase1D", "shape": "box"}, {"borderWidth": 0, "color": "white", "id": "s1", "label": "s1", "shape": "box"}, {"borderWidth": 0, "color": "white", "id": "e1", "label": "e1", "shape": "box"}]);
+        edges = new vis.DataSet([{"arrows": "to", "border": 3, "color": "blue", "from": "s1", "label": "Arrivalrate1D", "to": "Numinprocesscase1D"}, {"arrows": "to", "border": 3, "color": "blue", "from": "Numinprocesscase1D", "label": "Finishrate1D", "to": "e1"}, {"arrows": "to", "color": "blue", "from": "Processactivetime1D", "to": "Numofuniqueresource1D"}, {"arrows": "to", "color": "blue", "from": "Servicetimepercase1D", "to": "Servicetimepercase1D"}, {"arrows": "to", "color": "blue", "from": "Timeinprocesspercase1D", "to": "Timeinprocesspercase1D"}, {"arrows": "to", "color": "blue", "from": "Numofuniqueresource1D", "to": "Waitingtimeinprocesspercase1D"}]);
 
         // adding nodes and edges to the graph
         data = {nodes: nodes, edges: edges};
@@ -75,7 +75,7 @@
         "hideNodesOnDrag": false
     },
     "physics": {
-        "enabled": false,
+        "enabled": true,
         "stabilization": {
             "enabled": true,
             "fit": true,

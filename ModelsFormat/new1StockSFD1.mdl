@@ -1,0 +1,127 @@
+{UTF-8}
+Arrivalrate1D=A FUNCTION OF(Arrivalrate1D) ~~|
+Arrivalrate1D=
+	~	
+	~		|
+
+Numofuniqueresource1D=A FUNCTION OF(Numofuniqueresource1D) ~~|
+Numofuniqueresource1D=
+	~	
+	~		|
+
+Waitingtimeinprocesspercase1D=A FUNCTION OF(Waitingtimeinprocesspercase1D) ~~|
+Waitingtimeinprocesspercase1D=
+	~	
+	~		|
+
+Processactivetime1D=
+	Numinprocesscase1D*Servicetimepercase1D
+	~	
+	~		|
+
+Servicetimepercase1D=A FUNCTION OF(Servicetimepercase1D) ~~|
+Servicetimepercase1D=
+	~	
+	~		|
+
+Numinprocesscase1D= INTEG (
+	Arrivalrate1D-Finishrate1D-Numinprocesscase1D,
+		0)
+	~	
+	~		|
+
+Timeinprocesspercase1D=
+	Servicetimepercase1D+Waitingtimeinprocesspercase1D
+	~	
+	~		|
+
+Finishrate1D=
+	Numofuniqueresource1D*Servicetimepercase1D/3600
+	~	
+	~		|
+
+********************************************************
+	.Control
+********************************************************~
+		Simulation Control Parameters
+	|
+
+FINAL TIME  = 100
+	~	Month
+	~	The final time for the simulation.
+	|
+
+INITIAL TIME  = 0
+	~	Month
+	~	The initial time for the simulation.
+	|
+
+SAVEPER  = 
+        TIME STEP
+	~	Month [0,?]
+	~	The frequency with which output is stored.
+	|
+
+TIME STEP  = 1
+	~	Month [0,?]
+	~	The time step for the simulation.
+	|
+
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*View 1
+$192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,100,0
+10,1,Numinprocesscase1D,588,228,60,26,3,131,0,0,0,0,0,0,0,0,0,0,0,0
+12,2,48,330,231,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,3,5,1,4,0,0,22,0,0,0,-1--1--1,,1|(484,231)|
+1,4,5,2,100,0,0,22,0,0,0,-1--1--1,,1|(384,231)|
+11,5,48,434,231,6,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,6,Arrivalrate1D,434,265,127,26,40,131,0,0,-1,0,0,0,0,0,0,0,0,0
+10,7,Numofuniqueresource1D,653,349,142,42,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,8,Processactivetime1D,385,102,73,33,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,9,Servicetimepercase1D,694,107,109,34,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,10,Timeinprocesspercase1D,968,51,105,31,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,11,Waitingtimeinprocesspercase1D,1072,138,126,29,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+1,12,1,8,0,0,0,0,0,64,0,-1--1--1,,1|(498,172)|
+1,13,9,8,0,0,0,0,0,64,0,-1--1--1,,1|(528,104)|
+12,14,48,863,259,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,15,17,14,4,0,0,22,0,0,0,-1--1--1,,1|(804,252)|
+1,16,17,1,100,0,0,22,0,0,0,-1--1--1,,1|(696,252)|
+11,17,48,750,252,6,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,18,Finishrate1D,750,271,45,11,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,19,7,17,0,0,0,0,0,64,0,-1--1--1,,1|(715,286)|
+1,20,9,17,0,0,0,0,0,64,0,-1--1--1,,1|(724,186)|
+1,21,11,10,0,0,0,0,0,64,0,-1--1--1,,1|(1026,99)|
+1,22,9,10,0,0,0,0,0,64,0,-1--1--1,,1|(826,79)|
+///---\\\
+:L<%^E!@
+1:Current.vdfx
+9:Current
+23:0
+15:0,0,0,0,0,0
+19:100,0
+27:0,
+34:0,
+4:Time
+5:Waitingtimeinprocesspercase1D
+35:Date
+36:YYYY-MM-DD
+37:2000
+38:1
+39:1
+40:2
+41:0
+42:1
+72:0
+73:0
+76:0
+77:0
+78:0
+79:0
+80:0
+81:0
+24:0
+25:100
+26:100
+75:
+43:

@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}
+Multiple Perspective Analysis <br> <i> Discover relations over multiple SdLogs </i>
+{% endblock %}
+
+{% block content %}
+<div class=" col-sm-3 col-md-6 col-lg-4">
+    <form name="extract" action="MultipleDiscoveryResult.html" method="POST" enctype="multipart/form-data">
+        <p><b>First SDLog:</b> <input class="form-control-file" type="file" name="SdLogOne" required/></p>
+        <p><b>Second SDLog:</b> <input class="form-control-file" type="file" name="SdLogTwo" required/></p>
+        <hr class="mt-2 mb-3"/>
+        <div>
+                <label for="check_plot" class="">Overall plot: </label>
+                <input id="check_plot" class="" type="checkbox" name="check_plot"/>
+
+                <label for="check_plot_cp" class="">Along with changepoints: </label>
+                <input id="check_plot_cp" class="" type="checkbox" name="check_plot_cp"/>
+        </div>
+        <hr class="mt-2 mb-3"/>
+        <p>Granger linear: <input type="radio" name="check_granger" value="granger_linear" /></p>
+        <p>Granger non-linear: <input type="radio" name="check_granger" value="granger_non_linear"/></p>
+        <hr class="mt-2 mb-3"/>
+        <div>
+            <p>Pearson correlation: <input type="radio" name="check_corr" value="pearson_corr" /></p>
+            <p>Distance correlation: <input type="radio" name="check_corr" value="distance_corr"/></p>
+        </div>
+        <hr class="mt-2 mb-3"/>
+        <p><input type="submit" value="Explore SDLogs" class="btn btn-primary mb-2" id='submitmultSDl'/>
+        </p>
+<!--        <label for="aspect1"><b>First aspect for {{ sdLog1_name }}</b></label>-->
+<!--        <select class="form-control" id="aspect1" name="aspect1">-->
+<!--            {% for c in sdl_1_col %}-->
+<!--            <p>-->
+<!--                <option name={{c}} value={{c}}>{{c}}</option>-->
+<!--            </p>-->
+
+<!--            {% endfor %}-->
+<!--        </select>-->
+<!--        <br>-->
+<!--        <label for="aspect2"><b>Second aspect for {{ sdLog2_name }}</b></label>-->
+<!--        <select class="form-control" id="aspect2" name="aspect2">-->
+<!--            {% for c in sdl_2_col %}-->
+<!--            <p>-->
+<!--                <option name={{c}} value={{c}}>{{c}}</option>-->
+<!--            </p>-->
+
+<!--            {% endfor %}-->
+<!--        </select>-->
+<!--        <br>-->
+<!--        <input type="submit" class="btn btn-primary mb-2" id="setColsAspects" value="Set aspects"-->
+<!--                               name="setColsAspects" formnovalidate>-->
+    </form>
+</div>
+{% endblock%}

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta Http-Equiv="Cache-Control" Content="no-cache">
+    <meta Http-Equiv="Pragma" Content="no-cache">
+    <meta Http-Equiv="Expires" Content="0">
+    <meta Http-Equiv="Pragma-directive: no-cache">
+    <meta Http-Equiv="Cache-directive: no-cache">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Forward-Looking Process Mining</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="static/css/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="static/css/simple-sidebar.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="d-flex" id="wrapper">
+
+    <!-- Sidebar -->
+    <div class="bg-light border-right" id="sidebar-wrapper">
+
+        <div class="list-group list-group-flush">
+           <a href="http://127.0.0.1:5000/">
+		   <div class="sidebar-heading"><img style='height: 100%; width:100%;object-fit: contain ' src="static/images/PADSLOGO.png"/> </div>
+		   </a>
+
+        <a href="bootstrapTemplate.html" class="list-group-item list-group-item-action bg-light"><b>Coarse-grained Process Simulation</b></a>
+        <a href="DiagnosticHomePage.html" class="list-group-item list-group-item-action bg-light"><b>Coarse-grained Diagnostics</b></a>
+            <a href="ProcessDiscovery.html" class="list-group-item list-group-item-action bg-light">Diagnostic
+                Insights</a>
+            <a href="BehaviorDiscovery.html" class="list-group-item list-group-item-action bg-light">Single Perspective
+                Analysis</a>
+            <a href="MultipleDiscovery.html" class="list-group-item list-group-item-action bg-light">Multiple
+                Perspective Analysis</a>
+             <a href="DESHomePage.html" class="list-group-item list-group-item-action bg-light"><b>Fine-grained Process Simulation</b></a>
+        </div>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://www.pads.rwth-aachen.de/cms/~pnbx/PADS/?lidx=1">About US</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://www.researchgate.net/profile/Mahsa_Bafrani">Project Link</a>
+                    </li>
+
+                </ul>
+            </div>
+        </nav>
+
+        <div class="container-fluid">
+            <h1 class="mt-4" style="color:#00529F;">Data Pre-processing</h1>
+            <br>
+            <div class="row">
+                <div class=" col-sm-3 col-md-6 col-lg-4">
+                    {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                            <ul class="flashes">
+                                <div class="alert alert-danger" role="alert">
+                                    {% for msg in messages %}
+                                        <p>{{ msg }}</p>
+                                        </div>
+                                    {% endfor %}
+                            </ul>
+                        {% endif %}
+                    {% endwith %}
+
+                    {% if first_msg %}
+                        <div class="alert alert-primary d-flex align-items-center" role="alert">
+                            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:">
+                                <use xlink:href="#info-fill"/>
+                            </svg>
+                            <div>
+                                Uploaded file. Please set the first column attributes!
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% if sec_msg %}
+                        <div class="alert alert-success d-flex align-items-center" role="alert">
+                            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:">
+                                <use xlink:href="#check-circle-fill"/>
+                            </svg>
+                            <div>
+                                "Ready event log created. Now you can discover <a href="/ProcessDiscovery.html"
+                                                                                  class="alert-link">interesting
+                                points</a>
+                                interesting points and <a href="/EventLog.html" class="alert-link">create SD Logs</a>"
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    <form name="extract" action="InsideEventLogDiagnostic.html" method="POST" enctype="multipart/form-data">
+                        <p>Event log: <input class="form-control-file" type="file" value="fileupload" name="Event Log"/>
+                        </p>
+                        <p><input type="submit" value="Upload EventLog" class="btn btn-primary mb-2" id='submitresEL'/>
+                        </p>
+
+                        <label for="CaseID"><b>Case ID</b></label>
+                        <select class="form-control" id="CaseID" name="CaseID">
+                            {% for c in el_cols %}
+                                <p>
+                                    <option name={{ c }} value={{ c }} >{{ c }}</option>
+                                </p>
+
+                            {% endfor %}
+                        </select>
+                        <br>
+                        <label for="Activity"><b>Activity</b></label>
+                        <select class="form-control" id="Activity" name="Activity">
+                            {% for c in el_cols %}
+                                <p>
+                                    <option name={{ c }} value={{ c }} >{{ c }}</option>
+                                </p>
+
+                            {% endfor %}
+                        </select>
+                        <br>
+                        <label for="Resource"><b>Resource</b></label>
+                        <select class="form-control" id="Resource" name="Resource">
+                            {% for c in el_cols %}
+                                <p>
+                                    <option name={{ c }} value={{ c }} >{{ c }}</option>
+                                </p>
+
+                            {% endfor %}
+                        </select>
+                        <br>
+                        <label for="StartTime"><b>Start Timestamp</b></label>
+                        <select class="form-control" id="StartTime" name="StartTime">
+                            {% for c in el_cols %}
+                                <p>
+                                    <option name={{ c }} value={{ c }} >{{ c }}</option>
+                                </p>
+
+                            {% endfor %}
+                        </select>
+                        <br>
+                        <label for="CompleteTime"><b>Complete Timestamp</b></label>
+                        <select class="form-control" id="CompleteTime" name="CompleteTime">
+                            {% for c in el_cols %}
+                                <p>
+                                    <option name={{ c }} value={{ c }} >{{ c }}</option>
+                                </p>
+
+                            {% endfor %}
+                        </select>
+                        <br>
+                        <input type="submit" class="btn btn-primary mb-2" id="setCols" value="Set Attributes"
+                               name="setCols">
+
+                    </form>
+
+
+                    <div>
+
+                        <a class="label label-primary" href="{{ url_for('ready_event_log') }}"
+                           style="margin-right: 5px;"> Right click to get the event log </a>
+
+                    </div>
+
+                </div>
+                <div class="col-sm-3 col-md-2 col-lg-2" id="ELResultimg">
+                    {{ el_info }}
+                </div>
+                <div id="divShowDFG" class="col-sm-6 col-md-4 col-lg-6" style="display:none;">
+                    <div style="font-style: italic;">The Preprocessed Event Log is generated on
+                        "Outputs/ready_event_log.csv"
+                    </div>
+                    <iframe scrolling="no" src="mygraph.html" width="100%" style="height: 50em" alt=""></iframe>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+
+
+</div>
+<!-- /#wrapper -->
+
+<!-- Bootstrap core JavaScript -->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Menu Toggle Script -->
+<script>
+    function LoadELResult() {
+        document.getElementById('ELResult').style.display = "block";
+    }
+
+    function LoadELResultimg() {
+        document.getElementById('ELResultimg').style.display = "block";
+
+    }
+
+    function ShowDFG() {
+        document.getElementById('divShowDFG').style.display = "block";
+    }
+
+
+</script>
+
+</body>
+
+</html>

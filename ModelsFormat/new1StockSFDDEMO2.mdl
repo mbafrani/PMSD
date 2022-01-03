@@ -1,0 +1,125 @@
+{UTF-8}
+Timeinprocesspercase1H=A FUNCTION OF(Timeinprocesspercase1H) ~~|
+Timeinprocesspercase1H=
+	~	
+	~		|
+
+Servicetimepercase1H=A FUNCTION OF(Servicetimepercase1H) ~~|
+Servicetimepercase1H=
+	~	
+	~		|
+
+Numofuniqueresource1H=A FUNCTION OF(Numofuniqueresource1H) ~~|
+Numofuniqueresource1H=
+	~	
+	~		|
+
+Arrivalrate1H=A FUNCTION OF(Arrivalrate1H) ~~|
+Arrivalrate1H=
+	~	
+	~		|
+
+Finishrate1H=
+	Numofuniqueresource1H/Servicetimepercase1H
+	~	
+	~		|
+
+Numinprocesscase1H= INTEG (
+	Arrivalrate1H+Finishrate1H,
+		0)
+	~	
+	~		|
+
+Waitingtimeinprocesspercase1H=
+	MAX(Timeinprocesspercase1H-Servicetimepercase1H,0)
+	~	
+	~		|
+
+Processactivetime1H=
+	Numinprocesscase1H*Timeinprocesspercase1H*10
+	~	
+	~		|
+
+********************************************************
+	.Control
+********************************************************~
+		Simulation Control Parameters
+	|
+
+FINAL TIME  = 100
+	~	Month
+	~	The final time for the simulation.
+	|
+
+INITIAL TIME  = 0
+	~	Month
+	~	The initial time for the simulation.
+	|
+
+SAVEPER  = 
+        TIME STEP
+	~	Month [0,?]
+	~	The frequency with which output is stored.
+	|
+
+TIME STEP  = 1
+	~	Month [0,?]
+	~	The time step for the simulation.
+	|
+
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*View 1
+$192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,100,0
+10,1,Numinprocesscase1H,588,177,60,26,3,131,0,0,0,0,0,0,0,0,0,0,0,0
+12,2,48,330,180,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,3,5,1,4,0,0,22,0,0,0,-1--1--1,,1|(484,180)|
+1,4,5,2,100,0,0,22,0,0,0,-1--1--1,,1|(384,180)|
+11,5,48,434,180,6,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,6,Arrivalrate1H,434,214,127,26,40,131,0,0,-1,0,0,0,0,0,0,0,0,0
+12,7,48,869,203,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,8,10,7,4,0,0,22,0,0,0,-1--1--1,,1|(806,194)|
+1,9,10,1,100,0,0,22,0,0,0,-1--1--1,,1|(695,194)|
+11,10,48,748,194,6,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,11,Finishrate1H,748,224,74,22,40,131,0,0,-1,0,0,0,0,0,0,0,0,0
+10,12,Numofuniqueresource1H,498,410,142,42,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,13,Processactivetime1H,780,73,79,23,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,14,Servicetimepercase1H,965,120,109,34,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,15,Timeinprocesspercase1H,998,225,105,31,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,16,Waitingtimeinprocesspercase1H,842,441,126,29,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+1,17,12,11,0,0,0,0,0,64,0,-1--1--1,,1|(630,311)|
+1,18,14,11,0,0,0,0,0,64,0,-1--1--1,,1|(850,175)|
+1,19,1,13,0,0,0,0,0,64,0,-1--1--1,,1|(680,126)|
+1,20,15,13,0,0,0,0,0,64,0,-1--1--1,,1|(888,148)|
+1,21,14,16,0,0,0,0,0,64,0,-1--1--1,,1|(905,276)|
+1,22,15,16,0,0,0,0,0,64,0,-1--1--1,,1|(923,328)|
+///---\\\
+:L<%^E!@
+9:Current
+23:0
+15:0,0,0,0,0,0
+19:100,0
+27:0,
+34:0,
+5:Numinprocesscase1H
+35:Date
+36:YYYY-MM-DD
+37:2000
+38:1
+39:1
+40:2
+41:0
+42:1
+72:0
+73:0
+76:0
+77:0
+78:0
+79:0
+80:0
+81:0
+24:0
+25:0
+26:0
+75:
+43:

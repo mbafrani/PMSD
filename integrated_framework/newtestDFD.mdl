@@ -1,55 +1,66 @@
 {UTF-8}
-cold weather=A FUNCTION OF(number of people wearing masks,number of infected people)
+Arrival rate1D=A FUNCTION OF(Finish rate1D)
 ~
 ~
 |
-number of vaccinated people=A FUNCTION OF(decrease rate)
+Finish rate1D=A FUNCTION OF()
 ~
 ~
 |
-vaccination rate=A FUNCTION OF(increase rate,number of people wearing masks,number of infected people,number of Covid deaths)
+Num of unique resource1D=A FUNCTION OF()
 ~
 ~
 |
-increase rate=A FUNCTION OF(vaccination rate,number of people wearing masks)
+Process active time1D=A FUNCTION OF(Arrival rate1D,Finish rate1D)
 ~
 ~
 |
-number of people wearing masks=A FUNCTION OF(number of infected people)
+Service time per case1D=A FUNCTION OF(Time in process per case1D,Waiting time in process per case1D)
 ~
 ~
 |
-decrease rate=A FUNCTION OF(number of vaccinated people,number of people wearing masks,number of infected people)
+Time in process per case1D=A FUNCTION OF()
 ~
 ~
 |
-number of infected people=A FUNCTION OF(number of people wearing masks)
+Waiting time in process per case1D=A FUNCTION OF(Time in process per case1D)
 ~
 ~
 |
-number of people in ICUs=A FUNCTION OF(number of infected people,death rate)
+Num in process case1D=A FUNCTION OF()
 ~
 ~
 |
-death rate=A FUNCTION OF(number of people wearing masks,number of infected people,number of people in ICUs)
-~
-~
-|
-number of Covid deaths=A FUNCTION OF()
-~
-~
-|
-,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,100,0
-10,1,cold weather,265,126,50,20,8,3,0,0,0,0,0,0
-10,2,number of vaccinated people,666,164,50,20,8,3,0,0,0,0,0,0
-10,3,vaccination rate,1058,146,50,20,8,3,0,0,0,0,0,0
-10,4,increase rate,271,299,50,20,8,3,0,0,0,0,0,0
-10,5,number of people wearing masks,695,296,50,20,8,3,0,0,0,0,0,0
-10,6,decrease rate,1030,285,50,20,8,3,0,0,0,0,0,0
-10,7,number of infected people,1331,124,50,20,8,3,0,0,0,0,0,0
-10,8,number of people in ICUs,1373,256,50,20,8,3,0,0,0,0,0,0
-10,9,death rate,312,442,50,20,8,3,0,0,0,0,0,0
-10,10,number of Covid deaths,695,439,50,20,8,3,0,0,0,0,0,0
+ITIAL TIME  = 0
+	~	Month
+	~	The initial time for the simulation.
+	|
+
+SAVEPER  = 
+        TIME STEP
+	~	Month [0,?]
+	~	The frequency with which output is stored.
+	|
+
+TIME STEP  = 1
+	~	Month [0,?]
+	~	The time step for the simulation.
+	|
+
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*View 1
+$192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,100,0
+10,1,Arrival rate1D,265,126,50,20,8,3,0,0,0,0,0,0
+10,2,Finish rate1D,666,164,50,20,8,3,0,0,0,0,0,0
+10,3,Num of unique resource1D,1058,146,50,20,8,3,0,0,0,0,0,0
+10,4,Process active time1D,271,299,50,20,8,3,0,0,0,0,0,0
+10,5,Service time per case1D,695,296,50,20,8,3,0,0,0,0,0,0
+10,6,Time in process per case1D,1030,285,50,20,8,3,0,0,0,0,0,0
+10,7,Waiting time in process per case1D,1331,124,50,20,8,3,0,0,0,0,0,0
+10,8,Num in process case1D,1373,256,50,20,8,3,0,0,0,0,0,0
+10,9,i,312,442,50,20,8,3,0,0,0,0,0,0
+10,10,j,695,439,50,20,8,3,0,0,0,0,0,0
 ///---\\\
 :L<%^E!@
 9:Current

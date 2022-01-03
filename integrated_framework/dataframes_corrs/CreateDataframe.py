@@ -2,7 +2,6 @@ import pandas as pd
 import networkx as nx
 
 
-
 def create_dataframes_from_equations(equation_set, name_space):
     """
     function used to create data frames to keep the raw information about discovered equations. Here, we only filter
@@ -110,7 +109,7 @@ def create_dataframes_from_equations(equation_set, name_space):
     return raw_info_df, raw_cause_effect_df, all_lines
 
 
-def simplify_df(dataframe):
+def simplify_df(dataframe,cyclefree):
     # simplify the original dataframe to make the structure of generated CLD clean
     """
     simplify the original data frame to make the structure of generated CLD clean
@@ -158,16 +157,17 @@ def simplify_df(dataframe):
                 all_lines_without_coef.add((rl, index))
 
     # check cycles
-    from equation_processing import ProcessEquations
+
+    from ..equation_processing import ProcessEquations
 
     edges_2b_re_moved = ProcessEquations.edges_2be_removed(all_lines)
-
-    remain_lines = [(s, e) for s, e in all_lines_without_coef if (s, e) not in edges_2b_re_moved]
+    if cyclefree == 1:
+        remain_lines = [(s, e) for s, e in all_lines_without_coef if (s, e) not in edges_2b_re_moved]
 
     #  remove chain effect
-    #redundant_lines = remove_chain_effect(remain_lines)
-    #for s, e in redundant_lines:
-       #edges_2b_re_moved.add((s,e))
+        redundant_lines = remove_chain_effect(remain_lines)
+        for s, e in redundant_lines:
+           edges_2b_re_moved.add((s,e))
 
     # update current data frame
     for s, e in edges_2b_re_moved:

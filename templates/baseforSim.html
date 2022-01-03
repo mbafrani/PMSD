@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta Http-Equiv="Cache-Control" Content="no-cache">
+    <meta Http-Equiv="Pragma" Content="no-cache">
+    <meta Http-Equiv="Expires" Content="0">
+    <meta Http-Equiv="Pragma-directive: no-cache">
+    <meta Http-Equiv="Cache-directive: no-cache">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Forward-Looking Process Mining</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../static/css/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../static/css/simple-sidebar.css" rel="stylesheet">
+    <!-- Bootstrap core JavaScript -->
+    <script src="../static/css/vendor/jquery/jquery.min.js"></script>
+    <script src="../static/css/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+{% block head%} {% endblock %}
+</head>
+
+<body>
+
+<div class="d-flex" id="wrapper">
+
+    <!-- Sidebar -->
+    <div class="bg-light border-right" id="sidebar-wrapper">
+
+        <div class="list-group list-group-flush">
+           <a href="http://127.0.0.1:5000/">
+		   <div class="sidebar-heading"><img style='height: 100%; width:100%;object-fit: contain ' src="static/images/PADSLOGO.png"/> </div>
+		   </a>
+        <a href="bootstrapTemplate.html" class="list-group-item list-group-item-action bg-light"><b>Coarse-grained Process Simulation</b></a>
+        <a href="InsideEventLog.html" class="list-group-item list-group-item-action bg-light">Inside Event Log</a>
+        <a href="TimeTest.html" class="list-group-item list-group-item-action bg-light">TimeWindow Test</a>
+        <a href="EventLog.html" class="list-group-item list-group-item-action bg-light">Event Log to SD Log</a>
+        <a href="AutoDesignedCDF.html" class="list-group-item list-group-item-action bg-light">Auto CLD Graph Generation</a>
+        <a href="SDLog.html" class="list-group-item list-group-item-action bg-light">(a) Relation Detection</a>
+        <a href="SDLogResutl.html" class="list-group-item list-group-item-action bg-light">Relation Detection Detailed<sup style="color:red;">(a) required</sup></a>
+        <a href="DesignedCDF.html" class="list-group-item list-group-item-action bg-light">(b) Interactive CLD Graph Generation<sup style="color:red;">(a) required</sup></a>
+        <a href="DesignedSFD.html" class="list-group-item list-group-item-action bg-light">(c) Generate SFD Graph<sup style="color:red;">(b) required</sup></a>
+        <a href="Validation.html" class="list-group-item list-group-item-action bg-light">Simulation and Validation</a>
+        <a href="DiagnosticHomePage.html" class="list-group-item list-group-item-action bg-light"><b>Coarse-grained Diagnostics</b></a>
+        <a href="DESHomePage.html" class="list-group-item list-group-item-action bg-light"><b>Fine-grained Process Simulation</b></a>
+        </div>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://www.pads.rwth-aachen.de/cms/~pnbx/PADS/?lidx=1">About US</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://www.researchgate.net/profile/Mahsa_Bafrani">Project Link</a>
+                    </li>
+
+                </ul>
+            </div>
+        </nav>
+
+
+        <div class="container-fluid">
+            <h1 class="mt-4" style="color:#00529F;">{% block title %}{% endblock%}</h1>
+            <br>
+            <div class="row">
+                {% block alert %}{% endblock %}
+
+                {% block content %} {% endblock %}
+
+            </div>
+        </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+
+</div>
+<!-- /#wrapper -->
+
+</body>
+
+
+</html>

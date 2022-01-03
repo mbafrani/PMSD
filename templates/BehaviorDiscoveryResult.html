@@ -1,0 +1,357 @@
+{% extends "base.html" %}
+
+{% block head %}
+<script>
+    var aspdata = JSON.parse('{{ raw_data|tojson }}');
+    var timeddata = JSON.parse('{{ timed_data|tojson }}');
+</script>
+{% endblock %}
+
+{% block title %} Single Perspective Analysis <br> <i> Discover single process and state-based
+    aspects</i> {% endblock %}
+
+{% block content %}
+<div class="py-5">
+    <div class="container">
+        <div class="row">
+        </div>
+        <div class="row">
+            <div class="col-md-3" style=""></div>
+            <div class="col-md-3" style=""></div>
+            <div class="col-md-3" style=""></div>
+            <div class="col-md-3" style="">
+                <div>
+                    <form class="row g-3" name="extract_sec" action="BehaviorDiscoveryResult.html" method="POST"
+                          enctype="multipart/form-data">
+                        <label for="selected_aspect"><b>Choose aspect to explore</b></label>
+                        <p>
+                            <select class="form-control" id="selected_aspect" name="selected_aspect"> {% for param in
+                                params_list%}
+                                <option value="{{param}}">{{param}}</option>
+                                {% endfor %} </select>
+                        </p>
+                        <p></p>
+                        <div class="col-md-12">
+                            <button title="Select aspect" name="submit aspect" class="btn btn-primary mb-2"
+                                    id="select_aspect">Select aspect
+                            </button>
+
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#plot" data-whatever="@mdo" onclick="showPlot('{{ selected_aspect }}')">Show Timed Plot</button>
+                        </div>
+                    </form>
+                    <!--   PLOT HTML Modal  -->
+
+                <div class="modal fade" id="plot" tabindex="-1" role="dialog" aria-labelledby="plotLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content" style="width: 600px">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="plotLabel">Interactive Plot for {{ selected_aspect }}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <div class="container">
+                          <div class="row">
+                            <div class="col-sm-12">
+                              <div id="chartContainerPlot" style="height: 370px; width: 100%;"></div>
+                            </div>
+                            <div id="descriptionPlot"></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="mb-4">Seasonality</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6"> {% if not res['period'] %}
+                <p class="lead">Seasonality could not be identified because the acf value is not significant</p>
+                {% endif %}
+                {% if res['period'] %}
+                <p class="lead">Detected period: {{ res['period'] }} time steps</p>
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="col-md-12 p-3"><img class="img-fluid d-block" src="{{ res['pacf_img'] }}" width="1500">
+                    <p class="mt-2 mb-0 text-center">PACF Plot for {{ session['sd_log_filename'] }}</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-12 p-3"><img class="img-fluid d-block" src="{{ res['acf_img'] }}" width="1500">
+                    <p class="mt-2 mb-0 text-center">ACF Plot for {{ session['sd_log_filename'] }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="mb-4" contenteditable="true">Relations in single aspects</h2>
+            </div>
+        </div>
+        <div class="row">
+            <!--Beginn table for relations filtered by aspect-->
+            {% if res['hm_corr_img'] %}
+            <div class="col-md-6" style="">
+                <div class="col-md-12 p-3"><img class="img-fluid d-block" src="{{res['hm_corr_img']}}" width="1500">
+                    <p class="mt-2 mb-0 text-center">Heatmap for {{ res['corr_type'] }} correlation over all aspects</p>
+                </div>
+            </div>
+            {% endif %}
+            {% if res['granger_causations'] %}
+            <div class="col-md-6">
+                <div class="col-md-12 p-3"><img class="img-fluid d-block" src="{{res['hm_granger_img']}}" width="1500">
+                    <p class="mt-2 mb-0 text-center">Heatmap for {{ res['granger_type'] }} granger causation over all
+                        aspects</p>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        {% if res['granger_causations'] %}
+        <div class="row">
+            <table class="table table-striped">
+                <caption>G-caused relations for p-values above 0.05</caption>
+                <thead>
+                <tr>
+                    <th scope="col">Aspect</th>
+                    <th scope="col">is G-caused by</th>
+                    <th scope="col">after #lags <i>(in time steps)</i></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for key1, value in res['granger_causations'].items() if selected_aspect in key1 %}
+                <tr>
+                    <td scope="row">{{ key1[0] }}</td>
+                    <td> {{ key1[1]}}</td>
+                    <td> {{value}}</td>
+                    <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#graph" data-whatever="@mdo" onclick="calcScatter('{{ key1[0] }}', '{{ key1[1] }}')">Show Scatter Plot</button></td>
+                </tr>
+
+                <!--   GRAPH HTML MODAL -->
+
+                <div class="modal fade" id="graph" tabindex="-1" role="dialog" aria-labelledby="graphLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content" style="width: 600px">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="graphLabel">Scatter Plot Process Aspects</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <div class="container">
+                          <div class="row">
+                            <div class="col-sm-12">
+                              <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+                            </div>
+                            <div id="description"></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="row">
+            <div class="col-md-12"></div>
+        </div>
+        <div class="card border border-dark">
+            <div class="card-header pt-2" style="font-weight: bold">Is <i>{{ selected_aspect }} an exogenous factor?</i>
+            </div>
+            <div class="card-body">
+                {% if res['exog_factor'] %}
+                <p>Yes</p>
+                {% endif %}
+                {% if not res['exog_factor'] %}
+                <p>No</p>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+        {% if res['cp_img'] %}
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="py-4">Changepoints by {{ res['cp_type'] }}
+                    {% if res['clust_img'] %} along with Anomaly Detection {% endif %}
+                </h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 p-3"><img class="img-fluid d-block" src="{{ res['cp_img']}}" width="1500">
+                <p class="mt-2 mb-0 text-center">Changepoints by {{ res['cp_type'] }} for {{ selected_aspect }} <br>
+                    {{ res['cp_val'] }}
+                </p>
+            </div>
+            {% if res['clust_img'] %}
+            <div class="col-md-6 p-3"><img class="img-fluid d-block" src="{{ res['clust_img']}}" width="1500">
+                <p class="mt-2 mb-0 text-center">Clustered sequences by changepoints for {{ selected_aspect }} <br>
+                    {{ res['clust_clusters'] }}</p>
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+        {% if res['uni_forecast_img'] %}
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="py-4">Univariate forecasting</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 p-3"><img class="img-fluid d-block"
+                                           src="{{ res['uni_forecast_img'] }}" width="1500">
+                <p class="mt-2 mb-0 text-center">Forecasting results</p>
+            </div>
+            <div class="col-md-6" style="">
+                <div class="card border border-dark">
+                    <div class="card-header pt-2" style="font-weight: bold"> Infobox </i>
+                    </div>
+                    <div class="card-body">
+                        <p>Best model: {{ res['uni_model'] }}</p>
+                        <p>MAE: {{res['uni_errors'][0]}} </p>
+                        <p>MSE: {{res['uni_errors'][1]}} </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="py-4">Multivariate forecasting</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 p-3"><img class="img-fluid d-block"
+                                           src="{{ res['multi_forecast_img'] }}" width="1500">
+                <p class="mt-2 mb-0 text-center">Forecasting results</p>
+            </div>
+           <div class="col-md-6 p-3"><img class="img-fluid d-block"
+                                           src="{{ res['multi_forecast_df_coef'] }}" width="1500">
+                <p class="mt-2 mb-0 text-center">Coefficients in corresponding lags</p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+<script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<script type="text/javascript">
+// Scatter plot
+var chart;
+// interactive plot with days
+var chartPlot;
+window.onload = function () {
+    // Scatter plot
+    chart = new CanvasJS.Chart("chartContainer", {
+        animationEnabled: true,
+        zoomEnabled: true,
+        theme: "light2",
+        title: {
+            // text: "Scatter Plot Process Aspects"
+        },
+        axisX: {
+            title: "X - Axis",
+            gridThickness: 1,
+            titleFontSize: 15,
+        },
+        axisY: {
+            title: "Y -Axis",
+            titleFontSize: 15,
+        },
+        data: [{
+            type: "scatter",
+            color: "blue",
+            dataPoints: [
+                {x: 0, y: 0},
+            ]
+        }]
+    });
+
+    chart.render();
+    // interactive plot
+    chartPlot = new CanvasJS.Chart("chartContainerPlot", {
+	animationEnabled: true,
+    zoomEnabled: true,
+    theme: "light2",
+	title: {
+		// text: "Hourly Average CPU Utilization"
+	},
+	axisX: {
+		title: "Time",
+        titleFontSize: 15,
+	},
+	axisY: {
+		title: "{{ selected_aspect }}",
+		includeZero: true,
+        titleFontSize: 15,
+	},
+	data: [{
+		type: "line",
+		name: "",
+		connectNullData: true,
+		//nullDataLineDashType: "solid",
+		xValueType: "dateTime",
+		xValueFormatString: "DDD MMM YYYY HH:mm TT",
+		dataPoints: timeddata['{{selected_aspect}}'],
+	}]
+});
+chartPlot.render();
+}
+
+
+
+function calcScatter(asp1, asp2) {
+
+
+    $('#graph').on('show.bs.modal', function (event, val) {
+     var button = $(event.relatedTarget) // Button that triggered the modal
+        chart.render();
+        chart.axisX[0].set("title",asp1);
+        chart.axisY[0].set("title",asp2);
+        var x_data = aspdata[asp1];
+        var y_data = aspdata[asp2];
+        var result = []
+        for (var i=0; i < x_data.length;i++) {
+            result.push({'x': x_data[i], 'y': y_data[i]});
+        }
+
+        chart.options.data[0].dataPoints = result
+        chart.render();
+        console.log("aspdata", aspdata);
+        console.log("asp1", asp1);
+        console.log("x_data", x_data);
+        console.log("result", result);
+
+    })
+}
+
+function showPlot(selected_asp) {
+    $('#plot').on('show.bs.modal', function (event, val) {
+     var button = $(event.relatedTarget) // Button that triggered the modal
+        chartPlot.render();
+        chartPlot.axisY[0].set("title",selected_asp);
+        chartPlot.options.data[0].dataPoints = timeddata[selected_asp];
+
+        chartPlot.render();
+        console.log("aspekt", selected_asp);
+        console.log("timeddata", timeddata);
+
+    })
+}
+</script>
+
+{% endblock %}

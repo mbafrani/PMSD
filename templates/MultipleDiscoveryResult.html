@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}
+Multiple Perspective Analysis <br> <i> Discover relations and causalities over two SDLogs</i>
+{% endblock %}
+
+{% block content %}
+<div class="py-5">
+    <div class="container">
+        <div class="row">
+        </div>
+<!--        <div class="row">-->
+<!--            <div class="col-md-3" style=""></div>-->
+<!--            <div class="col-md-3" style=""></div>-->
+<!--            <div class="col-md-3" style=""></div>-->
+<!--            <div class="col-md-3" style="">-->
+<!--                <div>-->
+<!--                    <form class="row g-3" name="extract_sec" action="MultipleDiscoveryResult.html" method="POST"-->
+<!--                          enctype="multipart/form-data">-->
+<!--                        <label for="selected_aspect"><b>Choose aspect to explore</b></label>-->
+<!--                        <p>-->
+<!--                            <select class="form-control" id="selected_aspect" name="selected_aspect">-->
+<!--                                {% for param in params_list %}-->
+<!--                                <option value="{{param}}">{{param}}</option>-->
+<!--                                {% endfor %} </select>-->
+<!--                        </p>-->
+<!--                        <p></p>-->
+<!--                        <div class="col-md-12">-->
+<!--                            <button title="Select aspect" name="submit aspect" class="btn btn-primary mb-2"-->
+<!--                                    id="select_aspect">Select aspect-->
+<!--                            </button>-->
+<!--                        </div>-->
+<!--                    </form>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+        {% if res['checked_plot'] == 'on' %}
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="mb-4">Overall plot along with changepoints (PELT)</h2>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <p class="lead">Some text for cps</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <p class="mt-2 mb-0 text-center"> <b>First SDLog</b></p>
+                <div class="col-md-12 p-3"><img class="img-fluid d-block" src="{{ img_cp1 }}" width="1500">
+                    <p class="mt-2 mb-0 text-center">Aspects plot for {{ sdLog1_name }}</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <p class="mt-2 mb-0 text-center"><b>Second SDLog </b></p>
+                <div class="col-md-12 p-3"><img class="img-fluid d-block" src="{{ img_cp2 }}" width="1500">
+                    <p class="mt-2 mb-0 text-center">Aspects plot for {{ sdLog2_name }}</p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="mb-4" contenteditable="true">Relations and causality</h2>
+            </div>
+        </div>
+        <div class="row">
+            <!--Beginn table for relations filtered by aspect-->
+            <div class="col-md-6" style="">
+                <div class="col-md-12 p-3"><img class="img-fluid d-block" src="{{ img_corr }}" width="1500">
+                    <p class="mt-2 mb-0 text-center">Heatmap for {{ res['corr_type'] }} correlation over all aspects</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-12 p-3"><img class="img-fluid d-block" src="{{ img_granger }}" width="1500">
+                    <p class="mt-2 mb-0 text-center">Heatmap for {{ res['granger_type'] }} granger causation over all
+                        aspects</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
