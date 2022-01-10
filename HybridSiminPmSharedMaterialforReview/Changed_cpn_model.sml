@@ -144,7 +144,7 @@ fun norm_r_at_delay(d) = r_at_delay(d/eff_at_factor) ;
 
 val man = norm_r_at_delay(d);
 
-val Servicetimepercase = 4;
+val Servicetimepercase = 14;
 
 
 fun t(rt:ReqType) = 
