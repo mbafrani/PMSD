@@ -3,8 +3,7 @@ Forward-looking approach in process mining (using system dynamics and process mi
 Process mining field has been enriched with multiple techniques and tools for different purposes. However, these techniques are mostly 'backward-looking'. 
 'PMSD' is a web application tool that supports forward-looking simulation techniques. It transforms the event data and process mining results into a simulation model.
 
-App First Page:
-![alt text](https://github.com/mbafrani/PMSD/tree/master/static/images/AppFirstPage.png?raw=true)
+![App First Page](https://github.com/mbafrani/PMSD/tree/master/static/images/AppFirstPage.png?raw=true)
 ## Running the application 
 - Run app.py and use the "127.0.0.1:5000" as the homepage URL in the browser. 
 - The screen-cast of the tool is available under the name **PMSDDemo.mp4**.
