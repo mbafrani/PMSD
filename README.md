@@ -1,15 +1,26 @@
-# PMSD: Data-Driven Simulation of Business Processes Using Process Mining and System Dynamics 
+# Coarse-grained Process Log Generation for Forward-looking Process Mining 
+The project includes three main parts:
+1. Coarse-grained Diagnostics
+2. Coarse-grained Simulation
+3. Fine-grained Simulation and event logs comparison 
+## Running the application 
+- Run app.py and use the "127.0.0.1:5000" as the homepage URL in the browser. 
+- App First Page:
+![Click to see the first page](https://github.com/mbafrani/PMSD/tree/master/static/images/AppFirstPage.png?raw=true)
+
+## Coarse-grained Process Diagnostics
+The first tab on the home page of the application designed for coarse-grained diagnostics. 
+The used data sets are provided in DiagnosticsEventLogs folder.
+
+## PMSD: Data-Driven Simulation of Business Processes Using Process Mining and System Dynamics 
 Forward-looking approach in process mining (using system dynamics and process mining to simulate business processes at an aggregated level).
 Process mining field has been enriched with multiple techniques and tools for different purposes. However, these techniques are mostly 'backward-looking'. 
 'PMSD' is a web application tool that supports forward-looking simulation techniques. It transforms the event data and process mining results into a simulation model.
 
-App First Page:
-![alt text](https://github.com/mbafrani/PMSD/tree/master/static/images/AppFirstPage.png?raw=true)
-## Running the application 
-- Run app.py and use the "127.0.0.1:5000" as the homepage URL in the browser. 
 - The screen-cast of the tool is available under the name **PMSDDemo.mp4**.
-- The detail information and the tool tutorial are provided in **PMSDToolTutorial.pdf**. 
-- The modules are using the output of the previous step as infrastructure and inputs, therefore each should be used as the provided order in the application for the better result.
+- The detailed information and the tool tutorial are provided in **PMSDToolTutorial.pdf**. 
+- The modules are using the output of the previous step as infrastructure and inputs, therefore each should be used as the provided order in the application for a better result.
+
 ## Inside event log
 - In this section, event logs in both '.csv' and '.xes' formats can be uploaded.
 - The main information of the log is shown and the option to indicate the main attributes are provided.
@@ -23,13 +34,13 @@ App First Page:
 - Both complete system dynamics log (SD-Log) and active SD-Log (only including active steps after removing periodic inactive time steps such as weekends) are stored in the 'Output' file.
 ## Event log to sd log
 - Using this tab, an sd log can be generated for different aspects. 
-- Sd logs can also be used from time window stability step directly for the next steps.
+- Sd logs can also be used from the time window stability step directly for the next steps.
 - Statistical analyses of sd log in the given time window and the selected aspects such as closest distribution are calculated and shown. 
 ## Relation detection
-- Using one of the generated sd logs in previous steps, and the set threshold for strength of a relation, the linear and nonlinear relationships between variables are examined.
+- Using one of the generated sd logs in previous steps, and the set threshold for the strength of a relation, the linear and nonlinear relationships between variables are examined.
 - The time window shift gives you the option to assess the linear/nonlinear relations between variables in different time steps, e.g., the effect of arrival rate in the first hour on the average waiting time in the third hour. 
 ## Detailed relation
-- For all the detected variables in the previous step, the detailed relations are provided. 
+- For all the detected variables in the previous step, detailed relations are provided. 
 ## CLD creation 
 - The relations based on their strengths are shown and the user can check which are affected by others. 
 - The causal loop diagram (conceptual model) is generated in the application and the 'ModelsFormat' folder. 
