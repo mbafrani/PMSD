@@ -170,14 +170,16 @@ def calc_res(sd_log, aspect, checked_points):
 
         if not relations:
             granger_hm_path = os.path.join('static', 'images', 'hm_granger_img.png')
-            df_granger, relations, exogenous_factors = relationdisc.grangers_causation_matrix(sd_log=sd_log, plot=True,
-                                                                                              save_hm=True,
-                                                                                              outputpath=granger_hm_path)
-            res['hm_granger_img'] = granger_hm_path
-            res['granger_causations'] = relations
-            res['granger_type'] = 'linear'
-            res['granger_exog'] = None
+            try:
+                df_granger, relations, exogenous_factors = relationdisc.grangers_causation_matrix(sd_log=sd_log, plot=True,
+                                                                                              save_hm=True,outputpath=granger_hm_path)
 
+                res['hm_granger_img'] = granger_hm_path
+                res['granger_causations'] = relations
+                res['granger_type'] = 'linear'
+                res['granger_exog'] = None
+            except:
+                pass
 
         try:
             best_var = [key[1] for key, value in relations.items() if aspect == key[0]]
