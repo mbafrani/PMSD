@@ -629,9 +629,12 @@ def Auto_DesignedCLD():
     if request.method =='POST':
         sd_log = request.form["SDLog"]
         cyclefree = 0
+        sd_log_df = pd.read_csv(os.path.join(str(cwd),'Outputs',sd_log))
+        sd_log_df.to_csv(os.path.join(str(cwd), "static", "images", "SDLog2ShowInside.csv"))
         try:
             cyclefree=request.form["general"]
             cyclefree =1
+
         except:
             pass
         try:

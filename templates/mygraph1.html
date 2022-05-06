@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
 <center>
-<h1>None</h1>
+<h1></h1>
 </center>
 
 <!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
@@ -51,7 +51,7 @@
 
         // parsing and collecting nodes and edges from the python
         nodes = new vis.DataSet([{"borderWidth": 0, "color": "white", "id": "Arrival rate1D", "label": "Arrival rate1D", "shape": "box"}, {"color": "white", "id": "Finish rate1D", "label": "Finish rate1D", "shape": "box"}, {"color": "white", "id": "Num of unique resource1D", "label": "Num of unique resource1D", "shape": "box"}, {"color": "white", "id": "Process active time1D", "label": "Process active time1D", "shape": "box"}, {"color": "white", "id": "Service time per case1D", "label": "Service time per case1D", "shape": "box"}, {"color": "white", "id": "Time in process per case1D", "label": "Time in process per case1D", "shape": "box"}, {"color": "white", "id": "Waiting time in process per case1D", "label": "Waiting time in process per case1D", "shape": "box"}, {"color": "white", "id": "Num in process case1D", "label": "Num in process case1D", "shape": "box"}]);
-        edges = new vis.DataSet([{"arrows": "to", "color": "blue", "from": "Finish rate1D", "label": "+", "title": "1.0", "to": "Arrival rate1D"}, {"arrows": "to", "color": "blue", "from": "Arrival rate1D", "label": "-", "title": "-4190298070072.0273", "to": "Process active time1D"}, {"arrows": "to", "color": "blue", "from": "Finish rate1D", "label": "+", "title": "4190298070072.982", "to": "Process active time1D"}, {"arrows": "to", "color": "blue", "from": "Time in process per case1D", "label": "+", "title": "1.0", "to": "Service time per case1D"}, {"arrows": "to", "color": "blue", "from": "Waiting time in process per case1D", "label": "-", "title": "-1.0", "to": "Service time per case1D"}, {"arrows": "to", "color": "blue", "from": "Time in process per case1D", "label": "+", "title": "1.0", "to": "Waiting time in process per case1D"}]);
+        edges = new vis.DataSet([{"arrows": "to", "color": "blue", "from": "Finish rate1D", "label": "+", "title": "1.0", "to": "Arrival rate1D"}, {"arrows": "to", "color": "blue", "from": "Arrival rate1D", "label": "-", "title": "-4190298070072.0273", "to": "Process active time1D"}, {"arrows": "to", "color": "blue", "from": "Finish rate1D", "label": "+", "title": "4190298070072.982", "to": "Process active time1D"}, {"arrows": "to", "color": "blue", "from": "Time in process per case1D", "label": "+", "title": "1.0", "to": "Service time per case1D"}, {"arrows": "to", "color": "blue", "from": "Waiting time in process per case1D", "label": "-", "title": "-1.0", "to": "Service time per case1D"}, {"arrows": "to", "color": "blue", "from": "Waiting time in process per case1D", "label": "+", "title": "1.0", "to": "Time in process per case1D"}]);
 
         // adding nodes and edges to the graph
         data = {nodes: nodes, edges: edges};
@@ -91,7 +91,7 @@
         
 
         network = new vis.Network(container, data, options);
-
+	 
         
 
 

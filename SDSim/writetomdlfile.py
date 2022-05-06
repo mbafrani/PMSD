@@ -102,7 +102,7 @@ class creat_CFD:
                 if "num" or "time" in lower_col:
                     param_ele_dict['stock1'].append(col)
 
-                if "rate" in lower_col:
+                if "rate" in lower_col or "arrival" in lower_col or "finished" in lower_col :
                     param_ele_dict['inflow1'].append(col)
                     param_ele_dict['outflow1'].append(col)
         if 16>len(sd_df.columns) >10:
@@ -111,7 +111,7 @@ class creat_CFD:
                 if "num" or "time" in lower_col:
                     param_ele_dict['stock1'].append(col)
                     param_ele_dict['stock2'].append(col)
-                if "rate" in lower_col:
+                if "rate" in lower_col or "arrival" in lower_col or "finished" in lower_col:
                     param_ele_dict['inflow1'].append(col)
                     param_ele_dict['outflow1'].append(col)
                     param_ele_dict['inflow2'].append(col)
@@ -154,132 +154,133 @@ class creat_CFD:
             newSFDfile = os.path.join("ModelsFormat","new1StockSFD.mdl")
 
 
-            tempvarnames = ['stock1', 'stock2', 'inflow1', 'outflow1', 'variable1', 'variable2', 'variable3',
-                            'variable4', 'variable5', 'variable6']
+        tempvarnames = ['stock1', 'stock2', 'inflow1', 'outflow1', 'variable1', 'variable2', 'variable3',
+                        'variable4', 'variable5', 'variable6']
 
-            varlist = []
-            with open(os.path.join("ModelsFormat","relationinCFD.txt")) as fp:
-                line = fp.readlines()
-                for i in line:
-                    if "=" in i:
-                        varlist.append(i.split("=")[0])
+        varlist = []
+        with open(os.path.join("ModelsFormat","relationinCFD.txt")) as fp:
+            line = fp.readlines()
+            for i in line:
+                if "=" in i:
+                    varlist.append(i.split("=")[0])
 
-            copyfile(mainSFDfile, newSFDfile)
-            f = open(newSFDfile, 'r')
-            filedata = f.read()
-            f.close()
-            i = 0
-            for k, v in map_dict.items():
-                if v in varlist:
-                    varlist.pop(varlist.index(v))
-                if v != 'submit':
-                    filedata = filedata.replace(',' + str(k) + ',', ',' + str(v) + ',')
-                    f = open(newSFDfile, 'w')
-                    f.write(filedata)
-                    f.close()
-                i += 1
-
-            for var in range(len(varlist)):
-                filedata = filedata.replace(',' + "variable"+str(var+1) + ',', ',' + str(varlist[var]) + ',')
+        copyfile(mainSFDfile, newSFDfile)
+        f = open(newSFDfile, 'r')
+        filedata = f.read()
+        f.close()
+        i = 0
+        for k, v in map_dict.items():
+            if v in varlist:
+                varlist.pop(varlist.index(v))
+            if v != 'submit':
+                filedata = filedata.replace(',' + str(k) + ',', ',' + str(v) + ',')
                 f = open(newSFDfile, 'w')
                 f.write(filedata)
                 f.close()
+            i += 1
+
+        for var in range(len(varlist)):
+            filedata = filedata.replace(',' + "variable"+str(var+1) + ',', ',' + str(varlist[var]) + ',')
+            f = open(newSFDfile, 'w')
+            f.write(filedata)
+            f.close()
 
 
-            with open(os.path.join("ModelsFormat","relationinCFD.txt")) as infile, open(newSFDfile, 'r+') as outfile:
-                outfile.seek(0)
-                for li in infile:
-                    outfile.write(li)
-                infile.close()
-                outfile.close()
+        with open(os.path.join("ModelsFormat","relationinCFD.txt")) as infile, open(newSFDfile, 'r+') as outfile:
+            outfile.seek(0)
+            for li in infile:
+                outfile.write(li)
+            infile.close()
+            outfile.close()
 
-            # TODO Create visualization for html page SFD
+        # TODO Create visualization for html page SFD
 
-            if "stock2" not in map_dict.keys():
-                G = Network(height="800px",
-                 width="800px",directed=True)
-                for t in varlist:
-                    G.add_node(t,label=str(t),shape='box', borderWidth=0, color='white')
-                for kg, vg in map_dict.items():
-                    if kg == 'stock1':
-                        G.add_node(vg, shape='box', label=str(vg), borderWidth=3, bordercolor='black')
-                        G.add_node("s1", shape='box', label=str('s1'), borderWidth=0, color='white')
-                        G.add_node("e1", shape='box', label=str('e1'), borderWidth=0, color='white')
-
-
-                for kkg, vvg in map_dict.items():
-                    if kkg == "inflow1":
-                        G.add_edge("s1", list({kt: vt for kt, vt in map_dict.items() if kt == 'stock1'}.values())[0],
-                                   color='blue', label=vvg, border=3)
-                    if kkg == 'outflow1':
-                        G.add_edge(list({kt: vt for kt, vt in map_dict.items() if kt == 'stock1'}.values())[0], "e1",
-                                   color='blue', label=vvg, border=3)
-                with open(os.path.join("ModelsFormat","relationinCFD.txt")) as f:
-                    datafile = f.readlines()
-                    for lin in datafile:
-                        tempinvar = lin.split("=")[0]
-                        tempstr = lin[lin.find("(") + 1:lin.find(")")]
-                        templist = tempstr.split(',')
-                        if tempstr != "":
-                            for t in templist:
-                                if t in varlist and tempinvar in varlist:
-                                    G.add_edge(t, tempinvar, color='blue')
-
-                                elif tempinvar != map_dict["stock1"] and tempinvar != map_dict["inflow1"] and tempinvar != map_dict["outflow1"] and t in varlist:
-
-                                    G.add_edge(t, tempinvar, color='blue')
-
-            elif "stock2" in map_dict.keys():
-                G = Network(height="800px",
-                 width="800px",directed=True)
-                for t in varlist:
-                    G.add_node(t, label=str(t), shape='box', borderWidth=0, color='white')
-                for kg, vg in map_dict.items():
-                    if kg == 'stock1':
-                        G.add_node(vg, shape='box', label=str(vg), borderWidth=3, bordercolor='black')
-                        G.add_node("s1", shape='box', label=str('s1'), borderWidth=0, color='white')
-                        G.add_node("e1", shape='box', label=str('e1'), borderWidth=0, color='white')
-                    if kg == 'stock2' and vg!="none":
-                        G.add_node(vg, shape='triangle', label=str(vg))
-                        G.add_node("s2", shape='box', label=str('s2'), borderWidth=0, color='white')
-                        G.add_node("e2", shape='box', label=str('s2'), borderWidth=0, color='white')
+        if "stock2" not in map_dict.keys():
+            G = Network(height="800px",
+             width="800px",directed=True)
+            for t in varlist:
+                G.add_node(t,label=str(t),shape='box', borderWidth=0, color='white')
+            for kg, vg in map_dict.items():
+                if kg == 'stock1':
+                    G.add_node(vg, shape='box', label=str(vg), borderWidth=3, bordercolor='black')
+                    G.add_node("s1", shape='box', label=str('s1'), borderWidth=0, color='white')
+                    G.add_node("e1", shape='box', label=str('e1'), borderWidth=0, color='white')
 
 
+            for kkg, vvg in map_dict.items():
+                if kkg == "inflow1":
+                    G.add_edge("s1", list({kt: vt for kt, vt in map_dict.items() if kt == 'stock1'}.values())[0],
+                               color='blue', label=vvg, border=3)
+                if kkg == 'outflow1':
+                    G.add_edge(list({kt: vt for kt, vt in map_dict.items() if kt == 'stock1'}.values())[0], "e1",
+                               color='blue', label=vvg, border=3)
+            with open(os.path.join("ModelsFormat","relationinCFD.txt")) as f:
+                datafile = f.readlines()
+                for lin in datafile:
+                    tempinvar = lin.split("=")[0]
+                    tempstr = lin[lin.find("(") + 1:lin.find(")")]
+                    templist = tempstr.split(',')
+                    if tempstr != "":
+                        for t in templist:
+                            if t in varlist and tempinvar in varlist:
+                                G.add_edge(t, tempinvar, color='blue')
 
-                for kkg, vvg in map_dict.items():
-                    if kkg == "inflow1":
-                        G.add_edge("s1", list({kt: vt for kt, vt in map_dict.items() if kt == 'stock1'}.values())[0],
-                                   color='blue', label=vvg, border=3)
-                    if kkg == 'outflow1':
-                        G.add_edge(list({kt: vt for kt, vt in map_dict.items() if kt == 'stock1'}.values())[0], "e1",
-                                   color='blue', label=vvg, border=3)
-                    if kkg == "inflow2" and vvg!="none":
-                        G.add_edge("s2", list({kt: vt for kt, vt in map_dict.items() if kt == 'stock2'}.values())[0],
-                                   color='blue', label=vvg, border=3)
-                    if kkg == 'outflow2'and vvg!="none":
-                        G.add_edge(list({kt: vt for kt, vt in map_dict.items() if kt == 'stock2'}.values())[0], "e2",
-                                   color='blue', label=vvg, border=3)
+                            elif tempinvar != map_dict["stock1"] and tempinvar != map_dict["inflow1"] and tempinvar != map_dict["outflow1"] and t in varlist:
+
+                                G.add_edge(t, tempinvar, color='blue')
+
+        elif "stock2" in map_dict.keys():
+            G = Network(height="800px",
+             width="800px",directed=True)
+            for t in varlist:
+                G.add_node(t, label=str(t), shape='box', borderWidth=0, color='white')
+            for kg, vg in map_dict.items():
+                if kg == 'stock1':
+                    G.add_node(vg, shape='box', label=str(vg), borderWidth=3, bordercolor='black')
+                    G.add_node("s1", shape='box', label=str('s1'), borderWidth=0, color='white')
+                    G.add_node("e1", shape='box', label=str('e1'), borderWidth=0, color='white')
+                if kg == 'stock2' and vg!="none":
+                    G.add_node(vg, shape='triangle', label=str(vg))
+                    G.add_node("s2", shape='box', label=str('s2'), borderWidth=0, color='white')
+                    G.add_node("e2", shape='box', label=str('s2'), borderWidth=0, color='white')
 
 
-                with open(os.path.join("ModelsFormat","relationinCFD.txt")) as f:
-                    datafile = f.readlines()
-                    for lin in datafile:
-                        tempinvar = lin.split("=")[0]
-                        tempstr = lin[lin.find("(") + 1:lin.find(")")]
-                        templist = tempstr.split(',')
-                        if tempstr != "":
-                            for t in templist:
-                                if t in varlist and tempinvar in varlist:
-                                    G.add_edge(t, tempinvar, color='blue')
 
-                                elif tempinvar != map_dict["stock1"] and tempinvar != map_dict["stock2"] \
-                                        and tempinvar != map_dict["inflow1"] and tempinvar != map_dict["outflow1"]\
-                                        and tempinvar != map_dict["inflow2"] and tempinvar != map_dict["outflow2"] \
-                                        and t in varlist:
+            for kkg, vvg in map_dict.items():
+                if kkg == "inflow1":
+                    G.add_edge("s1", list({kt: vt for kt, vt in map_dict.items() if kt == 'stock1'}.values())[0],
+                               color='blue', label=vvg, border=3)
+                if kkg == 'outflow1':
+                    G.add_edge(list({kt: vt for kt, vt in map_dict.items() if kt == 'stock1'}.values())[0], "e1",
+                               color='blue', label=vvg, border=3)
+                if kkg == "inflow2" and vvg!="none":
+                    G.add_edge("s2", list({kt: vt for kt, vt in map_dict.items() if kt == 'stock2'}.values())[0],
+                               color='blue', label=vvg, border=3)
+                if kkg == 'outflow2'and vvg!="none":
+                    G.add_edge(list({kt: vt for kt, vt in map_dict.items() if kt == 'stock2'}.values())[0], "e2",
+                               color='blue', label=vvg, border=3)
 
-                                    G.add_edge(t, tempinvar, color='blue')
 
-            #G.save_graph(str(cwd)+"\\templates\mygraph.html")
-            path = os.path.join('templates', 'mygraph.html')
-            G.save_graph(path)
-            return
+
+            with open(os.path.join("ModelsFormat","relationinCFD.txt")) as f:
+                datafile = f.readlines()
+                for lin in datafile:
+                    tempinvar = lin.split("=")[0]
+                    tempstr = lin[lin.find("(") + 1:lin.find(")")]
+                    templist = tempstr.split(',')
+                    if tempstr != "":
+                        for t in templist:
+                            if t in varlist and tempinvar in varlist:
+                                G.add_edge(t, tempinvar, color='blue')
+
+                            elif tempinvar != map_dict["stock1"] and tempinvar != map_dict["stock2"] \
+                                    and tempinvar != map_dict["inflow1"] and tempinvar != map_dict["outflow1"]\
+                                    and tempinvar != map_dict["inflow2"] and tempinvar != map_dict["outflow2"] \
+                                    and t in varlist:
+
+                                G.add_edge(t, tempinvar, color='blue')
+
+        #G.save_graph(str(cwd)+"\\templates\mygraph.html")
+        path = os.path.join('templates', 'mygraph.html')
+        G.save_graph(path)
+        return
