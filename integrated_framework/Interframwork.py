@@ -194,9 +194,12 @@ class InteFramework:
                     print('Training is done')
                     training_res['stepwise linear regression'] = model_summary
             else:
-                model_summary = fct(x_train, x_test, y_train, y_test)
-                print('Training is done.')
-                training_res[model] = model_summary
+                try:
+                    model_summary = fct(x_train, x_test, y_train, y_test)
+                    print('Training is done.')
+                    training_res[model] = model_summary
+                except:
+                    pass
 
         for model, val in training_res.items():
             if model == 'Support Vector Regression':
@@ -315,11 +318,12 @@ class InteFramework:
         sd_log = DataPreprocessing.remove_outliers(sd_log)
 
         # path for saving equation and info
-        desktop_path = os.path.join(os.path.expanduser('~'), "Desktop")
-        directory = 'running_results'
-        path_to_file = os.path.join(desktop_path, directory)
-        os.makedirs(path_to_file, exist_ok=True)
-        file_to_open = os.path.join(path_to_file, 'equations.txt')
+        #desktop_path = os.path.join(os.path.expanduser('~'), "Desktop")
+        #directory = 'running_results'
+        #path_to_file = os.path.join(desktop_path, directory)
+        #os.makedirs(path_to_file, exist_ok=True)
+        path_to_file = os.path.join( str(cwd), 'Outputs')
+        file_to_open = os.path.join( str(cwd), 'Outputs', 'equations.txt')
 
         # text file to store equations
         f = open(file_to_open, 'w')
@@ -378,7 +382,11 @@ class InteFramework:
         f.close()
         i = 0
         for kv in corr_df.index.values.tolist():
-            filedata = filedata.replace(','+str(tempvarnames[i]+','), ','+str(kv)+',')
+            if "*" not in kv or "^" not in kv:
+                try:
+                    filedata = filedata.replace(','+str(tempvarnames[i]+','), ','+str(kv)+',')
+                except:
+                    pass
             f = open(os.path.join('integrated_framework',"newtestDFD.mdl"), 'w')
             f.write(filedata)
             f.close()
@@ -388,15 +396,18 @@ class InteFramework:
             cfdfile.seek(0)
             cfdfile.write('{UTF-8}\n')
             for km, vm in corr_df_dict.items():
-                tempstr = ''
-                for kmm, vmm in vm.items():
-                    if vmm != 0 and tempstr == '':
-                        tempstr = tempstr+str(kmm)
-                    elif vmm != 0 and tempstr != '':
-                        tempstr = tempstr + ',' + str(kmm)
+                if "*" not in km or "^" not in km:
+                    tempstr = ''
+                    for kmm, vmm in vm.items():
+                        if vmm != 0 and tempstr == '':
+                            tempstr = tempstr+str(kmm)
+                        elif vmm != 0 and tempstr != '':
+                            tempstr = tempstr + ',' + str(kmm)
 
-                cfdfile.write( str(km) + '=' + 'A FUNCTION OF('+tempstr+')\n'+'~\n'+'~\n'+'|\n')
+                    cfdfile.write( str(km) + '=' + 'A FUNCTION OF('+tempstr+')\n'+'~\n'+'~\n'+'|\n')
 
+
+            cfdfile.close()
 
         with open(os.path.join('integrated_framework',"newtestDFD.mdl"), 'r+') as f:
             content = f.read()
@@ -417,19 +428,20 @@ class InteFramework:
         corr_dft = corr_df.T
 
         for act in corr_df.columns:
-            G.add_node(act, shape='box', label=str(act),borderWidth=0,color = 'white')
-            temp_in = corr_df[act]
-            for intemp in temp_in.iteritems():
-                G.add_node(intemp[0], shape='box', color='white',label=str(intemp[0]))
-                if corr_df[act][intemp[0]] ==0:
-                    print('no edge')
-                elif corr_df[act][intemp[0]] > 0:
-                    edgelabel= '+'
-                    G.add_edge(intemp[0], act, color='blue', label=edgelabel,
-                               title=str(corr_df[act][intemp[0]]))
-                elif corr_df[act][intemp[0]] < 0:
-                    edgelabel = '-'
-                    G.add_edge(intemp[0],act,color= 'blue',label=edgelabel,title=str(corr_df[act][intemp[0]]))
+            if "*" not in act or "^" not in act:
+                G.add_node(act, shape='box', label=str(act),borderWidth=0,color = 'white')
+                temp_in = corr_df[act]
+                for intemp in temp_in.iteritems():
+                    G.add_node(intemp[0], shape='box', color='white',label=str(intemp[0]))
+                    if corr_df[act][intemp[0]] ==0:
+                        print('no edge')
+                    elif corr_df[act][intemp[0]] > 0:
+                        edgelabel= '+'
+                        G.add_edge(intemp[0], act, color='blue', label=edgelabel,
+                                   title=str(corr_df[act][intemp[0]]))
+                    elif corr_df[act][intemp[0]] < 0:
+                        edgelabel = '-'
+                        G.add_edge(intemp[0],act,color= 'blue',label=edgelabel,title=str(corr_df[act][intemp[0]]))
         G.toggle_physics(False)
         G.save_graph(os.path.join(cwd,'templates','mygraph1.html'))
         #G.save_graph(str(os.getcwd())+"\\templates\mygraph.html")
@@ -440,15 +452,32 @@ class InteFramework:
             cfdfile.seek(0)
             cfdfile.write('{UTF-8}\n')
             for km, vm in corr_df_dict.items():
-                tempstr = ''
-                for kmm, vmm in vm.items():
-                    if vmm != 0 and tempstr == '':
-                        tempstr = tempstr+str(kmm)
-                    elif vmm != 0 and tempstr != '':
-                        tempstr = tempstr + ',' + str(kmm)
+                if "*" not in km or "^" not in km:
+                    tempstr = ''
+                    for kmm, vmm in vm.items():
+                        if vmm != 0 and tempstr == '':
+                            tempstr = tempstr+str(kmm)
+                        elif vmm != 0 and tempstr != '':
+                            tempstr = tempstr + ',' + str(kmm)
 
-                cfdfile.write( str(km) + '=' + 'A FUNCTION OF('+tempstr+')\n'+'~\n'+'~\n'+'|\n')
+                    km=km.replace(" ",'')
+                    tempstr=tempstr.replace(" ", '')
+                    cfdfile.write( str(km) + '=' + 'A FUNCTION OF('+tempstr+')\n'+'~\n'+'~\n'+'|\n')
 
+        with open(os.path.join('ModelsFormat',"relationinCFD.txt"), 'w+') as cfdfile:
+            cfdfile.seek(0)
+            cfdfile.write('{UTF-8}\n')
+            for km, vm in corr_df_dict.items():
+                if "*" not in km or "^" not in km:
+                    tempstr = ''
+                    for kmm, vmm in vm.items():
+                        if vmm != 0 and tempstr == '':
+                            tempstr = tempstr+str(kmm)
+                        elif vmm != 0 and tempstr != '':
+                            tempstr = tempstr + ',' + str(kmm)
+                    km = km.replace(" ", '')
+                    tempstr = tempstr.replace(" ", '')
+                    cfdfile.write( str(km) + '=' + 'A FUNCTION OF('+tempstr+')\n'+'~\n'+'~\n'+'|\n')
 
         return
 
@@ -463,7 +492,7 @@ def run(path, model_path=None, cyclefree=int):
     output_df = CheckCorrelation.pick_strong_correlations(dcc_df, lag_corr_df)
     output_df1=CheckCorrelation.pick_strong_corr(dcc_df,lag_corr_df)
     final_corr_out=CheckCorrelation.check_real_corr(output_df,output_df1,data)
-    obj.write_cfd(final_corr_out.T)
+    #obj.write_cfd(final_corr_out.T)
     # print(data.columns)
     obj.call_framework(data)
 

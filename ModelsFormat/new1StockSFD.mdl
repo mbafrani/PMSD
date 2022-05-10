@@ -1,91 +1,41 @@
 {UTF-8}
-Arrivalrate1D=A FUNCTION OF(Arrivalrate1D)
+general_arrival_rate1d=A FUNCTION OF(general_process_active_time1d,general_service_time_per_case1d,general_time_in_process_per_case1d,general_waiting_time_in_process_per_case1d)
 ~
 ~
 |
-Finishrate1D=A FUNCTION OF(Finishrate1D)
+general_finish_rate1d=A FUNCTION OF(general_arrival_rate1d,general_num_of_unique_resource1d,general_service_time_per_case1d,general_time_in_process_per_case1d,general_num_of_unique_activitis1d)
 ~
 ~
 |
-Numofuniqueresource1D=A FUNCTION OF(Processactivetime1D)
+general_num_of_unique_resource1d=A FUNCTION OF(general_arrival_rate1d)
 ~
 ~
 |
-Processactivetime1D=A FUNCTION OF(Finishrate1D)
+general_process_active_time1d=A FUNCTION OF(general_arrival_rate1d*general_service_time_per_case1d,general_arrival_rate1d*general_time_in_process_per_case1d,general_arrival_rate1d*general_waiting_time_in_process_per_case1d)
 ~
 ~
 |
-Servicetimepercase1D=A FUNCTION OF(Servicetimepercase1D)
+general_service_time_per_case1d=A FUNCTION OF(general_time_in_process_per_case1d)
 ~
 ~
 |
-Timeinprocesspercase1D=A FUNCTION OF(Timeinprocesspercase1D,Numinprocesscase1D)
+general_time_in_process_per_case1d=A FUNCTION OF()
 ~
 ~
 |
-Waitingtimeinprocesspercase1D=A FUNCTION OF(Numofuniqueresource1D)
+general_waiting_time_in_process_per_case1d=A FUNCTION OF(general_service_time_per_case1d,general_time_in_process_per_case1d)
 ~
 ~
 |
-Numinprocesscase1D=A FUNCTION OF(Finishrate1D)
+general_num_in_process_case1d=A FUNCTION OF(general_arrival_rate1d,general_finish_rate1d,general_num_of_unique_resource1d,general_service_time_per_case1d,general_time_in_process_per_case1d,general_waiting_time_in_process_per_case1d,general_num_of_unique_activitis1d)
 ~
 ~
 |
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-********************************************************
-	.Control
-********************************************************~
-		Simulation Control Parameters
-	|
-
-FINAL TIME  = 100
-	~	Month
-	~	The final time for the simulation.
-	|
-
-INITIAL TIME  = 0
-	~	Month
+general_num_of_unique_activitis1d=A FUNCTION OF(general_arrival_rate1d,general_num_of_unique_resource1d,general_time_in_process_per_case1d)
+~
+~
+|
+Month
 	~	The initial time for the simulation.
 	|
 
@@ -104,23 +54,23 @@ TIME STEP  = 1
 V300  Do not put anything below this section - it will be ignored
 *View 1
 $192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,100,0
-10,1,Numinprocesscase1D,588,75,60,26,3,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,1,general_service_time_per_case1d,588,75,60,26,3,131,0,0,0,0,0,0,0,0,0,0,0,0
 12,2,48,330,78,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
 1,3,5,1,4,0,0,22,0,0,0,-1--1--1,,1|(484,78)|
 1,4,5,2,100,0,0,22,0,0,0,-1--1--1,,1|(384,78)|
 11,5,48,434,78,6,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
-10,6,Arrivalrate1D,434,112,127,26,40,131,0,0,-1,0,0,0,0,0,0,0,0,0
+10,6,general_arrival_rate1d,434,112,127,26,40,131,0,0,-1,0,0,0,0,0,0,0,0,0
 12,7,48,818,72,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
 1,8,10,7,4,0,0,22,0,0,0,-1--1--1,,1|(761,72)|
 1,9,10,1,100,0,0,22,0,0,0,-1--1--1,,1|(675,72)|
 11,10,48,708,72,6,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
-10,11,Finishrate1D,708,102,74,22,40,131,0,0,-1,0,0,0,0,0,0,0,0,0
-10,12,Numofuniqueresource1D,574,-22,142,42,8,131,0,0,0,0,0,0,0,0,0,0,0,0
-10,13,Processactivetime1D,764,-41,63,11,8,131,0,0,0,0,0,0,0,0,0,0,0,0
-10,14,Servicetimepercase1D,965,24,109,34,8,131,0,0,0,0,0,0,0,0,0,0,0,0
-10,15,Timeinprocesspercase1D,998,123,105,31,8,131,0,0,0,0,0,0,0,0,0,0,0,0
-10,16,Waitingtimeinprocesspercase1D,335,21,126,29,8,131,0,0,0,0,0,0,0,0,0,0,0,0
-10,17,variable6,443,409,153,39,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,11,general_finish_rate1d,708,102,74,22,40,131,0,0,-1,0,0,0,0,0,0,0,0,0
+10,12,general_num_of_unique_resource1d,574,-22,142,42,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,13,general_process_active_time1d,764,-41,63,11,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,14,general_time_in_process_per_case1d,965,24,109,34,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,15,general_waiting_time_in_process_per_case1d,998,123,105,31,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,16,general_num_in_process_case1d,335,21,126,29,8,131,0,0,0,0,0,0,0,0,0,0,0,0
+10,17,general_num_of_unique_activitis1d,443,409,153,39,8,131,0,0,0,0,0,0,0,0,0,0,0,0
 10,18,variable7,948,378,128,29,8,131,0,0,0,0,0,0,0,0,0,0,0,0
 10,19,variable7,988,287,123,31,8,131,0,0,0,0,0,0,0,0,0,0,0,0
 10,20,variable8,410,238,209,55,8,131,0,0,0,0,0,0,0,0,0,0,0,0
@@ -132,7 +82,7 @@ $192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,1
 19:100,0
 27:0,
 34:0,
-5:variable1
+5:general_num_of_unique_resource1d
 35:Date
 36:YYYY-MM-DD
 37:2000

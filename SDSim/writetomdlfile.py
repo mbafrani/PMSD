@@ -86,6 +86,8 @@ class creat_CFD:
                     elif vmm != 0 and tempstr != '':
                         tempstr = tempstr + ',' + str(kmm)
 
+                km=km.replace(" ",'')
+                tempstr=tempstr.replace(" ",'')
                 cfdfile.write( str(km) + '=' + 'A FUNCTION OF('+tempstr+')\n'+'~\n'+'~\n'+'|\n')
 
 
@@ -96,7 +98,7 @@ class creat_CFD:
         param_ele_dict = defaultdict(list)
         sd_df = pd.read_csv(os.path.join(str(cwd),"static","images","SDLog2ShowInside.csv"))
         sd_df.columns = sd_df.columns.str.replace(' ', '')
-        if 10>len(sd_df.columns):
+        if 10>=len(sd_df.columns):
             for col in sd_df.columns:
                 lower_col = col.lower()
                 if "num" or "time" in lower_col:
@@ -145,9 +147,9 @@ class creat_CFD:
 
     def write_sfd_stockbased(self, map_dict):
         cwd = os.getcwd()
-        if "stock2" in map_dict.keys():
-            mainSFDfile = os.path.join("ModelsFormat","testDFD.mdl")
-            newSFDfile = os.path.join("ModelsFormat","newtestDFD")
+        if "stock2" in map_dict.keys() and map_dict["stock2"]!='none':
+            mainSFDfile = os.path.join("ModelsFormat","testSFD.mdl")
+            newSFDfile = os.path.join("ModelsFormat","newtestSFD")
 
         else:
             mainSFDfile =os.path.join("ModelsFormat","1StockSFD.mdl")
@@ -164,6 +166,8 @@ class creat_CFD:
                 if "=" in i:
                     varlist.append(i.split("=")[0])
 
+        for i in range(0, len(varlist)):
+            varlist[i] = varlist[i].replace(" ", "")
         copyfile(mainSFDfile, newSFDfile)
         f = open(newSFDfile, 'r')
         filedata = f.read()
@@ -173,14 +177,19 @@ class creat_CFD:
             if v in varlist:
                 varlist.pop(varlist.index(v))
             if v != 'submit':
-                filedata = filedata.replace(',' + str(k) + ',', ',' + str(v) + ',')
+                filedata = filedata.replace(str(k), str(v))
+
+                #filedata = filedata.replace(',' + str(k) + ',', ',' + str(v) + ',')
+                #filedata = filedata.replace(str(k) + '=', str(v) + '=')
                 f = open(newSFDfile, 'w')
                 f.write(filedata)
                 f.close()
             i += 1
 
         for var in range(len(varlist)):
-            filedata = filedata.replace(',' + "variable"+str(var+1) + ',', ',' + str(varlist[var]) + ',')
+            filedata = filedata.replace("variable" + str(var + 1) , str(varlist[var]) )
+            #filedata = filedata.replace(',' + "variable"+str(var+1) + ',', ',' + str(varlist[var]) + ',')
+            #filedata = filedata.replace(str(k) , str(v) )
             f = open(newSFDfile, 'w')
             f.write(filedata)
             f.close()

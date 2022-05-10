@@ -559,6 +559,7 @@ def get_SD_log():
         params_list = allcorr.columns
         if SD_log_address:
             temp = pd.read_csv(os.path.join('Outputs',SD_log_address.filename ))
+            temp.columns = temp.columns.str.replace(' ', '')
             temp.to_csv(os.path.join(
                 str(cwd),"static","images","SDLog2ShowInside.csv"), index=False)
             request.files["SDLog"].save(os.path.join(app.config["FILE_UPLOADS"], SD_log_address.filename))
@@ -630,6 +631,7 @@ def Auto_DesignedCLD():
         sd_log = request.form["SDLog"]
         cyclefree = 0
         sd_log_df = pd.read_csv(os.path.join(str(cwd),'Outputs',sd_log))
+        sd_log_df.columns = sd_log_df.columns.str.replace(' ', '')
         sd_log_df.to_csv(os.path.join(str(cwd), "static", "images", "SDLog2ShowInside.csv"))
         try:
             cyclefree=request.form["general"]
