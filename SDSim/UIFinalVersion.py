@@ -255,11 +255,14 @@ class Complete_sd:
                     dist_results.append(('poisson', p))
                     for dist_name in cont_dist_names:
                         dist = getattr(scipy.stats, dist_name)
-                        param = dist.fit(dv)
-                        params[dist_name] = param
+                        try:
+                            param = dist.fit(dv)
+                            params[dist_name] = param
                         # Kolmogorov-Smirnov test for goodness of fit. D shows the distance between two samples the lower the more similarity.
-                        D, p = scipy.stats.kstest(dv, dist_name, args=param)
-                        dist_results.append((dist_name, p))
+                            D, p = scipy.stats.kstest(dv, dist_name, args=param)
+                            dist_results.append((dist_name, p))
+                        except:
+                            pass
 
                     best_dist, best_p = (max(dist_results, key=lambda item: item[1]))
                     # sns.distplot(dv)
