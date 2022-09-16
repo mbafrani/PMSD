@@ -7,7 +7,11 @@
           <div class="col-sm-2 col-md-5 col-lg-3">
         <form  action="/Validation.html" method = "POST" enctype="multipart/form-data">
             <p>SD log: <input type = "file" value="fileupload" name = "SDLog" /></p>
-            <p>SD Model: <input type = "file" value="fileupload" name = "SDResultLog" /></p>
+            <div><p>SD Model<sub style="color:red;font-size:10;">
+                    Note that if the model includs complex equations, it should be run via SD tools and the results can be checked via Simulated SD log</sub>: <input type = "file" value="fileupload" name = "SDResultLog" /></p>
+
+             <p>Or Simulated SD log: <input type = "file" value="fileupload" name = "SimSDResultLog" /></p>
+            </div>
             <p><input  class="btn btn-primary mb-2" type = "submit" value = "submit" id ='submitEL' /></p>
             <p><select class="form-control" name="param_val" id="selectVal">
                 {% for i in val_image_names%}<option value={{i}}>{{i}}</option>{% endfor %}</select></p>

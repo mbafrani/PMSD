@@ -152,8 +152,15 @@ class SimVal:
                     else:
                         plt.text(0.1, 0.3, "Differenc is not a normal distribution \n"
                                            " mean and standard deviation of: " + str(round(variation(diff_list),2)))
-
-                if len(np.nonzero(real_list)) >0 and len(np.nonzero(simulation_list))>0:
+                try:
+                    lenreal_list =len(np.nonzero(real_list))
+                    lenSimualte_list = len(np.nonzero(simulation_list))
+                    #if len(np.nonzero(real_list)) >0 and len(np.nonzero(simulation_list))>0:
+                except:
+                    lenreal_list = len(real_list)
+                    simulation_list=pd.Series(simulation_list)
+                    lenSimualte_list = len(simulation_list)
+                if lenreal_list > 0 and lenSimualte_list> 0:
                     normal_real_list = (real_list - np.min(real_list))/(np.max(real_list)-np.min(real_list))
                     normal_simulation_list = (simulation_list - np.min(simulation_list)) / (np.max(simulation_list) - np.min(simulation_list))
                     normal_diff_list = abs(np.array(normal_real_list) - np.array(normal_simulation_list))

@@ -559,6 +559,7 @@ def get_SD_log():
         params_list = allcorr.columns
         if SD_log_address:
             temp = pd.read_csv(os.path.join('Outputs',SD_log_address.filename ))
+            temp.columns = temp.columns.str.replace(' ', '')
             temp.to_csv(os.path.join(
                 str(cwd),"static","images","SDLog2ShowInside.csv"), index=False)
             request.files["SDLog"].save(os.path.join(app.config["FILE_UPLOADS"], SD_log_address.filename))
@@ -629,9 +630,13 @@ def Auto_DesignedCLD():
     if request.method =='POST':
         sd_log = request.form["SDLog"]
         cyclefree = 0
+        sd_log_df = pd.read_csv(os.path.join(str(cwd),'Outputs',sd_log))
+        sd_log_df.columns = sd_log_df.columns.str.replace(' ', '')
+        sd_log_df.to_csv(os.path.join(str(cwd), "static", "images", "SDLog2ShowInside.csv"))
         try:
             cyclefree=request.form["general"]
             cyclefree =1
+
         except:
             pass
         try:
@@ -660,14 +665,34 @@ def validation_sd_sim():
     if request.method == "POST":
         real_data = request.files["SDLog"]
         headers = {"Content-Disposition": "attachment; filename=%s" % real_data.filename}
-        with open(os.path.join('Outputs',real_data.filename ), 'r') as f:
+        try:
+            opensdlogfile=os.path.join('Outputs',real_data.filename )
+        except:
+            opensdlogfile=os.path.join('ModelsForEvaluation', real_data.filename)
+        with open(opensdlogfile, 'r') as f:
             body = f.read()
         make_response((body, headers))
 
-        sd_model = request.files["SDResultLog"]
-        sim_res = simval.read_model(os.path.join('ModelsFormat',sd_model.filename ), os.path.join('Outputs',real_data.filename ))
-        res_sim_dict = simval.creat_real_sim_dict(real_data, sim_res)
-        val_image_names=simval.validate_results(res_sim_dict)
+
+        if request.files["SDResultLog"]:
+            sd_model = request.files["SDResultLog"]
+
+            try:
+                sim_res = simval.read_model(os.path.join('ModelsFormat',sd_model.filename ), opensdlogfile)
+            except:
+                sim_res = simval.read_model(os.path.join('ModelsForEvaluation', sd_model.filename),
+                                            opensdlogfile)
+            res_sim_dict = simval.creat_real_sim_dict(real_data, sim_res)
+            val_image_names=simval.validate_results(res_sim_dict)
+
+        elif request.files["SimSDResultLog"]:
+            sim_res=request.files["SimSDResultLog"]
+            sim_res=pd.read_csv(sim_res)
+            sim_res.columns = sim_res.columns.str.replace(' ', '')
+            sim_res.columns = sim_res.columns.str.replace('_', '')
+            res_sim_dict = simval.creat_real_sim_dict(real_data, sim_res)
+            val_image_names = simval.validate_results(res_sim_dict)
+
     return render_template('Validation.html', val_image_names=val_image_names)
 
 @app.route('/TimeTest.html', methods = ['GET','POST'])

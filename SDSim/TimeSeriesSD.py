@@ -3,7 +3,8 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from collections import defaultdict, Counter
-from statsmodels.tsa.arima_model import ARIMA
+#from statsmodels.tsa.arima_model import ARIMA
+from statsmodels.tsa.arima.model import ARIMA
 import csv
 import re
 import os
@@ -313,8 +314,10 @@ class TW_Analysis:
 
 
                 else:
-
-                    arima_model = ARIMA(diff, order=(1, 0, 1))
+                    try:
+                        arima_model = ARIMA(diff, order=(1, 0, 1))
+                    except:
+                        arima_model = ARIMA(diff, order=(0, 0, 0))
                     try:
                         model_fit = arima_model.fit(start_ar_lags=2)
                         t = model_fit.predict()

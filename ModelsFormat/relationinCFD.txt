@@ -1,33 +1,37 @@
 {UTF-8}
-Arrivalrate1D=A FUNCTION OF(Arrivalrate1D)
+General_Arrivalrate1D=A FUNCTION OF(General_Finishrate1D)
 ~
 ~
 |
-Finishrate1D=A FUNCTION OF(Finishrate1D)
+General_Finishrate1D=A FUNCTION OF()
 ~
 ~
 |
-Numofuniqueresource1D=A FUNCTION OF(Processactivetime1D)
+General_Numofuniqueresource1D=A FUNCTION OF()
 ~
 ~
 |
-Processactivetime1D=A FUNCTION OF(Finishrate1D)
+General_Processactivetime1D=A FUNCTION OF(General_Arrivalrate1D,General_Finishrate1D)
 ~
 ~
 |
-Servicetimepercase1D=A FUNCTION OF(Servicetimepercase1D)
+General_Servicetimepercase1D=A FUNCTION OF(General_Waitingtimeinprocesspercase1D)
 ~
 ~
 |
-Timeinprocesspercase1D=A FUNCTION OF(Timeinprocesspercase1D,Numinprocesscase1D)
+General_Timeinprocesspercase1D=A FUNCTION OF(General_Servicetimepercase1D,General_Waitingtimeinprocesspercase1D)
 ~
 ~
 |
-Waitingtimeinprocesspercase1D=A FUNCTION OF(Numofuniqueresource1D)
+General_Waitingtimeinprocesspercase1D=A FUNCTION OF()
 ~
 ~
 |
-Numinprocesscase1D=A FUNCTION OF(Finishrate1D)
+General_Numinprocesscase1D=A FUNCTION OF()
+~
+~
+|
+General_Numofuniqueactivitis1D=A FUNCTION OF(General_Numofuniqueresource1D)
 ~
 ~
 |
