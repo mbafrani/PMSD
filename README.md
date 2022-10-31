@@ -9,7 +9,7 @@ The project includes three main parts:
 ![Click to see the first page](https://github.com/mbafrani/PMSD/tree/master/static/images/AppFirstPage.png?raw=true)
 
 ## Coarse-grained Process Diagnostics
-The first tab on the home page of the application designed for coarse-grained diagnostics. 
+The second tab on the home page of the application designed for coarse-grained diagnostics. 
 The used data sets are provided in DiagnosticsEventLogs folder.
 
 ## PMSD: Data-Driven Simulation of Business Processes Using Process Mining and System Dynamics 
