@@ -148,7 +148,7 @@ scikit-learn==1.0.1
 scipy==1.7.1
 seaborn==0.11.2
 Send2Trash==1.5.0
-setuptools==58.0.4
+setuptools==65.5.1
 sip==5.0.0
 six==1.15.0
 sortedcontainers==2.3.0
