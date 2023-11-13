@@ -125,7 +125,7 @@ pycparser==2.20
 pydotplus==2.0.2
 pyemd==0.5.1
 Pygments==2.8.0
-PyJWT==2.1.0
+PyJWT==2.4.0
 pyOpenSSL==21.0.0
 pyparsing==2.4.7
 pyrsistent==0.17.3
