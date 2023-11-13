@@ -154,7 +154,7 @@ six==1.15.0
 sortedcontainers==2.3.0
 soupsieve==2.3.1
 SQLAlchemy==1.4.28
-sqlparse==0.4.1
+sqlparse==0.4.2
 statsmodels==0.13.1
 StringDist==1.0.9
 sympy==1.7.1
